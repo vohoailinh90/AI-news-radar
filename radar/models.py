@@ -54,3 +54,13 @@ class SourceReport:
     ok: bool
     items: int = 0
     note: str = ""
+
+
+def event_to_dict(event: Event) -> dict:
+    data = {k: getattr(event, k) for k in ("kind", "vendor", "topic", "title", "url", "source", "source_name", "trust",
+                                           "detail", "figures", "item_id", "score", "corroborated_by")}
+    return {**data, "when": event.when.isoformat()}
+
+
+def event_from_dict(data: dict) -> Event:
+    return Event(**{**data, "when": datetime.fromisoformat(data["when"])})

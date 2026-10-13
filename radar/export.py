@@ -1,0 +1,226 @@
+"""Ranked Events -> a bundle laid out exactly like tool-marketing-studio's tree, one tool+campaign pair
+per issue (`ai-news-YYYY-MM-DD`). Posts are filled from radar/templates.py and Event.figures, so every
+number in a post is the same string that sits in the brief, in all three languages. Status is always
+`draft`: approving and publishing are the studio's, and the owner's."""
+
+from __future__ import annotations
+
+from datetime import datetime
+from pathlib import Path
+
+import yaml
+
+from .models import COMMUNITY, Event
+from .templates import KIND_EMOJI, POSITIONING, TEXT
+from .textsafe import defang, has_link
+
+LANGS = ("vi", "ja", "en")
+
+
+class NothingToPost(RuntimeError):
+    pass
+
+
+class WouldOverwrite(RuntimeError):
+    pass
+
+
+def dump(data: dict) -> str:
+    return yaml.safe_dump(data, allow_unicode=True, sort_keys=False, width=100)
+
+
+def trust_label(event: Event, t: dict) -> str:
+    if event.trust != COMMUNITY:
+        return t["official"]
+    return t["corroborated"] if event.corroborated_by else t["community"]
+
+
+def headline(event: Event, lang: str) -> str:
+    sentence = TEXT[lang]["sentences"].get(event.kind)
+    if sentence is None:
+        return event.title
+    f = {"percent": "", "old_price": "", "new_price": "", "score": "", **event.figures,
+         "model": defang(event.figures.get("model", "")), "benchmark": defang(event.figures.get("benchmark", ""))}
+    return sentence.format(**f)
+
+
+def vendor_name(event: Event, rules: dict) -> str:
+    return rules["vendor_names"].get(event.vendor, rules["vendor_names"]["other"])
+
+
+def select(events: list[Event], rules: dict) -> list[Event]:
+    cfg, seen, picked = rules["export"], set(), []
+    for event in events:
+        if event.score < cfg["min_score"] or event.item_id in seen:
+            continue
+        seen.add(event.item_id)
+        picked.append(event)
+    return picked[: cfg["max_stories"]]
+
+
+def build_bundle(events: list[Event], rules: dict, date: str) -> dict[str, str]:
+    stories = select(events, rules)
+    if not stories:
+        raise NothingToPost(f"no event reached export.min_score={rules['export']['min_score']}")
+    slug = f"ai-news-{date}"
+    files = {f"tools/{slug}/brief.yaml": dump(_brief(stories, rules, slug, date, len(stories)))}
+    for lang in LANGS:
+        files[f"tools/{slug}/positioning/{lang}.yaml"] = dump({"lang": lang, **POSITIONING[lang]})
+    posts = ["01-digest"] if len(stories) >= 2 else []
+    spots = []
+    for index, event in enumerate(stories[: rules["export"]["spotlights"]] if len(stories) >= 2 else stories, 1):
+        slot = f"{len(posts) + 1:02d}-{event.kind}"
+        while slot in posts:
+            slot += "-b"
+        posts.append(slot)
+        spots.append((slot, index, event))
+    for lang in LANGS:
+        t = TEXT[lang]
+        if len(stories) >= 2:
+            files[f"campaigns/{slug}/posts/{lang}/01-digest.yaml"] = dump(_digest(stories, rules, lang, t, date))
+        for slot, index, event in spots:
+            files[f"campaigns/{slug}/posts/{lang}/{slot}.yaml"] = dump(_spotlight(slot, index, event, rules, lang, t, date))
+    files[f"campaigns/{slug}/campaign.yaml"] = dump({
+        "tool": slug, "langs": list(LANGS), "platforms": ["facebook"],
+        "goal": "Share today's AI news from checked sources, each story with its source and how sure we are, and learn "
+                "from the comments which topics readers want more of.",
+        "links": {f"s{i}": e.url for i, e in enumerate(stories, 1)},
+        "utm": {"medium": "social", "campaign": slug}, "schedule": []})
+    for path, text in files.items():
+        if "/posts/" in path and _post_has_link(text):
+            raise ValueError(f"{path}: a post contains link-looking text; fix the template or the headline")
+    return files
+
+
+def _post_has_link(text: str) -> bool:
+    data = yaml.safe_load(text)
+    return any(has_link(s) for key in ("series", "slides", "platforms") for s in _strings(data.get(key)))
+
+
+def _strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for v in value.values():
+            yield from _strings(v)
+    elif isinstance(value, list):
+        for v in value:
+            yield from _strings(v)
+
+
+def _brief(stories, rules, slug, date, n) -> dict:
+    features, claims = [], []
+    for i, e in enumerate(stories, 1):
+        fact = headline(e, "en")
+        features.append({"id": f"story-{i}-{e.kind}", "fact": f"{fact}. Source: {e.source_name}, {e.when.date().isoformat()}"})
+        claims.append({"id": f"story-{i}", "text": fact, "evidence": f"{e.source_name}: {e.url}",
+                       "verified": e.verified})
+    return {
+        "slug": slug, "name": "AI News", "repo": "vohoailinh90/ai-news-radar", "status": "beta",
+        "brand": {"emoji": "📰", "accent": "#0ea5e9"},
+        "what_it_is": f"A daily digest of AI-model news for {date}, produced by ai-news-radar from the sources named in each claim. "
+                      "Nothing here is tested by the radar; it reports what sources published.",
+        "issue": {"date": date, "stories": n},
+        "requirements": ["None: this is a news issue, nothing to install"],
+        "features": features, "claims": claims,
+        "limitations": ["The radar reports what its sources say and does not test any model or price itself",
+                        "A story with verified: false is a community report that no official source has confirmed yet; "
+                        "write it as reported, never as announced",
+                        "Notable-feature picks from changelogs are chosen by keyword rules and need a human read"],
+        "story_to_confirm": [], "commercial_readiness": ["Not applicable: a news issue, nothing is sold"], "pricing_hypotheses": []}
+
+
+def _cover_title(t, n, date):
+    return t["digest_title"].format(n=n), t["eyebrow"].format(date=date)
+
+
+def _digest(stories, rules, lang, t, date) -> dict:
+    n = len(stories)
+    title, eyebrow = _cover_title(t, n, date)
+    items = [{"emoji": KIND_EMOJI.get(e.kind, "📰"), "title": f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}",
+              "text": headline(e, lang)} for e in stories]
+    slides = [{"layout": "cover", "emoji": "📰", "eyebrow": eyebrow, "title": title, "subtitle": t["digest_subtitle"]},
+              {"layout": "features", "title": title, "items": items}]
+    unverified = [e for e in stories if not e.verified]
+    if unverified:
+        slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"],
+                       "items": [headline(e, lang) for e in unverified][:6], "note": t["unverified_note"]})
+    labels = "ABCD"
+    slides.append({"layout": "poll", "eyebrow": eyebrow, "question": t["poll_q"], "hint": t["poll_hint"],
+                   "options": [f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}" for e in stories[:4]]})
+    slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})
+    top = headline(stories[0], lang)
+    hook = t["hook"].format(n=n, date=date, top=top)
+    if len(hook) > 125:
+        room = 125 - len(t["hook"].format(n=n, date=date, top=""))
+        hook = t["hook"].format(n=n, date=date, top=top[: max(room - 1, 10)].rstrip() + "…")
+    lines = [f"{KIND_EMOJI.get(e.kind, '•')} {headline(e, lang)}" for e in stories]
+    caption = hook + "\n\n" + "\n".join(lines) + "\n\n" + t["question"] + "\n"
+    return _post("01-digest", "AI News", "s1", slides, caption, t["source_line"], t, rules)
+
+
+def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
+    label, text = t["labels"].get(event.kind, event.kind), headline(event, lang)
+    slides = [{"layout": "cover", "emoji": KIND_EMOJI.get(event.kind, "📰"),
+               "eyebrow": f"{vendor_name(event, rules)} · {label}", "title": text,
+               "subtitle": f"{event.source_name} · {event.when.date().isoformat()}"}]
+    fig = event.figures
+    if event.kind == "price-drop":
+        slides.append({"layout": "stat", "eyebrow": label, "before": f"${fig['old_price']}", "after": f"${fig['new_price']}",
+                       "label": t["per_million"], "caption": t["stat_caption"]})
+    elif "score" in fig:
+        slides.append({"layout": "stat", "eyebrow": label, "value": f"{fig['score']}%", "label": fig.get("benchmark", ""),
+                       "caption": t["stat_caption"]})
+    elif "percent" in fig:
+        slides.append({"layout": "stat", "eyebrow": label, "value": f"{fig['percent']}%", "label": label, "caption": t["stat_caption"]})
+    facts = [{"emoji": "📎", "title": t["src"], "text": event.source_name},
+             {"emoji": "📅", "title": t["when"], "text": event.when.date().isoformat()},
+             {"emoji": "🔎", "title": t["trust"], "text": trust_label(event, t)}]
+    if event.title != text:
+        facts.append({"emoji": "🔤", "title": t["original"], "text": event.title})
+    slides.append({"layout": "features", "title": label, "items": facts})
+    if not event.verified:
+        slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"], "items": [text], "note": t["unverified_note"]})
+    slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})
+    hook = t["spot_hook"].format(label=label, headline=text)
+    if len(hook) > 125:                       # Facebook folds a post after ~125 characters; the studio warns past it
+        hook = hook[:124].rstrip() + "…"
+    caption = hook + f"\n\n{text}\n\n{trust_label(event, t)} · {event.source_name}\n\n{t['question']}\n"
+    return _post(slot, "AI News", f"s{index}", slides, caption, t["source_one"], t, rules)
+
+
+def _post(slot, series, link, slides, caption, source_line, t, rules) -> dict:
+    return {"id": slot, "status": "draft", "format": "portrait", "series": series, "link": link, "slides": slides,
+            "platforms": {"facebook": {"caption": caption, "first_comment": source_line + "\n", "hashtags": list(t["tags"])}},
+            "notes": "Generated by ai-news-radar from checked sources. Read every line, confirm each source, then set status: ready."}
+
+
+def write_bundle(files: dict[str, str], dest: Path, *, force: bool = False) -> list[Path]:
+    """Write the bundle under `dest`. Never overwrites an existing issue unless `force`, and never
+    overwrites a post that is no longer a draft (the owner has approved or posted it)."""
+    targets = sorted({Path(p).parts[:2] for p in files})
+    for parts in targets:
+        existing = dest.joinpath(*parts)
+        if existing.exists() and not force:
+            raise WouldOverwrite(f"{existing} already exists; use --force to replace a draft issue")
+    for path in files:
+        target = dest / path
+        if target.exists() and "/posts/" in path:
+            status = (yaml.safe_load(target.read_text(encoding="utf-8")) or {}).get("status", "draft")
+            if status != "draft":
+                raise WouldOverwrite(f"{target} has status '{status}'; the radar never overwrites an approved or posted post")
+    written = []
+    for path, text in files.items():
+        target = dest / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(text, encoding="utf-8")
+        written.append(target)
+    return written
+
+
+def render_report(events: list[Event], reports: list, rules: dict, now: datetime) -> str:
+    lines = [f"# Radar report {now.date().isoformat()}", "", "## Sources", "", "| source | ok | items | note |", "|---|---|---|---|"]
+    lines += [f"| {r.id} | {'yes' if r.ok else 'NO'} | {r.items} | {r.note} |" for r in reports]
+    lines += ["", "## Ranked events", "", "| score | kind | vendor | verified | source | headline |", "|---|---|---|---|---|---|"]
+    lines += [f"| {e.score:.1f} | {e.kind} | {e.vendor} | {'yes' if e.verified else 'no'} | {e.source_name} | {e.title[:110]} |" for e in events]
+    return "\n".join(lines) + "\n"
