@@ -64,7 +64,7 @@ topics:
     weight: 8
     any:
       - '\b(?:introducing|launch(?:es|ed|ing)?|releas(?:es|ed|ing)|announc(?:es|ed|ing)|unveil(?:s|ed|ing)?)\b.{0,60}\b(?:claude|gpt-?\S*|gemini|gemma|codex|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b'
-      - '\b(?:claude|gpt-?\S*|gemini|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b.{0,40}\b(?:is now available|now available|released|launched)\b'
+      - '\b(?:claude|gpt-?\S*|gemini|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b.{0,40}\b(?:is now available|now available|released|launch(?:es|ed)|releases|debuts?|arrives?)\b'
   benchmark:
     topic: benchmark
     weight: 7

@@ -1,0 +1,9 @@
+{"_note": "SYNTHETIC fixture written for tests, not real OpenRouter data (the host is blocked in the build sandbox). Shape follows the public /api/v1/models response.",
+ "data": [
+  {"id": "acme/alpha", "name": "Acme Alpha", "created": 1760000000, "pricing": {"prompt": "0.000005", "completion": "0.000015"}},
+  {"id": "acme/beta", "name": "Acme Beta", "created": 1760000000, "pricing": {"prompt": "0.000010", "completion": "0.000030"}},
+  {"id": "acme/gamma", "name": "Acme Gamma", "created": 1760000000, "pricing": {"prompt": "0.000002", "completion": "0.000006"}},
+  {"id": "acme/delta", "name": "Acme Delta", "created": 1760000000, "pricing": {"prompt": "0.000004", "completion": "0.000012"}},
+  {"id": "acme/old:free", "name": "Acme Old (free)", "created": 1750000000, "pricing": {"prompt": "0", "completion": "0"}},
+  {"id": "acme/router", "name": "Acme Router", "created": 1750000000, "pricing": {"prompt": "-1", "completion": "-1"}}
+ ]}

@@ -23,9 +23,9 @@ from .store import State, utcnow
 COLLECTORS = {"rss": rss, "changelog_md": changelog, "yaml_leaderboard": leaderboard, "openrouter": openrouter, "hn": hn}
 
 
-def scan(root: Path, fetcher=fetch, now=None) -> tuple[list, list[SourceReport]]:
+def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
     """Run every enabled source. A dead source is recorded and skipped; it never fails the scan."""
-    now = now or utcnow()
+    now, fetcher = now or utcnow(), fetcher or fetch
     sources, rules = load_sources(root), load_rules(root)
     state = State.load(root / "data" / "state.json")
     ctx = Context(fetch=fetcher, state=state, now=now, rules=rules)
