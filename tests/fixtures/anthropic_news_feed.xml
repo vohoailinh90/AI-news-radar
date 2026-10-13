@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Anthropic News</title>
+    <link>https://www.anthropic.com/news</link>
+    <description>Latest updates from Anthropic's newsroom</description>
+    <atom:link href="https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml" rel="self"/>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <image>
+      <url>https://www.anthropic.com/images/icons/apple-touch-icon.png</url>
+      <title>Anthropic News</title>
+      <link>https://www.anthropic.com/news</link>
+    </image>
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Oct 2026 19:40:27 +0000</lastBuildDate>
+    <item>
+      <title>Building on our commitment to American scientific discovery</title>
+      <link>https://www.anthropic.com/news/genesis-mission-commitment</link>
+      <description>Building on our commitment to American scientific discovery</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/genesis-mission-commitment</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Introducing the Anthropic Cyber Mission</title>
+      <link>https://www.anthropic.com/news/anthropic-cyber-mission</link>
+      <description>Introducing the Anthropic Cyber Mission</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/anthropic-cyber-mission</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>2026 Usage Policy update</title>
+      <link>https://www.anthropic.com/news/2026-usage-policy-update</link>
+      <description>2026 Usage Policy update</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/2026-usage-policy-update</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Expanding the Cyber Verification Program</title>
+      <link>https://www.anthropic.com/news/cyber-verification-program</link>
+      <description>Expanding the Cyber Verification Program</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/cyber-verification-program</guid>
+      <category>Announcements</category>
+      <pubDate>Tue, 06 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap</title>
+      <link>https://www.anthropic.com/news/claude-frontier-academy</link>
+      <description>Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/claude-frontier-academy</guid>
+      <category>Announcements</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Barclays scales Claude to upgrade operations and improve client experience</title>
+      <link>https://www.anthropic.com/news/barclays-scales-claude</link>
+      <description>Barclays scales Claude to upgrade operations and improve client experience</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/barclays-scales-claude</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 01 Oct 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Claude discovers a novel enzyme system with CRISPR-like repeats</title>
+      <link>https://www.anthropic.com/news/claude-discovers-novel-enzyme-system</link>
+      <description>Claude discovers a novel enzyme system with CRISPR-like repeats</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/claude-discovers-novel-enzyme-system</guid>
+      <category>Science</category>
+      <pubDate>Wed, 23 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Partnering with Accenture on embedded evaluation</title>
+      <link>https://www.anthropic.com/news/accenture-embedded-evaluation</link>
+      <description>Partnering with Accenture on embedded evaluation</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/accenture-embedded-evaluation</guid>
+      <category>Announcements</category>
+      <pubDate>Fri, 18 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Introducing the Life Sciences Verification Program</title>
+      <link>https://www.anthropic.com/news/life-sciences-verification-program</link>
+      <description>Introducing the Life Sciences Verification Program</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/life-sciences-verification-program</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Developing Enterprise Frontier Safeguards with our customers</title>
+      <link>https://www.anthropic.com/news/enterprise-frontier-safeguards</link>
+      <description>Developing Enterprise Frontier Safeguards with our customers</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/enterprise-frontier-safeguards</guid>
+      <category>Announcements</category>
+      <pubDate>Tue, 01 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Improving our alignment and security efforts</title>
+      <link>https://www.anthropic.com/news/improving-alignment-security-efforts</link>
+      <description>Improving our alignment and security efforts</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/improving-alignment-security-efforts</guid>
+      <category>Announcements</category>
+      <pubDate>Mon, 31 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Previewing the Model Hardware Standard</title>
+      <link>https://www.anthropic.com/news/model-hardware-standard-research-preview</link>
+      <description>Previewing the Model Hardware Standard</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/model-hardware-standard-research-preview</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 27 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Expanding our support for scientists</title>
+      <link>https://www.anthropic.com/news/expanding-support-for-scientists</link>
+      <description>Expanding our support for scientists</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/expanding-support-for-scientists</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 27 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Funding better evaluations of AI’s impact on wellbeing</title>
+      <link>https://www.anthropic.com/news/wellbeing-research-grants</link>
+      <description>Funding better evaluations of AI’s impact on wellbeing</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/wellbeing-research-grants</guid>
+      <category>Announcements</category>
+      <pubDate>Tue, 25 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>How Claude’s text watermark works</title>
+      <link>https://www.anthropic.com/news/claude-text-watermark</link>
+      <description>How Claude’s text watermark works</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/claude-text-watermark</guid>
+      <category>Announcements</category>
+      <pubDate>Fri, 14 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Improving Fable 5's biology safeguards</title>
+      <link>https://www.anthropic.com/news/improving-fable-5-s-biology-safeguards</link>
+      <description>Improving Fable 5's biology safeguards</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/improving-fable-5-s-biology-safeguards</guid>
+      <category>Product</category>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Mariano-Florentino (Tino) Cuéllar to join Anthropic as Chief Global Affairs Officer</title>
+      <link>https://www.anthropic.com/news/tino-cuellar</link>
+      <description>Mariano-Florentino (Tino) Cuéllar to join Anthropic as Chief Global Affairs Officer</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/tino-cuellar</guid>
+      <category>Announcements</category>
+      <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Investigating three real-world incidents in our cybersecurity evaluations</title>
+      <link>https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals</link>
+      <description>Investigating three real-world incidents in our cybersecurity evaluations</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals</guid>
+      <category>Announcements</category>
+      <pubDate>Thu, 30 Jul 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Our position on open-weights models</title>
+      <link>https://www.anthropic.com/news/position-open-weights-models</link>
+      <description>Our position on open-weights models</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/position-open-weights-models</guid>
+      <category>Announcements</category>
+      <pubDate>Mon, 27 Jul 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Cognizant and Anthropic expand their partnership to bring Claude to enterprise clients</title>
+      <link>https://www.anthropic.com/news/cognizant-anthropic</link>
+      <description>Cognizant and Anthropic expand their partnership to bring Claude to enterprise clients</description>
+      <guid isPermaLink="false">https://www.anthropic.com/news/cognizant-anthropic</guid>
+      <category>Announcements</category>
+      <pubDate>Mon, 27 Jul 2026 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
