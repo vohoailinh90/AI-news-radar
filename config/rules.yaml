@@ -1,0 +1,114 @@
+# What counts as news, and how hot. Rules match an ACTION phrase (reset, increase, launch, free for),
+# never a bare noun: "usage limit" alone is not an event, "doubled the usage limits" is.
+vendors:                        # first match in title+body wins; source vendor is the fallback
+  anthropic: ['\bclaude\b', '\banthropic\b', '\bopus\b', '\bsonnet\b', '\bhaiku\b']
+  openai: ['\bopenai\b', '\bcodex\b', '\bchatgpt\b', '\bgpt-?[0-9o]', '\bo[1-9](?:-mini|-pro)?\b']
+  google: ['\bgemini\b', '\bgemma\b', '\bdeepmind\b']
+  deepseek: ['\bdeepseek\b']
+  qwen: ['\bqwen\b']
+  meta: ['\bllama\b']
+  xai: ['\bgrok\b', '\bxai\b']
+  mistral: ['\bmistral\b']
+vendor_prefix:                  # OpenRouter ids look like "anthropic/claude-..."
+  anthropic: anthropic
+  openai: openai
+  google: google
+  deepseek: deepseek
+  qwen: qwen
+  meta-llama: meta
+  x-ai: xai
+  mistralai: mistral
+vendor_names:                   # how a post writes the vendor (no dots: the studio rejects bare domains)
+  anthropic: Claude
+  openai: OpenAI
+  google: Gemini
+  deepseek: DeepSeek
+  qwen: Qwen
+  meta: Llama
+  xai: Grok
+  mistral: Mistral
+  other: AI
+
+# Order matters only for ties: the highest weight wins when one item matches several topics.
+topics:
+  quota-reset:
+    topic: quota
+    weight: 10
+    not_in_kinds: [changelog_md]          # a changelog sentence about the "limit resets" message is UX, not a reset
+    any:
+      - '\b(?:reset|resetting|refresh(?:ed|ing)?)\b.{0,40}\b(?:usage|rate|weekly|5-hour|five-hour|message)?\s*(?:limits?|quotas?)\b'
+      - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,40}\b(?:reset|refreshed)\b'
+  usage-limit-change:
+    topic: quota
+    weight: 8
+    any:
+      - '\b(?:increas|rais|doubl|extend|expand|lower|reduc|cut|tighten)\w*\b.{0,30}\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b'
+      - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,30}\b(?:increase|doubled|raised|reduced|cut|tightened)\b'
+  free-promo:
+    topic: free
+    weight: 9
+    any:
+      - '\bfree\s+(?:for|until|through|to use|access|trial|usage|credits?)\b'
+      - '\b(?:now|is|are)\s+free\b'
+      - '\bfree\s+(?:tier|plan)\b.{0,40}\b(?:includes?|adds?|now|gets?)\b'
+  discount:
+    topic: discount
+    weight: 9
+    any:
+      - '\b\d{1,3}\s?%\s*(?:off|discount|cheaper|lower)\b'
+      - '\bprice\s+(?:cut|drop|reduction)s?\b'
+      - '\b(?:cuts?|slash(?:es|ed)?|lowers?|reduc(?:es|ed))\b.{0,30}\b(?:price|pricing|cost)s?\b'
+      - '\bhalf[- ]price\b'
+  new-model:
+    topic: model
+    weight: 8
+    any:
+      - '\b(?:introducing|launch(?:es|ed|ing)?|releas(?:es|ed|ing)|announc(?:es|ed|ing)|unveil(?:s|ed|ing)?)\b.{0,60}\b(?:claude|gpt-?\S*|gemini|gemma|codex|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b'
+      - '\b(?:claude|gpt-?\S*|gemini|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b.{0,40}\b(?:is now available|now available|released|launched)\b'
+  benchmark:
+    topic: benchmark
+    weight: 7
+    any:
+      - '\b(?:state[- ]of[- ]the[- ]art|sota)\b'
+      - '\b(?:tops?|leads?|beats?|outperforms?)\b.{0,40}\b(?:leaderboard|swe-bench|benchmark|arena)\b'
+      - '\bscores?\s+\d{1,3}(?:\.\d+)?\s?%'
+  announcement:
+    topic: news
+    weight: 4
+    only_in_kinds: [rss]
+    any:
+      - '^(?:introducing|announcing)\b'
+  new-feature:
+    topic: feature
+    weight: 5
+    only_in_kinds: [changelog_md]
+    # A changelog bullet is a feature only when it starts with Added/Introduced AND names something
+    # users notice. The list is deliberately short; widening it is a one-line change.
+    bullet_start: '^(?:added|introduced|new:)\b'
+    boost: ['\bagent', '\bplugin', '\bmcp\b', '\bmodel', '\bmode\b', '\bvoice\b', '\bbackground\b', '\bworkflow', '\bskills?\b', '\bhooks?\b', '\bsandbox']
+
+# A changelog bullet matching one of these is never picked as a "notable feature": settings plumbing
+# and environment variables are real changes but not what a Facebook reader cares about.
+feature_skip:
+  - '\b[A-Z][A-Z0-9_]{6,}\b'
+  - '\b(?:managed|policies|frontmatter|allowlist|telemetry|regression)\b'
+
+# Bullets/lines that are never news, whatever else they say.
+exclude:
+  - '^(?:fixed|fix|bugfix|reverted|removed)\b'
+  - '\bregression in\b'
+
+scoring:
+  half_life_hours: 36
+  trust_bonus: {primary: 3, community: 0}
+  hn_points_cap: 5               # points/100, capped
+  trending_points: 300           # a community story with no rule match still counts above this
+  corroboration_bonus: 3         # per other distinct source on the same vendor+topic within 48h
+  corroboration_window_hours: 48
+  undated_age_hours: 12          # items with no date (changelog versions) are treated as this old
+
+export:
+  max_stories: 5
+  min_score: 6
+  spotlights: 2                  # extra single-story posts for the top N
+  first_run_note: true

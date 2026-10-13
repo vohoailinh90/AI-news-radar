@@ -1,0 +1,107 @@
+# Where the radar looks. `trust: primary` = the vendor or a pricing/leaderboard file says it, so a
+# fact from it may be written as verified. `trust: community` = people report it (Hacker News):
+# it is posted as "reported" until a primary source corroborates it.
+#
+# live_checked: the date the URL was fetched successfully by a human or CI run, or false if it
+# has never been fetched from the environment this repo was built in (that sandbox's egress policy
+# blocked these hosts). A false here is a to-do, not a defect: run `python radar.py scan` once.
+sources:
+  - id: claude-code-changelog
+    kind: changelog_md
+    url: https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
+    name: Claude Code changelog
+    vendor: anthropic
+    trust: primary
+    first_run_versions: 1       # first run reports only the newest version, then only newer ones
+    max_bytes: 3000000
+    live_checked: "2026-10-13"
+
+  - id: anthropic-news
+    kind: rss
+    # A community-generated mirror of anthropic.com/news (Anthropic publishes no feed). Every item
+    # link points at anthropic.com, which is what a post cites.
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
+    name: Anthropic news
+    vendor: anthropic
+    trust: primary
+    max_age_days: 14
+    live_checked: "2026-10-13"
+
+  - id: codex-releases
+    kind: rss
+    url: https://github.com/openai/codex/releases.atom
+    name: Codex releases
+    vendor: openai
+    trust: primary
+    max_age_days: 14
+    live_checked: false
+
+  - id: gemini-cli-releases
+    kind: rss
+    url: https://github.com/google-gemini/gemini-cli/releases.atom
+    name: Gemini CLI releases
+    vendor: google
+    trust: primary
+    max_age_days: 14
+    live_checked: false
+
+  - id: openai-news
+    kind: rss
+    url: https://openai.com/news/rss.xml
+    name: OpenAI news
+    vendor: openai
+    trust: primary
+    max_age_days: 14
+    live_checked: false
+
+  - id: deepmind-blog
+    kind: rss
+    url: https://deepmind.google/blog/rss.xml
+    name: Google DeepMind blog
+    vendor: google
+    trust: primary
+    max_age_days: 14
+    live_checked: false
+
+  - id: huggingface-blog
+    kind: rss
+    url: https://huggingface.co/blog/feed.xml
+    name: Hugging Face blog
+    vendor: other
+    trust: primary
+    max_age_days: 14
+    live_checked: false
+
+  - id: openrouter-models
+    kind: openrouter
+    # Public model list with prices. Diffed against the last snapshot: new models, models that
+    # became free, price drops. Needs no key.
+    url: https://openrouter.ai/api/v1/models
+    name: OpenRouter model list
+    vendor: other
+    trust: primary
+    min_drop_pct: 20
+    live_checked: false
+
+  - id: aider-polyglot
+    kind: yaml_leaderboard
+    url: https://raw.githubusercontent.com/Aider-AI/aider/main/aider/website/_data/polyglot_leaderboard.yml
+    name: Aider polyglot leaderboard
+    vendor: other
+    trust: primary
+    benchmark: Aider polyglot
+    fields: {id: dirname, name: model, score: pass_rate_2, date: date, cost: total_cost}
+    stale_days: 90              # if the newest entry is older, the run report says the source is stale
+    live_checked: "2026-10-13"
+
+  - id: hn-ai
+    kind: hn
+    # Hacker News via the public Algolia API: a rough "what is hot" signal, always community.
+    url: https://hn.algolia.com/api/v1/search_by_date
+    name: Hacker News
+    vendor: other
+    trust: community
+    queries: ["claude", "codex", "gpt-5", "gemini", "deepseek", "qwen", "usage limit", "free tier llm"]
+    min_points: 100
+    max_age_days: 3
+    live_checked: false
