@@ -69,7 +69,9 @@ def test_p1_no_string_restates_an_unconfirmed_claim_without_the_tag():
                 continue
             post = yaml.safe_load(text)
             for event in (rumour_text, rumour_sentence):
-                claims = {export.headline(event, lang), event.title}
+                label = export.TEXT[lang]["labels"][event.kind]
+                # the claim itself, and the kind of claim ("Limits reset", "Claude · Limits reset") that names it
+                claims = {export.headline(event, lang), event.title, label}
                 for s in _strings({"slides": post["slides"], "caption": post["platforms"]["facebook"]["caption"]}):
                     if any(c in s for c in claims):
                         checked += 1
@@ -77,7 +79,7 @@ def test_p1_no_string_restates_an_unconfirmed_claim_without_the_tag():
             for s in _strings(post["slides"]):                                                     # the verified story is never tagged
                 if "Codex is free" in s or "無料" in s:
                     assert tag not in s
-    assert checked > 20                                                                            # the invariant really looked at many strings
+    assert checked > 40                                                                            # the invariant really looked at many strings
 
 
 # ---- P1 absorption honours the corroboration window

@@ -70,22 +70,28 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
         fresh.append(event)
     # Events a previous scan found but no issue exported yet (below the cut, or the export was refused) wait here
     # for a later issue; they are re-scored, so they fade with age. Nothing marked "seen" is ever silently lost.
-    ids = {e.item_id for e in fresh if e.item_id}
-    horizon = now - timedelta(days=rules["export"]["carry_days"])
-    carried: dict[str, object] = {}
-    for e in load_pending(root):
-        if e.when >= horizon and e.item_id not in ids:
-            carried.setdefault(e.item_id or f"anon-{len(carried)}", e)           # one per id, even if the file holds twins
+    fresh, carried = merge_pending(fresh, load_pending(root), now - timedelta(days=rules["export"]["carry_days"]))
     flagged = {s.id for s in sources if s.opt("confirm_page")}
     for note in confirm_mod.confirm_events(fresh, flagged, fetcher):      # before ranking: trust decides the score
         reports.append(SourceReport("confirm", False, 0, note))
-    ranked = rank.score_events(fresh + list(carried.values()), rules, now, {i.id: i.points for i in items})
+    ranked = rank.score_events(fresh + carried, rules, now, {i.id: i.points for i in items})
     if any(r.ok for r in reports):                    # all sources down: keep the old state, do not lose a baseline
         # Pending events first, "seen" marks second: a crash between the two re-detects (and de-duplicates against
         # the pending copy) instead of marking events seen that were never written anywhere.
         save_scan(root, ranked, reports, now)
         state.save(now)
     return ranked, reports
+
+
+def merge_pending(fresh: list, pending: list, horizon) -> tuple[list, list]:
+    """(fresh to keep, pending to carry). One event per id, and when a replay (a scan whose state was never saved) finds
+    the id already pending, the copy observed FIRST is kept: it is the transition as it was originally seen. A pending
+    event past the horizon is dropped, and then it cannot shadow the fresh one."""
+    carried: dict[str, object] = {}
+    for event in pending:
+        if event.when >= horizon:
+            carried.setdefault(event.item_id or f"anon-{len(carried)}", event)
+    return [e for e in fresh if not (e.item_id and e.item_id in carried)], list(carried.values())
 
 
 def datetime_date(text: str):

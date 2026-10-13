@@ -83,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 174 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 179 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 

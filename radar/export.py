@@ -74,6 +74,9 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
             picked.append(event)
             continue
         keep, drop = (event, twin) if event.trust == PRIMARY and twin.trust != PRIMARY else (twin, event)
+        if keep is not twin:                          # the canonical event replaced the one that was charged: move the charge
+            per_kind[(twin.source, twin.kind)] = per_kind.get((twin.source, twin.kind), 1) - 1
+            per_kind[(keep.source, keep.kind)] = per_kind.get((keep.source, keep.kind), 0) + 1
         keep.also_reported_by = list(dict.fromkeys(keep.also_reported_by + drop.also_reported_by + [drop.source_name]))
         absorbed |= {drop.item_id}
         picked[picked.index(twin)] = keep
@@ -165,7 +168,7 @@ def _cover_title(t, n, date):
 def _digest(stories, rules, lang, t, date) -> dict:
     n = len(stories)
     title, eyebrow = _cover_title(t, n, date)
-    items = [{"emoji": KIND_EMOJI.get(e.kind, "📰"), "title": f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}",
+    items = [{"emoji": KIND_EMOJI.get(e.kind, "📰"), "title": tagged(e, f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}", t),
               "text": tagged(e, headline(e, lang), t)} for e in stories]
     slides = [{"layout": "cover", "emoji": "📰", "eyebrow": eyebrow, "title": title, "subtitle": t["digest_subtitle"]},
               {"layout": "features", "title": title, "items": items}]
@@ -175,7 +178,7 @@ def _digest(stories, rules, lang, t, date) -> dict:
                        "items": [tagged(e, headline(e, lang), t) for e in unverified][:6], "note": t["unverified_note"]})
     labels = "ABCD"
     slides.append({"layout": "poll", "eyebrow": eyebrow, "question": t["poll_q"], "hint": t["poll_hint"],
-                   "options": [f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}" for e in stories[:4]]})
+                   "options": [tagged(e, f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}", t) for e in stories[:4]]})
     slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})
     top = tagged(stories[0], headline(stories[0], lang), t)
     hook = t["hook"].format(n=n, date=date, top=top)
@@ -201,14 +204,14 @@ def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
         slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['score']}%", "label": fig.get("benchmark", ""),
                        "caption": tagged(event, t["stat_caption"], t)})
     elif "percent" in fig:
-        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['percent']}%", "label": label,
+        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['percent']}%", "label": tagged(event, label, t),
                        "caption": tagged(event, t["stat_caption"], t)})
     facts = [{"emoji": "📎", "title": t["src"], "text": event.source_name},
              {"emoji": "📅", "title": t["when"], "text": event.when.date().isoformat()},
              {"emoji": "🔎", "title": t["trust"], "text": trust_label(event, t)}]
     if event.title != text:
         facts.append({"emoji": "🔤", "title": t["original"], "text": tagged(event, event.title, t)})
-    slides.append({"layout": "features", "title": label, "items": facts})
+    slides.append({"layout": "features", "title": tagged(event, label, t), "items": facts})
     if not event.verified:
         slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"], "items": [tagged(event, text, t)], "note": t["unverified_note"]})
     slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})

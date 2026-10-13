@@ -48,11 +48,13 @@ def collect(source: Source, ctx: Context):
 
     def record():
         ctx.state.snapshots[source.id] = {"ids": sorted(e["id"] for e in entries), "best": max(e["score"] for e in entries),
-                                          "newest": newest.date().isoformat() if newest else ""}
+                                          "newest": newest.date().isoformat() if newest else "",
+                                          "taken": ctx.now.strftime("%Y%m%dT%H%M%S")}
     if previous is None:
         record()
         return [], []                              # baseline
     known, old_best = set(previous["ids"]), float(previous["best"])
+    since = previous.get("taken", "legacy")        # an observation is a row seen against a snapshot: replay-stable, and a re-added row is new
     events = []
     # "new" means first seen by the radar, whatever the run's own date says: entries are often merged weeks after the
     # run. Every new entry is returned, best score first; a burst is spread over issues by the exporter.
@@ -64,7 +66,7 @@ def collect(source: Source, ctx: Context):
             title=f"{entry['name']} scores {entry['score']:g}% on {source.opt('benchmark', source.name)}"
                   + (", a new top score" if leader else ""),
             url=source.opt("page_url", "https://aider.chat/docs/leaderboards/"), source=source.id,
-            source_name=source.name, trust=source.trust, when=when, item_id=f"{source.id}:{entry['id']}",
+            source_name=source.name, trust=source.trust, when=when, item_id=f"{source.id}:{entry['id']}@{since}",
             figures={"score": f"{entry['score']:g}", "model": entry["name"], "benchmark": source.opt("benchmark", source.name)}))
         old_best = max(old_best, entry["score"])
     record()                                       # last: a failure above leaves the old snapshot
