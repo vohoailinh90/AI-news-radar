@@ -86,12 +86,15 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
 def merge_pending(fresh: list, pending: list, horizon) -> tuple[list, list]:
     """(fresh to keep, pending to carry). One event per id, and when a replay (a scan whose state was never saved) finds
     the id already pending, the copy observed FIRST is kept: it is the transition as it was originally seen. A pending
-    event past the horizon is dropped, and then it cannot shadow the fresh one."""
+    event past the horizon is dropped, and its replay with it: a replay must not refresh an expired occurrence."""
     carried: dict[str, object] = {}
+    observed: set[str] = set()
     for event in pending:
+        if event.item_id:
+            observed.add(event.item_id)               # even an expired one: the occurrence was already seen, and carry_days is final
         if event.when >= horizon:
             carried.setdefault(event.item_id or f"anon-{len(carried)}", event)
-    return [e for e in fresh if not (e.item_id and e.item_id in carried)], list(carried.values())
+    return [e for e in fresh if not (e.item_id and e.item_id in observed)], list(carried.values())
 
 
 def datetime_date(text: str):

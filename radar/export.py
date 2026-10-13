@@ -57,26 +57,33 @@ def vendor_name(event: Event, rules: dict) -> str:
 def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event], set[str]]:
     """The stories of an issue, best first, plus the ids of reports folded into them. Events that rank.same_story()
     says are one piece of news become ONE story: the primary-source event is the canonical one (a higher-scoring
-    community report does not displace it), and the other source is kept as evidence (`also_reported_by`)."""
-    cfg, seen, picked, absorbed, per_kind = rules["export"], set(), [], set(), {}
+    community report does not displace it), and the other source is kept as evidence (`also_reported_by`).
+    One source and kind may fill at most `max_per_source_kind` stories; the rest are neither stories nor absorbed,
+    they wait for a later issue. Slot use is counted from the stories picked, never kept as a running total."""
+    cfg, seen, picked, absorbed = rules["export"], set(), [], set()
     window = timedelta(hours=rules["scoring"]["corroboration_window_hours"])      # the same bound ranking uses
+    limit = cfg["max_per_source_kind"]
+
+    def used(slot):
+        return sum(1 for p in picked if (p.source, p.kind) == slot)
+
     for event in events:
         if event.score < cfg["min_score"] or event.item_id in seen:
             continue
         seen.add(event.item_id)
         twin = next((p for p in picked if same_story(p, event) and abs(p.when - event.when) <= window), None)
         if twin is None:
-            slot = (event.source, event.kind)
-            if per_kind.get(slot, 0) >= cfg["max_per_source_kind"]:
-                seen.discard(event.item_id)           # not a story today and not absorbed: it waits for a later issue
-                continue
-            per_kind[slot] = per_kind.get(slot, 0) + 1
+            if used((event.source, event.kind)) >= limit:
+                continue                              # not a story today and not absorbed: it waits for a later issue
             picked.append(event)
             continue
         keep, drop = (event, twin) if event.trust == PRIMARY and twin.trust != PRIMARY else (twin, event)
-        if keep is not twin:                          # the canonical event replaced the one that was charged: move the charge
-            per_kind[(twin.source, twin.kind)] = per_kind.get((twin.source, twin.kind), 1) - 1
-            per_kind[(keep.source, keep.kind)] = per_kind.get((keep.source, keep.kind), 0) + 1
+        if keep is not twin and used((keep.source, keep.kind)) >= limit:
+            # the canonical event comes from a full slot (same_story needs two different sources, so it is never the
+            # twin's own slot): the lowest-ranked story already in it waits for a later issue
+            victim = next((p for p in reversed(picked) if (p.source, p.kind) == (keep.source, keep.kind)), None)
+            if victim is not None:
+                picked.remove(victim)
         keep.also_reported_by = list(dict.fromkeys(keep.also_reported_by + drop.also_reported_by + [drop.source_name]))
         absorbed |= {drop.item_id}
         picked[picked.index(twin)] = keep

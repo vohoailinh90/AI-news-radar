@@ -42,5 +42,15 @@ def parse_time(text: str | None) -> datetime | None:
     return moment.astimezone(timezone.utc)
 
 
+def occurrence(previous) -> str:
+    """The name of the snapshot an observation is measured against: a monotonic generation, never a wall-clock time
+    (two scans in the same second, or with the same supplied `now`, must not share an occurrence)."""
+    return f"g{previous['gen']}" if isinstance(previous, dict) and isinstance(previous.get("gen"), int) else "legacy"
+
+
+def next_generation(previous) -> int:
+    return previous["gen"] + 1 if isinstance(previous, dict) and isinstance(previous.get("gen"), int) else 1
+
+
 def vendor_of_prefix(model_id: str, rules: dict) -> str:
     return rules.get("vendor_prefix", {}).get(model_id.split("/", 1)[0], "other")

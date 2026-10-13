@@ -83,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 179 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 183 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -108,6 +108,8 @@ và có đủ vi/ja/en.
   `last-scan.json` trước khi đánh dấu "đã thấy". Bộ xuất bản mới là nơi trải tin: tối đa `max_per_source_kind` (2) tin cho mỗi nguồn và loại trong một
   số, phần còn lại ở lại làm tin chờ (`carry_days`). Ảnh chụp trạng thái của một nguồn chỉ được ghi khi nguồn đó xử lý xong; nguồn lỗi giữa chừng
   bị hoàn tác, nên lượt sau không lấy dữ liệu dở dang làm mốc.
+- Một lần quan sát (id) gắn với **thế hệ** ảnh chụp mà nó được so (bộ đếm tăng dần, không phải đồng hồ), tính tuổi từ lúc quan sát chứ không từ ngày
+  tạo model (ngày tạo giữ ở `detail`), và một bản chờ đã hết hạn vẫn chặn bản replay của nó: `carry_days` là cuối cùng.
 - Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ 48 giờ (`corroboration_window_hours`); một lần lặp lại
   sau nhiều ngày là tin riêng, chưa xác nhận.
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test

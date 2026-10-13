@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from ..config import Source
 from ..models import Event
-from . import Context, SourceError, vendor_of_prefix
+from . import Context, SourceError, next_generation, occurrence, vendor_of_prefix
 
 
 def price(value) -> float | None:
@@ -59,36 +59,37 @@ def collect(source: Source, ctx: Context):
     previous = ctx.state.snapshots.get(source.id)
     taken = ctx.now.strftime("%Y%m%dT%H%M%S")
     if previous is None:
-        ctx.state.snapshots[source.id] = {"taken": taken, "models": current}
+        ctx.state.snapshots[source.id] = {"taken": taken, "gen": 1, "models": current}
         return [], []                              # baseline
     # A transition's id names the snapshot it was measured against, not the time of this scan: if the run dies before
     # the state is saved, the replay measures against the same snapshot and gets the same ids (no double post), while
     # a genuine repeat (10 -> 5, back to 10, 5 again) is measured against a newer snapshot and is a new event.
-    previous, since = (previous["models"], previous["taken"]) if "models" in previous else (previous, "legacy")
+    generation = next_generation(previous)
+    previous, since = (previous["models"], occurrence(previous)) if "models" in previous else (previous, "legacy")
     min_drop = float(source.opt("min_drop_pct", 20))
     groups: dict[str, list[tuple[tuple, Event, str]]] = {"free": [], "new": [], "drop": [], "gone": []}
 
-    def make(group, sort_key, kind, topic, model_id, entry, title, figures, when=None, suffix=""):
+    def make(group, sort_key, kind, topic, model_id, entry, title, figures, detail="", suffix=""):
         # the id carries what makes this occurrence unique, so a second price drop or a second
         # "became free" for the same model is a new event rather than a repeat of the first
         event = Event(kind=kind, vendor=vendor_of_prefix(model_id, ctx.rules), topic=topic, title=title,
                       url=f"https://openrouter.ai/{model_id}", source=source.id, source_name=source.name,
-                      trust=source.trust, when=when or ctx.now, item_id=f"{source.id}:{kind}:{model_id}{suffix}",
-                      figures={"model": entry["name"], **figures})
+                      trust=source.trust, when=ctx.now, detail=detail, item_id=f"{source.id}:{kind}:{model_id}{suffix}",
+                      figures={"model": entry["name"], **figures})       # when = observation time: it is what the carry horizon ages
         groups[group].append((sort_key, event, model_id))
 
     for model_id, now_entry in current.items():
         before = previous.get(model_id)
-        created = datetime.fromtimestamp(now_entry["created"], timezone.utc) if now_entry["created"] else ctx.now      # 0 = unknown
+        made = f"created {datetime.fromtimestamp(now_entry['created'], timezone.utc).date().isoformat()}" if now_entry["created"] else ""
         newest_first = (-now_entry["created"], now_entry["name"])
         if before is None:
             if now_entry["free"]:
                 make("free", newest_first, "free-model-added", "free", model_id, now_entry,
-                     f"{now_entry['name']} is available free of charge on OpenRouter", {}, created, suffix=f"@{since}")
+                     f"{now_entry['name']} is available free of charge on OpenRouter", {}, detail=made, suffix=f"@{since}")
             else:
                 figs = {"input_price": per_million(now_entry["prompt"])} if now_entry["prompt"] else {}
                 make("new", newest_first, "model-listed", "model", model_id, now_entry,
-                     f"{now_entry['name']} is now listed on OpenRouter", figs, created, suffix=f"@{since}")
+                     f"{now_entry['name']} is now listed on OpenRouter", figs, detail=made, suffix=f"@{since}")
         elif now_entry["free"] and not before.get("free"):
             make("free", newest_first, "model-became-free", "free", model_id, now_entry,
                  f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{since}")
@@ -110,5 +111,5 @@ def collect(source: Source, ctx: Context):
     # Every transition seen is returned now and persisted by the scan before any "seen" mark: the exporter spreads a
     # burst over several issues (and keeps the rest pending), the collector never holds events back in its snapshot.
     out = [event for group in groups.values() for _, event, _ in sorted(group, key=lambda trio: trio[0])]
-    ctx.state.snapshots[source.id] = {"taken": taken, "models": current}       # last: a failure above leaves the old snapshot
+    ctx.state.snapshots[source.id] = {"taken": taken, "gen": generation, "models": current}       # last: a failure above leaves the old snapshot
     return [], out

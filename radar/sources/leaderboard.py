@@ -11,7 +11,7 @@ import yaml
 
 from ..config import Source
 from ..models import COMMUNITY, Event
-from . import Context, SourceError, parse_time
+from . import Context, SourceError, next_generation, occurrence, parse_time
 
 
 
@@ -49,12 +49,12 @@ def collect(source: Source, ctx: Context):
     def record():
         ctx.state.snapshots[source.id] = {"ids": sorted(e["id"] for e in entries), "best": max(e["score"] for e in entries),
                                           "newest": newest.date().isoformat() if newest else "",
-                                          "taken": ctx.now.strftime("%Y%m%dT%H%M%S")}
+                                          "taken": ctx.now.strftime("%Y%m%dT%H%M%S"), "gen": next_generation(previous)}
     if previous is None:
         record()
         return [], []                              # baseline
     known, old_best = set(previous["ids"]), float(previous["best"])
-    since = previous.get("taken", "legacy")        # an observation is a row seen against a snapshot: replay-stable, and a re-added row is new
+    since = occurrence(previous)        # an observation is a row seen against a snapshot: replay-stable, and a re-added row is new
     events = []
     # "new" means first seen by the radar, whatever the run's own date says: entries are often merged weeks after the
     # run. Every new entry is returned, best score first; a burst is spread over issues by the exporter.

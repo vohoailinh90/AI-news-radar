@@ -44,9 +44,7 @@ def test_p2_the_copy_observed_first_wins_when_a_replay_meets_its_pending_event(t
     replay = run(tmp_path, state, rows(("a", "A", 40.0), ("b", "B", 52.0)), 5)[0]
     fresh, carried = cli.merge_pending([replay], [original], NOW - timedelta(days=7))
     assert fresh == [] and [c.figures["score"] for c in carried] == ["50"]                          # the transition as first observed survives
-    old = Event(**{**original.__dict__, "when": NOW - timedelta(days=30)})
-    fresh, carried = cli.merge_pending([replay], [old], NOW - timedelta(days=7))                    # an expired pending copy must not eat the fresh one
-    assert [f.figures["score"] for f in fresh] == ["52"] and carried == []
+    # (superseded in round 6: an EXPIRED pending copy still suppresses its replay, see tests/test_codex_round6.py)
 
 
 def test_p2_a_removed_and_re_added_row_is_a_new_occurrence(tmp_path):
