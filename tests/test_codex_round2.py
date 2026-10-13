@@ -106,6 +106,8 @@ def test_p1_the_standalone_stat_slide_of_an_unconfirmed_story_carries_the_tag(ki
         spot = yaml.safe_load(files[f"campaigns/ai-news-2026-10-13/posts/{lang}/02-{kind}.yaml"])
         stat = next(s for s in spot["slides"] if s["layout"] == "stat")
         assert tag in stat["eyebrow"] and tag in stat["caption"], (lang, stat)
+        if "percent" in figures and kind != "price-drop":                                           # the percent stat's own label names the claim
+            assert tag in stat["label"], (lang, stat)
     verified = ev(kind, title, topic, trust="primary", figures=figures)
     clean = yaml.safe_load(export.build_bundle([verified, other], RULES, "2026-10-13")[f"campaigns/ai-news-2026-10-13/posts/en/02-{kind}.yaml"])
     assert not any(TAGS["en"] in str(s) for s in clean["slides"] if s["layout"] == "stat")
