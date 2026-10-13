@@ -83,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 163 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 175 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -103,6 +103,11 @@ và có đủ vi/ja/en.
   vẫn mang nhãn chưa xác nhận, và đó là mặc định an toàn.
 - Một tin chính thức và bản tin cộng đồng về **cùng một việc** (`rank.same_story`) được gộp thành một tin: tin của nguồn chính thức là bản chính
   (kể cả khi bản cộng đồng điểm cao hơn), nguồn kia ghi trong brief (`also reported by …`) và không bị đăng lại ở số sau.
+- Giới hạn số sự kiện mỗi loại trong một lượt (OpenRouter: 5 mỗi loại; leaderboard: 5 mục mới) chỉ **trải** tin ra nhiều số chứ không bỏ: phần dư
+  không được ghi vào ảnh chụp trạng thái nên lượt quét sau báo tiếp. Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ
+  48 giờ (`corroboration_window_hours`); một lần lặp lại sau nhiều ngày là tin riêng, chưa xác nhận.
+- Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test
+  duyệt từng chuỗi của bài để chắc điều đó.
 - Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau
   khi lưu trạng thái hỏng không đăng trùng, còn một lần giảm giá lặp lại thật vẫn là tin mới.
 - Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Đã thử trên HTML

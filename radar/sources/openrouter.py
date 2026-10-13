@@ -49,7 +49,8 @@ def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
 def collect(source: Source, ctx: Context):
     current = snapshot_of(ctx.fetch(source.url, max_bytes=source.opt("max_bytes", 8_000_000)), source)
     previous = ctx.state.snapshots.get(source.id)
-    ctx.state.snapshots[source.id] = {"taken": ctx.now.strftime("%Y%m%dT%H%M%S"), "models": current}
+    taken = ctx.now.strftime("%Y%m%dT%H%M%S")
+    ctx.state.snapshots[source.id] = {"taken": taken, "models": current}
     if previous is None:
         return [], []                              # baseline
     # A transition's id names the snapshot it was measured against, not the time of this scan: if the run dies before
@@ -57,7 +58,7 @@ def collect(source: Source, ctx: Context):
     # a genuine repeat (10 -> 5, back to 10, 5 again) is measured against a newer snapshot and is a new event.
     previous, since = (previous["models"], previous["taken"]) if "models" in previous else (previous, "legacy")
     min_drop = float(source.opt("min_drop_pct", 20))
-    groups: dict[str, list[tuple[tuple, Event]]] = {"free": [], "new": [], "drop": [], "gone": []}
+    groups: dict[str, list[tuple[tuple, Event, str]]] = {"free": [], "new": [], "drop": [], "gone": []}
 
     def make(group, sort_key, kind, topic, model_id, entry, title, figures, when=None, suffix=""):
         # the id carries what makes this occurrence unique, so a second price drop or a second
@@ -66,7 +67,7 @@ def collect(source: Source, ctx: Context):
                       url=f"https://openrouter.ai/{model_id}", source=source.id, source_name=source.name,
                       trust=source.trust, when=when or ctx.now, item_id=f"{source.id}:{kind}:{model_id}{suffix}",
                       figures={"model": entry["name"], **figures})
-        groups[group].append((sort_key, event))
+        groups[group].append((sort_key, event, model_id))
 
     for model_id, now_entry in current.items():
         before = previous.get(model_id)
@@ -75,11 +76,11 @@ def collect(source: Source, ctx: Context):
         if before is None:
             if now_entry["free"]:
                 make("free", newest_first, "free-model-added", "free", model_id, now_entry,
-                     f"{now_entry['name']} is available free of charge on OpenRouter", {}, created)
+                     f"{now_entry['name']} is available free of charge on OpenRouter", {}, created, suffix=f"@{since}")
             else:
                 figs = {"input_price": per_million(now_entry["prompt"])} if now_entry["prompt"] else {}
                 make("new", newest_first, "model-listed", "model", model_id, now_entry,
-                     f"{now_entry['name']} is now listed on OpenRouter", figs, created)
+                     f"{now_entry['name']} is now listed on OpenRouter", figs, created, suffix=f"@{since}")
         elif now_entry["free"] and not before.get("free"):
             make("free", newest_first, "model-became-free", "free", model_id, now_entry,
                  f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{since}")
@@ -99,6 +100,19 @@ def collect(source: Source, ctx: Context):
             make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,
                  f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{since}")
     out: list[Event] = []
+    deferred: list[str] = []
     for group in groups.values():
-        out += [event for _, event in sorted(group, key=lambda pair: pair[0])[:MAX_PER_KIND]]
+        ranked = sorted(group, key=lambda trio: trio[0])
+        out += [event for _, event, _ in ranked[:MAX_PER_KIND]]
+        deferred += [model_id for _, _, model_id in ranked[MAX_PER_KIND:]]
+    if deferred:
+        # The cap spreads a burst over several issues; it must not lose any of it. A deferred model keeps its OLD
+        # snapshot entry (or none, if it is new), so the next scan finds the same transition and reports it then.
+        kept = dict(current)
+        for model_id in deferred:
+            if model_id in previous:
+                kept[model_id] = previous[model_id]
+            else:
+                kept.pop(model_id, None)
+        ctx.state.snapshots[source.id] = {"taken": taken, "models": kept}
     return [], out

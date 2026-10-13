@@ -45,17 +45,22 @@ def parse(raw: bytes, source: Source) -> list[dict]:
 def collect(source: Source, ctx: Context):
     entries = parse(ctx.fetch(source.url, max_bytes=source.opt("max_bytes", 5_000_000)), source)
     previous = ctx.state.snapshots.get(source.id)
-    best = max(e["score"] for e in entries)
     newest = max((d for d in (parse_time(e["date"]) for e in entries) if d), default=None)
-    ctx.state.snapshots[source.id] = {"ids": sorted(e["id"] for e in entries), "best": best,
-                                      "newest": newest.date().isoformat() if newest else ""}
+
+    def record(recorded):
+        ctx.state.snapshots[source.id] = {"ids": sorted(e["id"] for e in recorded), "best": max(e["score"] for e in recorded),
+                                          "newest": newest.date().isoformat() if newest else ""}
     if previous is None:
+        record(entries)
         return [], []                              # baseline
     known, old_best = set(previous["ids"]), float(previous["best"])
     events = []
     # "new" means first seen by the radar, whatever the run's own date says: entries are often merged weeks
-    # after the run. A burst of new ids is capped at the best few so a reformat cannot flood an issue.
-    fresh = sorted((e for e in entries if e["id"] not in known), key=lambda e: -e["score"])[:MAX_NEW]
+    # after the run. A burst of new ids is spread over several scans, best score first, so a reformat cannot flood an
+    # issue; the entries not reported yet are NOT recorded as seen, so the next scan reports them. Nothing is lost.
+    new_entries = sorted((e for e in entries if e["id"] not in known), key=lambda e: -e["score"])
+    fresh, deferred = new_entries[:MAX_NEW], {e["id"] for e in new_entries[MAX_NEW:]}
+    record([e for e in entries if e["id"] not in deferred])
     for entry in fresh:
         when = ctx.now
         leader = entry["score"] > old_best

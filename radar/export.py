@@ -5,7 +5,7 @@ number in a post is the same string that sits in the brief, in all three languag
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import yaml
@@ -59,11 +59,12 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
     says are one piece of news become ONE story: the primary-source event is the canonical one (a higher-scoring
     community report does not displace it), and the other source is kept as evidence (`also_reported_by`)."""
     cfg, seen, picked, absorbed = rules["export"], set(), [], set()
+    window = timedelta(hours=rules["scoring"]["corroboration_window_hours"])      # the same bound ranking uses
     for event in events:
         if event.score < cfg["min_score"] or event.item_id in seen:
             continue
         seen.add(event.item_id)
-        twin = next((p for p in picked if same_story(p, event)), None)
+        twin = next((p for p in picked if same_story(p, event) and abs(p.when - event.when) <= window), None)
         if twin is None:
             picked.append(event)
             continue
@@ -165,7 +166,7 @@ def _digest(stories, rules, lang, t, date) -> dict:
     unverified = [e for e in stories if not e.verified]
     if unverified:
         slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"],
-                       "items": [headline(e, lang) for e in unverified][:6], "note": t["unverified_note"]})
+                       "items": [tagged(e, headline(e, lang), t) for e in unverified][:6], "note": t["unverified_note"]})
     labels = "ABCD"
     slides.append({"layout": "poll", "eyebrow": eyebrow, "question": t["poll_q"], "hint": t["poll_hint"],
                    "options": [f"{vendor_name(e, rules)} · {t['labels'].get(e.kind, e.kind)}" for e in stories[:4]]})
@@ -184,7 +185,7 @@ def _digest(stories, rules, lang, t, date) -> dict:
 def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
     label, text = t["labels"].get(event.kind, event.kind), headline(event, lang)
     slides = [{"layout": "cover", "emoji": KIND_EMOJI.get(event.kind, "📰"),
-               "eyebrow": tagged(event, f"{vendor_name(event, rules)} · {label}", t), "title": text,
+               "eyebrow": tagged(event, f"{vendor_name(event, rules)} · {label}", t), "title": tagged(event, text, t),
                "subtitle": f"{event.source_name} · {event.when.date().isoformat()}"}]
     fig = event.figures
     if event.kind == "price-drop":
@@ -200,10 +201,10 @@ def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
              {"emoji": "📅", "title": t["when"], "text": event.when.date().isoformat()},
              {"emoji": "🔎", "title": t["trust"], "text": trust_label(event, t)}]
     if event.title != text:
-        facts.append({"emoji": "🔤", "title": t["original"], "text": event.title})
+        facts.append({"emoji": "🔤", "title": t["original"], "text": tagged(event, event.title, t)})
     slides.append({"layout": "features", "title": label, "items": facts})
     if not event.verified:
-        slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"], "items": [text], "note": t["unverified_note"]})
+        slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"], "items": [tagged(event, text, t)], "note": t["unverified_note"]})
     slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})
     hook = tagged(event, t["spot_hook"].format(label=label, headline=text), t)
     if len(hook) > 125:                       # Facebook folds a post after ~125 characters; the studio warns past it
