@@ -172,3 +172,73 @@ def test_1_a_kind_that_has_a_sentence_but_no_model_figure_falls_back_to_its_own_
     event = Event(kind="price-drop", vendor="openai", topic="discount", title="Some vendor cuts prices", url="https://e.org", source="s",
                   source_name="S", trust="primary", when=NOW, item_id="i", score=10)          # no figures: the sentence would print blanks
     assert all(export.headline(event, lang) == "Some vendor cuts prices" for lang in ("vi", "ja", "en"))
+
+
+GITHUB_RELEASE = """<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><entry>
+<id>tag:github.com,2008:Repository/1/rust-v0.50.0</id><updated>2026-10-12T10:00:00Z</updated>
+<link rel="alternate" href="https://github.com/openai/codex/releases/tag/rust-v0.50.0"/><title>rust-v0.50.0</title>
+<content type="html">&lt;h2&gt;What's Changed&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;Added background agent mode for long tasks by @alice in https://github.com/openai/codex/pull/1&lt;/li&gt;
+&lt;li&gt;feat(cli): add voice mode (#2)&lt;/li&gt;&lt;li&gt;nested list: &lt;ul&gt;&lt;li&gt;Added a sandbox profile picker&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;h2&gt;New Contributors&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;@bob made their first contribution in #3&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: https://github.com/openai/codex/compare/a...b&lt;/p&gt;</content></entry></feed>"""
+
+
+def test_e_github_release_boilerplate_never_reaches_a_headline():
+    item = rss.parse(GITHUB_RELEASE.encode(), SOURCES["codex-releases"])[0]
+    assert not any("@" in b or "Full Changelog" in b or "New Contributors" in b or "What's Changed" in b for b in item.extra["bullets"])
+    events = detect([item], SOURCES, RULES, NOW)
+    titles = [e.title for e in events]
+    assert any(t.endswith("Added background agent mode for long tasks") for t in titles)          # handle and PR link are gone
+    assert any("add voice mode" in t for t in titles)                                            # conventional-commit style
+    assert any(t.endswith("Added a sandbox profile picker") for t in titles)                    # a nested list item is its own bullet
+    assert all("@alice" not in t and " in" != t[-3:] for t in titles)
+
+
+def test_e_utf8_with_bom_and_odd_case_declarations_still_parse():
+    body = b"<feed xmlns='http://www.w3.org/2005/Atom'><entry><id>1</id><link rel='alternate' href='https://github.com/a/b'/><title>t</title></entry></feed>"
+    for head in (b"\xef\xbb\xbf<?xml version='1.0' encoding='UTF-8'?>", b"<?xml version='1.0' encoding='utf-8'?>", b""):
+        assert [i.title for i in rss.parse(head + body, SOURCES["codex-releases"])] == ["t"]
+
+
+def _carried(n, when, score=20):
+    return Event(kind="free-promo", vendor="openai", topic="free", title=f"Codex is free for {n} days", url=f"https://e.org/{n}", source="a",
+                 source_name="A", trust="primary", when=when, item_id=f"i{n}", score=score)
+
+
+def test_7_carry_horizon_dedup_and_the_min_score_cut(tmp_path):
+    root = make_root(tmp_path)
+    old, fresh = _carried(1, NOW - timedelta(days=30)), _carried(2, NOW)
+    weak = Event(kind="trending", vendor="other", topic="news", title="weak", url="https://e.org/3", source="hn-ai", source_name="HN",
+                 trust="community", when=NOW - timedelta(days=6), item_id="i3")                  # carried, but scores under min_score
+    cli.save_scan(root, [old, fresh, fresh, weak], [], NOW)                                     # a duplicate id inside the file itself
+    down = lambda url, **k: (_ for _ in ()).throw(cli.FetchError("down"))
+    events, _ = cli.scan(root, fetcher=down, now=NOW)
+    assert sorted(e.item_id for e in events) == ["i2", "i3"]                                     # i1 is older than carry_days; i2 is not doubled
+    assert next(e for e in events if e.item_id == "i3").score < RULES["export"]["min_score"]
+    cli.save_scan(root, events, [], NOW)
+    assert cli.cmd_export(argparse.Namespace(date="2026-10-13", studio=None, force=False), root) == 0
+    assert cli.load_pending(root) == []                                                          # the weak one is not worth keeping
+
+
+def test_7_a_lost_state_file_cannot_make_a_carried_event_appear_twice(tmp_path):
+    from tests.helpers import REAL, fetcher_for
+    root = make_root(tmp_path)
+    first, _ = cli.scan(root, fetcher=fetcher_for(REAL), now=NOW)
+    assert first
+    cli.save_scan(root, first, [], NOW)
+    (root / "data" / "state.json").unlink()                                                      # the "seen" memory is gone, last-scan is not
+    second, _ = cli.scan(root, fetcher=fetcher_for(REAL), now=NOW)
+    ids = [e.item_id for e in second]
+    assert ids and len(ids) == len(set(ids))
+
+
+def test_d_unreadable_or_foreign_post_files_are_refused_not_crashed_on_and_hand_written_drafts_survive(tmp_path):
+    files = export.build_bundle([Event(kind="free-promo", vendor="openai", topic="free", title="Codex is free for one week", url="https://e.org/1",
+                                       source="a", source_name="A", trust="primary", when=NOW, item_id="1", score=11)], RULES, "2026-10-13")
+    export.write_bundle(files, tmp_path)
+    posts = tmp_path / "campaigns/ai-news-2026-10-13/posts/vi"
+    (posts / "09-mine.yaml").write_text("status: draft\nid: 09-mine\nslides: []\n", encoding="utf-8")        # the owner's own draft
+    export.write_bundle(files, tmp_path, force=True)
+    assert (posts / "09-mine.yaml").exists()                                                   # not made by the radar: left alone
+    (posts / "01-free-promo.yaml").write_text(": : not yaml [", encoding="utf-8")
+    with pytest.raises(export.WouldOverwrite, match="unreadable"):
+        export.write_bundle(files, tmp_path, force=True)

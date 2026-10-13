@@ -64,8 +64,11 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
     # for a later issue; they are re-scored, so they fade with age. Nothing marked "seen" is ever silently lost.
     ids = {e.item_id for e in fresh if e.item_id}
     horizon = now - timedelta(days=rules["export"]["carry_days"])
-    carried = [e for e in load_pending(root) if e.when >= horizon and e.item_id not in ids]
-    ranked = rank.score_events(fresh + carried, rules, now, {i.id: i.points for i in items})
+    carried: dict[str, object] = {}
+    for e in load_pending(root):
+        if e.when >= horizon and e.item_id not in ids:
+            carried.setdefault(e.item_id or f"anon-{len(carried)}", e)           # one per id, even if the file holds twins
+    ranked = rank.score_events(fresh + list(carried.values()), rules, now, {i.id: i.points for i in items})
     if any(r.ok for r in reports):                    # all sources down: keep the old state, do not lose a baseline
         state.save(now)
     return ranked, reports

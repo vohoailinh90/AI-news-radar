@@ -144,3 +144,45 @@ def test_quota_reset_phrase_inside_a_changelog_bullet_is_ux_not_a_reset_announce
     assert [e.kind for e in detect([item], SOURCES, RULES, NOW)] == []
     # the same words in a news headline ARE an announcement
     assert kinds([_item("anthropic-news", "Your weekly usage limit reset happens early this week")]) == ["quota-reset"]
+
+
+def test_qwen3_and_llama3_are_vendors_not_the_feeds_vendor():
+    event = detect([_item("anthropic-news", "Introducing Qwen3-Coder")], SOURCES, RULES, NOW)[0]
+    assert event.vendor == "qwen"
+
+
+def test_opposite_direction_stories_never_corroborate_each_other():
+    official = _ev("Claude Code usage limits doubled", "anthropic-news", "primary")
+    opposite = _ev("Claude usage limits cut for free users", "hn-ai", "community", item_id="hn:9")
+    assert not {e.source: e for e in score_events([official, opposite], RULES, NOW)}["hn-ai"].verified
+    same = _ev("Claude Code usage limits increased for all users", "hn-ai", "community", item_id="hn:10")
+    assert {e.source: e for e in score_events([official, same], RULES, NOW)}["hn-ai"].verified
+    began = _ev("Codex free for everyone", "anthropic-news", "primary", vendor="openai", topic="free")
+    ended = _ev("Codex no longer free for everyone", "hn-ai", "community", vendor="openai", topic="free", item_id="hn:11")
+    assert not {e.source: e for e in score_events([began, ended], RULES, NOW)}["hn-ai"].verified
+
+
+def test_one_shared_word_is_not_enough_but_a_model_id_plus_a_tier_word_is():
+    a = _ev("GPT-5 launched", "openai-news", "primary", vendor="openai", topic="model")
+    b = _ev("OpenAI GPT-5 is here", "hn-ai", "community", vendor="openai", topic="model", item_id="hn:12")
+    assert not {e.source: e for e in score_events([a, b], RULES, NOW)}["hn-ai"].verified          # only "gpt-5" in common
+    c = _ev("Introducing Gemini 3 Pro", "deepmind-blog", "primary", vendor="google", topic="model")
+    d = _ev("Gemini 3 Pro is out", "hn-ai", "community", vendor="google", topic="model", item_id="hn:13")
+    assert {e.source: e for e in score_events([c, d], RULES, NOW)}["hn-ai"].verified               # "3" and "pro"
+
+
+def test_a_carried_story_keeps_its_hacker_news_points():
+    e = _ev("Claude does a thing", "hn-ai", "community", item_id="hn:14")
+    e.points = 400
+    with_points = score_events([e], RULES, NOW)[0].score
+    e.points = 0
+    assert with_points - score_events([e], RULES, NOW)[0].score == 4
+
+
+def test_an_obscure_openrouter_listing_is_ranked_below_a_changelog_feature():
+    from radar.models import Event
+    base = dict(vendor="other", topic="model", url="https://e.org", when=NOW, trust="primary")
+    listing = Event(kind="model-listed", source="openrouter-models", source_name="O", title="Some Model is now listed on OpenRouter", **base)
+    penalised = score_events([listing], RULES, NOW)[0].score
+    listing.vendor = "openai"
+    assert score_events([listing], RULES, NOW)[0].score - penalised == RULES["scoring"]["unknown_vendor_penalty"]["model-listed"]

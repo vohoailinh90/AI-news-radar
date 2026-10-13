@@ -15,17 +15,39 @@ STOP = {"the", "and", "for", "with", "new", "now", "from", "that", "this", "have
         "users", "into", "over", "more", "show", "just", "than", "about", "after", "before", "model", "models"}
 
 
+TIERS = {"pro", "max", "mini", "flash", "opus", "sonnet", "haiku", "nano", "lite", "oss", "ultra"}
+DIRECTIONS = {
+    "up": re.compile(r"\b(?:increas\w*|doubl\w*|rais\w*|extend\w*|expand\w*|boost\w*|bump\w*|extra|higher|more|\d+x)\b", re.I),
+    "down": re.compile(r"\b(?:cut|cuts|reduc\w*|lower\w*|tighten\w*|less|cheaper|drops?|dropped)\b", re.I),
+    "reset": re.compile(r"\b(?:reset\w*|refresh\w*)\b", re.I),
+    "end": re.compile(r"\b(?:no longer|ends?|ended|ending|removed|discontinu\w*|sunset\w*)\b", re.I),
+}
+
+
 def tokens(title: str) -> set[str]:
     """Distinctive words of a headline: not generic, not the vendor's own name (every Claude story has that)."""
     words = re.findall(r"[a-z0-9][a-z0-9.\-]*", title.lower())
-    return {w for w in words if w not in STOP and w not in VENDOR_WORDS and (len(w) >= 4 or any(c.isdigit() for c in w))}
+    return {w for w in words if w not in STOP and w not in VENDOR_WORDS and (len(w) >= 4 or any(c.isdigit() for c in w) or w in TIERS)}
+
+
+def directions(title: str) -> set[str]:
+    return {name for name, pattern in DIRECTIONS.items() if pattern.search(title)}
 
 
 def same_story(a: Event, b: Event) -> bool:
-    """Two events corroborate each other only when they name the same vendor and topic AND share at least two
-    distinctive words. Vendor "other" never corroborates: it matches anything."""
-    return (a.vendor == b.vendor != "other" and a.topic == b.topic and a.source != b.source
-            and len(tokens(a.title) & tokens(b.title)) >= 2)
+    """Two events corroborate each other only when they name the same vendor and topic, share at least two
+    distinctive words, and do not point opposite ways ("limits doubled" never confirms "limits cut"; a story
+    that something ended never confirms one that it began). Vendor "other" matches anything, so it never counts."""
+    if not (a.vendor == b.vendor != "other" and a.topic == b.topic and a.source != b.source):
+        return False
+    if len(tokens(a.title) & tokens(b.title)) < 2:
+        return False
+    da, db = directions(a.title), directions(b.title)
+    if ("end" in da) != ("end" in db):
+        return False
+    if a.topic in ("quota", "discount") and not (da & db):
+        return False                                     # the commercial topics need the same direction on both sides
+    return True
 
 
 def score_events(events: list[Event], rules: dict, now: datetime, points: dict[str, int] | None = None) -> list[Event]:
@@ -44,7 +66,7 @@ def score_events(events: list[Event], rules: dict, now: datetime, points: dict[s
         age_hours = max((now - event.when).total_seconds() / 3600, 0)
         decay = 0.5 ** (age_hours / cfg["half_life_hours"])
         score = base + cfg["trust_bonus"][event.trust] + 4 * decay
-        score += min(points.get(event.item_id, 0) / 100, cfg["hn_points_cap"])
+        score += min(max(event.points, points.get(event.item_id, 0)) / 100, cfg["hn_points_cap"])
         event.score = round(score, 3)
     for event in events:
         peers = [o for o in events if o is not event and same_story(event, o) and abs(o.when - event.when) <= window]

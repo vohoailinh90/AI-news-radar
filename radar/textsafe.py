@@ -16,6 +16,14 @@ SCHEME = re.compile(r"(?i)\bh[tx]{2}ps?\s*:\s*//\S*|\bwww\.\S*")
 MAX_LEN = 400
 
 
+DASHES = dict.fromkeys(map(ord, "\u2010\u2011\u2012\u2013\u2014\u2015\u2212"), "-")
+
+
+def normalize(text: str) -> str:
+    """NFKC, and every dash variant (OpenAI writes "GPT\u20115" with a non-breaking hyphen) as a plain hyphen."""
+    return unicodedata.normalize("NFKC", text).translate(DASHES)
+
+
 def has_link(text: str) -> bool:
     text = unicodedata.normalize("NFKC", text)
     return bool(SCHEME.search(text) or DOMAIN.search(text))
@@ -24,7 +32,7 @@ def has_link(text: str) -> bool:
 def defang(text: str) -> str:
     """Remove link-looking tokens: `claude.ai` -> `claude`, a full URL -> nothing. Also strips
     Markdown backticks and collapses whitespace, and caps the length."""
-    text = unicodedata.normalize("NFKC", text).replace("`", "")
+    text = normalize(text).replace("`", "")
     text = SCHEME.sub("", text)
     text = DOMAIN.sub(lambda m: m.group(1).rstrip("."), text)
     text = " ".join(text.split())

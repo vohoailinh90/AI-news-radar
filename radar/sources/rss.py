@@ -33,12 +33,18 @@ def _raw(node: ET.Element, *names: str) -> str:
     return ""
 
 
+NOISE = re.compile(r"^(?:full changelog|what.s changed|new contributors)\b|made their first contribution", re.I)
+TRAILER = re.compile(r"(?:\s+by\s+@[\w-]+(?:\s+in\b.*)?|\s*\(#\d+\))\s*$", re.I)     # "... by @alice in <PR link>", "(#123)"
+
+
 def _bullets(html: str) -> list[str]:
-    """Release notes as one line per bullet: split the HTML on list items, paragraphs and breaks."""
+    """Release notes as one line per bullet: split the HTML at every block tag (so headings never swallow a bullet
+    and nested lists become their own bullets)."""
     bullets = []
-    for part in re.split(r"</li>|</p>|<br\s*/?>|\n", html):
+    for part in re.split(r"</?(?:li|ul|ol|p|h[1-6]|br|div|tr)\b[^>]*>|\n", html):
         text = " ".join(TAG.sub(" ", part).replace("&nbsp;", " ").strip(" -*\t").split())
-        if text:
+        text = TRAILER.sub("", text).strip()
+        if text and not NOISE.search(text):
             bullets.append(text)
     return bullets
 

@@ -42,6 +42,7 @@ class Event:
     item_id: str = ""
     score: float = 0.0
     corroborated_by: list[str] = field(default_factory=list)
+    points: int = 0
 
     def __post_init__(self):
         """Nothing link-looking may leave an Event: model names like "Z.AI: GLM 4.6" read as domains to the studio."""
@@ -65,7 +66,7 @@ class SourceReport:
 
 def event_to_dict(event: Event) -> dict:
     data = {k: getattr(event, k) for k in ("kind", "vendor", "topic", "title", "url", "source", "source_name", "trust",
-                                           "detail", "figures", "item_id", "score", "corroborated_by")}
+                                           "detail", "figures", "item_id", "score", "corroborated_by", "points")}
     return {**data, "when": event.when.isoformat()}
 
 

@@ -22,7 +22,7 @@ python radar.py export --studio ../tool-marketing-studio     # ghi thẳng vào 
 python radar.py verify --studio ../tool-marketing-studio --slug ai-news-2026-10-13   # chạy `studio.py check` của chính studio
 ```
 
-Mã thoát: `0` xong · `2` mọi nguồn đều lỗi / tham số sai · `3` hôm nay không có tin đủ điểm · `4` từ chối ghi đè · `5` bài chứa chuỗi giống link (bị chặn, không ghi gì).
+Mã thoát: `0` xong · `2` mọi nguồn đều lỗi / tham số sai · `3` hôm nay không có tin đủ điểm · `4` từ chối ghi đè · `5` bài chứa chuỗi giống link (bị chặn, không ghi gì). Lỗi không lường trước thoát bằng mã `1` kèm traceback.
 
 Đưa vào studio: chép `out/ai-news-<ngày>/tools/*` và `out/ai-news-<ngày>/campaigns/*` vào cùng thư mục của studio
 (hoặc dùng `--studio`), rồi trong studio: `python studio.py check ai-news-<ngày>` → render → đọc từng ảnh → duyệt → đăng.
@@ -79,7 +79,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 95 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 122 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -94,5 +94,9 @@ và có đủ vi/ja/en.
 - Tên hãng trong bài là tên chung (`vendor_names`): mọi tin của Google thành "Gemini", mọi tin của Anthropic thành "Claude".
 - Bài tiếng Việt / Nhật dựng từ luật giữ nguyên **tiêu đề gốc tiếng Anh** (chỉ tin từ OpenRouter và leaderboard có câu dịch riêng).
   Slide spotlight ghi rõ "tiêu đề gốc"; muốn văn viết lại thì dùng bước "Viết bài" bằng AI của studio.
-- Đối chứng chỉ nhìn trong các tin còn nằm trong lượt quét + phần giữ lại; một tin chính thức của hôm kia không đối chứng được tin hôm nay.
+- Đối chứng ("tin cộng đồng được nguồn chính thức xác nhận") chỉ nhìn trong các tin còn nằm trong lượt quét + phần giữ lại, cần cùng vendor,
+  cùng chủ đề, ≥ 2 từ khoá chung và cùng chiều ("tăng gấp đôi" không xác nhận "bị cắt"). Nó thiên về **không** xác nhận: một tin thật có thể
+  vẫn mang nhãn chưa xác nhận, và đó là mặc định an toàn.
+- Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Đã thử trên HTML
+  viết tay theo dạng của GitHub, **chưa** thử trên bản thật; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).
 - Chưa có Reddit/X. Chưa có cơ chế tự mở PR vào studio (cần token chéo repo do bạn tạo).

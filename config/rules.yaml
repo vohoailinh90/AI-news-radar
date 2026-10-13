@@ -2,11 +2,11 @@
 # never a bare noun: "usage limit" alone is not an event, "doubled the usage limits" is.
 vendors:                        # first match in title+body wins; source vendor is the fallback
   anthropic: ['\bclaude\b', '\banthropic\b', '\bopus\b', '\bsonnet\b', '\bhaiku\b']
-  openai: ['\bopenai\b', '\bcodex\b', '\bchatgpt\b', '\bgpt-?[0-9o]', '\bo[1-9](?:-mini|-pro)?\b']
+  openai: ['\bopenai\b', '\bcodex\b', '\bchatgpt\b', '\bgpt[- ]?[0-9o]', '\bo[1-9](?:-mini|-pro)?\b']
   google: ['\bgemini\b', '\bgemma\b', '\bdeepmind\b']
   deepseek: ['\bdeepseek\b']
-  qwen: ['\bqwen\b']
-  meta: ['\bllama\b']
+  qwen: ['\bqwen']
+  meta: ['\bllama']
   xai: ['\bgrok\b', '\bxai\b']
   mistral: ['\bmistral\b']
 vendor_prefix:                  # OpenRouter ids look like "anthropic/claude-..."
@@ -31,7 +31,7 @@ vendor_names:                   # how a post writes the vendor (no dots: the stu
 
 # A model name only counts with a version or tier after it: "Claude Opus 9" and "GPT-6" are models,
 # "Claude Code security review" and "Claude is available in X" are not. Used as {model} below.
-model_name: '(?:claude[- ](?:opus|sonnet|haiku|\d)\S*|(?:opus|sonnet|haiku)[- ]?\d\S*|gpt-?\s?\d\S*|o[1-9](?:-mini|-pro)?\b|gemini[- ]\d\S*|gemma[- ]?\d\S*|codex[- ](?:\d|max|mini)\S*|llama[- ]?\d\S*|qwen[- ]?\d\S*|deepseek[- ]?[vr]?\d\S*|grok[- ]?\d\S*|mistral[- ](?:large|medium|small|\d)\S*)'
+model_name: '(?:gpt[- ]oss\S*|claude[- ](?:opus|sonnet|haiku|\d)\S*|(?:opus|sonnet|haiku)[- ]?\d\S*|gpt-?\s?\d\S*|o[1-9](?:-mini|-pro)?\b|gemini[- ]\d\S*|gemma[- ]?\d\S*|codex[- ](?:\d|max|mini)\S*|llama[- ]?\d\S*|qwen[- ]?\d\S*|deepseek[- ]?[vr]?\d\S*|grok[- ]?\d\S*|mistral[- ](?:large|medium|small|\d)\S*)'
 
 # needs_vendor: the commercial topics (limits, free, price) only count when the text names an AI vendor,
 # or the source is itself that vendor's primary channel. unless: phrases that turn a match into not-news.
@@ -46,7 +46,8 @@ topics:
       - '\b(?:reset|resets|resetting|refresh(?:es|ed|ing)?)\b.{0,40}\b(?:limits?|quotas?)\b'
       - '\b(?:limits?|quotas?)\b.{0,40}\b(?:reset|resets|refreshed|refreshes)\b'
       - '\b(?:usage|rate|weekly|5-hour|five-hour|message)\s+reset\b'
-    unless: ['\bno\s+resets?\b', '\bnever\s+reset', '\bpolicy\b', '\bhow\s+(?:to|we)\b', '\bwhy\b']
+      - '\b(?:reset|resets|resetting)\s+(?:the\s+)?(?:usage|rate|weekly)\b'
+    unless: ['\bno\s+resets?\b', '\bnever\s+reset', '\bpolicy\b', '\bhow\s+(?:to|we)\b', '\bwhy\b', '\bfixed\b']
   usage-limit-change:
     topic: quota
     weight: 8
@@ -54,9 +55,12 @@ topics:
     any:
       - '\b(?:increas|rais|doubl|extend|expand|lower|reduc|cut|tighten|boost|bump)\w*\b.{0,30}\b(?:(?:usage|rate|weekly|5-hour|message)\s+)?(?:limits?|quotas?)\b'
       - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,30}\b(?:increas|doubl|rais|reduc|expand|extend|tighten)\w*\b'
-      - '\b(?:\d+(?:\.\d+)?x|double|twice|triple)\s+(?:the\s+)?(?:(?:usage|rate|weekly)\s+)?(?:limits?|quotas?)\b'
+      - '\b(?:\d+(?:\.\d+)?x|double|twice|triple)\s+(?:the\s+)?(?:(?:usage|rate|weekly)\s+)?(?:limits?|quotas?|usage)\b'
+      - '\busage\s+(?:is\s+)?(?:\d+(?:\.\d+)?x|doubled)\b'
+      - '\b(?:extra|bonus)\s+usage\b'
+      - '\bnew\s+(?:weekly\s+|rate\s+|usage\s+)+limits?\b'
       - '\b(?:more|higher|extra|bonus)\s+(?:usage|rate)\s+limits?\b'
-    unless: ['\blimit\s+(?:errors?|messages?|alerts?|notices?|display|banner|warnings?)\b', '\bfrequency\b', '\bhow\b', '\bwhy\b', '\bpolicy\b']
+    unless: ['\blimit\s+(?:errors?|messages?|alerts?|notices?|display|banner|warnings?)\b', '\bfrequency\b', '\bhow\b', '\bwhy\b', '\bpolicy\b', '\bfixed\b']
   free-promo:
     topic: free
     weight: 9
@@ -65,6 +69,8 @@ topics:
       - '\bfree\s+(?:for|until|through|to use|access|trial|usage|credits?)\b'
       - '\bnow\s+free\b'
       - '\bavailable\s+(?:for\s+)?free\b'
+      - '\bfree\s+(?:to\s+)?(?:try|use)\b'
+      - '\bfree\s+\w+(?:\s+\w+){0,2}\s+for\s+(?:a|an|\d+|everyone|all|one|two|three)\b'
       - '\bfree\s+(?:tier|plan)\b.{0,40}\b(?:includes?|adds?|now|gets?)\b'
   discount:
     topic: discount
@@ -75,12 +81,17 @@ topics:
       - '\bprice\s+(?:cut|drop|reduction)s?\b'
       - '\b(?:cuts?|slash(?:es|ed)?|lowers?|reduc(?:es|ed))\b.{0,30}\b(?:prices?|pricing)\b'
       - '\bhalf[- ]price\b'
+      - '\b(?:prices?|pricing)\s+(?:reduced|cut|lowered|slashed|drops?|dropped)\b'
+      - '\bcosts?\s+\d{1,3}\s?%\s+less\b'
+      - '\bnow\s+(?:\d{1,3}\s?%\s+)?cheaper\b'
+    unless: ['\boffice\b', '\bengineers?\b', '\bhir(?:es|ing)\b']
   new-model:
     topic: model
     weight: 8
     any:
       - '\b(?:introducing|launch(?:es|ed|ing)?|releas(?:es|ed|ing)|announc(?:es|ed|ing)|unveil(?:s|ed|ing)?)\b.{0,60}\b{model}'
       - '\b{model}.{0,40}\b(?:is now available|now available|released|launch(?:es|ed)|releases|debuts?|arrives?)\b'
+    unless: ['\breleased in \d{4}\b', '\bretrospective\b']
   benchmark:
     topic: benchmark
     weight: 7
@@ -101,7 +112,7 @@ topics:
     only_in_kinds: [changelog_md, release_notes]
     # A release-note bullet is a feature only when it starts with Added/Introduced AND names something
     # users notice. The list is deliberately short; widening it is a one-line change.
-    bullet_start: '^(?:added|introduced)\b'
+    bullet_start: '^(?:added|introduced|add\b|feat(?:\([^)]*\))?:)'
     boost: ['\bagent', '\bplugin', '\bmcp\b', '\bmodel', '\bmode\b', '\bvoice\b', '\bbackground\b', '\bworkflow', '\bskills?\b', '\bhooks?\b', '\bsandbox']
 
 # A changelog bullet matching one of these is never picked as a "notable feature": settings plumbing
@@ -114,6 +125,7 @@ feature_skip:
 exclude:
   - '^(?:fixed|fix|bugfix|reverted|removed)\b'
   - '^(?:show|ask|tell)\s+hn\b'
+  - '^i\s+(?:released|built|made|wrote|created)\b'
   - '\bregression in\b'
 
 scoring:

@@ -8,6 +8,7 @@ from datetime import datetime
 
 from .config import Source
 from .models import COMMUNITY, PRIMARY, Event, Item
+from .textsafe import normalize
 
 PERCENT = re.compile(r"(\d{1,3})\s?%")
 
@@ -86,27 +87,29 @@ def detect(items: list[Item], sources: dict[str, Source], rules: dict, now: date
         if "bullets" in item.extra:
             events += _from_bullets(item, source, compiled, when)
             continue
-        text = f"{item.title}. {item.body[:600]}" if source.opt("match_body", True) else item.title
-        if any(p.search(item.title) for p in compiled["exclude"]):
+        title = normalize(item.title)
+        text = f"{title}. {normalize(item.body[:600])}" if source.opt("match_body", True) else title
+        if any(p.search(title) for p in compiled["exclude"]):
             continue
         vendor = vendor_for(text, source.vendor, compiled)
         hit = match_topic(text, source.kind, compiled, vendor_ok=_vendor_ok(text, source, compiled))
         if hit:
             name, spec = hit
-            events.append(_event(item, source, name, spec["topic"], vendor, item.title, when, figures_for(item.title, spec["topic"])))
+            events.append(_event(item, source, name, spec["topic"], vendor, title, when, figures_for(title, spec["topic"])))
         elif source.trust == COMMUNITY and item.points >= compiled["trending_points"]:
-            events.append(_event(item, source, "trending", "news", vendor, item.title, when, {}))
+            events.append(_event(item, source, "trending", "news", vendor, title, when, {}))
     return events
 
 
 def _event(item, source, kind, topic, vendor, title, when, figures) -> Event:
     return Event(kind=kind, vendor=vendor, topic=topic, title=title, url=item.url, source=source.id,
-                 source_name=source.name, trust=source.trust, when=when, figures=figures, item_id=item.id)
+                 source_name=source.name, trust=source.trust, when=when, figures=figures, item_id=item.id, points=item.points)
 
 
 def _from_bullets(item: Item, source: Source, compiled: dict, when: datetime) -> list[Event]:
     version, features, others, kind = item.extra["version"], [], [], rule_kind(source, item)
-    for number, bullet in enumerate(item.extra["bullets"]):
+    for number, raw_bullet in enumerate(item.extra["bullets"]):
+        bullet = normalize(raw_bullet)
         if any(p.search(bullet) for p in compiled["exclude"]):
             continue
         hit = match_topic(bullet, kind, compiled, bullet=True, vendor_ok=_vendor_ok(bullet, source, compiled))

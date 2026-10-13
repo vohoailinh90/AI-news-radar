@@ -49,6 +49,24 @@ CORPUS = [
     # benchmarks
     ("openai-news", "GPT-6 is state-of-the-art on SWE-bench Verified", "benchmark"),
     ("hn-ai", "Claude Code is state-of-the-art for my todo app", None),
+    # round 2: shapes the first corpus missed, and non-news that slipped through
+    ("anthropic-news", "Claude Code usage is 2x through January", "usage-limit-change"),
+    ("anthropic-news", "Extra usage for Claude Code this holiday", "usage-limit-change"),
+    ("openai-news", "Codex: resetting usage for everyone", "quota-reset"),
+    ("anthropic-news", "Anthropic: new weekly limits for Claude Code", "usage-limit-change"),
+    ("openai-news", "Free ChatGPT Go for a year in India", "free-promo"),
+    ("openai-news", "Free Gemini 3 for everyone", "free-promo"),
+    ("hn-ai", "Grok 4 is free to try this week", "free-promo"),
+    ("anthropic-news", "Opus pricing reduced by 67%", "discount"),
+    ("openai-news", "GPT-5 now costs 50% less", "discount"),
+    ("anthropic-news", "Claude Opus 4.5 is now cheaper", "discount"),
+    ("anthropic-news", "Prices cut by 50% on Claude Sonnet", "discount"),
+    ("openai-news", "Introducing GPT\u20115", "new-model"),                     # OpenAI's non-breaking hyphen
+    ("openai-news", "Introducing gpt-oss", "new-model"),
+    ("hn-ai", "Claude Code rate limit reset bug fixed", None),
+    ("hn-ai", "Anthropic hires 50% more engineers, reduces office prices", None),
+    ("hn-ai", "GPT-4 was released in 2023, a retrospective", None),
+    ("hn-ai", "I released a CLI for Claude 3 prompts", None),
 ]
 
 
