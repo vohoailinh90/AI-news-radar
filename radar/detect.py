@@ -3,6 +3,7 @@ deterministic; the same items and rules always give the same events."""
 
 from __future__ import annotations
 
+import hashlib
 import re
 from datetime import datetime
 
@@ -53,7 +54,11 @@ def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False, v
             continue
         if spec.get("needs_vendor") and not vendor_ok:
             continue                                    # "free" / "limits" / "price cut" alone could be about anything
-        if any(p.search(text if headline is None else headline) for p in spec["unless"]):
+        # The vetoes read what supplied the match: the headline when it did (a summary's "how it works" must not cancel a
+        # valid headline), the whole text when only the body did (a body that matches only because of "how to reset limits"
+        # must not become a verified event).
+        veto_text = headline if headline is not None and any(p.search(headline) for p in spec["any"]) else text
+        if any(p.search(veto_text) for p in spec["unless"]):
             continue
         if spec["bullet_start"]:
             if not bullet or not spec["bullet_start"].search(text):
@@ -89,7 +94,10 @@ def detect(items: list[Item], sources: dict[str, Source], rules: dict, now: date
             events += _from_bullets(item, source, compiled, when)
             continue
         title = normalize(item.title)
-        text = f"{title}. {normalize(item.body[:600])}" if source.opt("match_body", True) else title
+        # A source whose headlines are confirmed against the vendor's page is read on the headline alone: the mirror's
+        # summary is not confirmed by anything, so it must not be able to supply a claim.
+        reads_body = source.opt("match_body", True) and not source.opt("confirm_page")
+        text = f"{title}. {normalize(item.body[:600])}" if reads_body else title
         if any(p.search(title) for p in compiled["exclude"]):
             continue
         vendor = vendor_for(text, source.vendor, compiled)
@@ -109,7 +117,7 @@ def _event(item, source, kind, topic, vendor, title, when, figures) -> Event:
 
 def _from_bullets(item: Item, source: Source, compiled: dict, when: datetime) -> list[Event]:
     version, features, others, kind = item.extra["version"], [], [], rule_kind(source, item)
-    for number, raw_bullet in enumerate(item.extra["bullets"]):
+    for raw_bullet in item.extra["bullets"]:
         bullet = normalize(raw_bullet)
         if any(p.search(bullet) for p in compiled["exclude"]):
             continue
@@ -119,8 +127,8 @@ def _from_bullets(item: Item, source: Source, compiled: dict, when: datetime) ->
         name, spec = hit
         event = _event(item, source, name, spec["topic"], vendor_for(bullet, source.vendor, compiled),
                        f"{source.name} {version}: {bullet}", when, {"version": version, **figures_for(bullet, spec["topic"])})
-        event.item_id = f"{item.id}#{number}"
+        event.item_id = f"{item.id}#{hashlib.sha1(bullet.casefold().encode()).hexdigest()[:12]}"     # the content, not the position
         boosts = sum(1 for p in compiled["topics"][name]["boost"] if p.search(bullet))
-        (features if name == "new-feature" else others).append((boosts, number, event))
+        (features if name == "new-feature" else others).append((boosts, len(features) + len(others), event))
     features.sort(key=lambda t: (-t[0], t[1]))
     return [e for _, _, e in others] + [e for _, _, e in features[:3]]      # at most 3 features per version

@@ -10,7 +10,8 @@ from pathlib import Path
 
 import yaml
 
-from .models import COMMUNITY, Event
+from .models import COMMUNITY, PRIMARY, Event
+from .rank import same_story
 from .templates import KIND_EMOJI, POSITIONING, TEXT
 from .textsafe import defang, has_link
 
@@ -53,14 +54,28 @@ def vendor_name(event: Event, rules: dict) -> str:
     return rules["vendor_names"].get(event.vendor, rules["vendor_names"]["other"])
 
 
-def select(events: list[Event], rules: dict) -> list[Event]:
-    cfg, seen, picked = rules["export"], set(), []
+def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event], set[str]]:
+    """The stories of an issue, best first, plus the ids of reports folded into them. Events that rank.same_story()
+    says are one piece of news become ONE story: the primary-source event is the canonical one (a higher-scoring
+    community report does not displace it), and the other source is kept as evidence (`also_reported_by`)."""
+    cfg, seen, picked, absorbed = rules["export"], set(), [], set()
     for event in events:
         if event.score < cfg["min_score"] or event.item_id in seen:
             continue
         seen.add(event.item_id)
-        picked.append(event)
-    return picked[: cfg["max_stories"]]
+        twin = next((p for p in picked if same_story(p, event)), None)
+        if twin is None:
+            picked.append(event)
+            continue
+        keep, drop = (event, twin) if event.trust == PRIMARY and twin.trust != PRIMARY else (twin, event)
+        keep.also_reported_by = list(dict.fromkeys(keep.also_reported_by + drop.also_reported_by + [drop.source_name]))
+        absorbed |= {drop.item_id}
+        picked[picked.index(twin)] = keep
+    return picked[: cfg["max_stories"]], absorbed
+
+
+def select(events: list[Event], rules: dict) -> list[Event]:
+    return select_with_absorbed(events, rules)[0]
 
 
 def build_bundle(events: list[Event], rules: dict, date: str) -> dict[str, str]:
@@ -118,7 +133,8 @@ def _brief(stories, rules, slug, date, n) -> dict:
     for i, e in enumerate(stories, 1):
         fact = headline(e, "en")
         features.append({"id": f"story-{i}-{e.kind}", "fact": f"{fact}. Source: {e.source_name}, {e.when.date().isoformat()}"})
-        claims.append({"id": f"story-{i}", "text": fact, "evidence": f"{e.source_name}: {e.url}",
+        also = f"; also reported by {', '.join(e.also_reported_by)}" if e.also_reported_by else ""
+        claims.append({"id": f"story-{i}", "text": fact, "evidence": f"{e.source_name}: {e.url}{also}",
                        "verified": e.verified})
     return {
         "slug": slug, "name": "AI News", "repo": "vohoailinh90/ai-news-radar", "status": "beta",
@@ -172,13 +188,14 @@ def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
                "subtitle": f"{event.source_name} · {event.when.date().isoformat()}"}]
     fig = event.figures
     if event.kind == "price-drop":
-        slides.append({"layout": "stat", "eyebrow": label, "before": f"${fig['old_price']}", "after": f"${fig['new_price']}",
-                       "label": t["per_million"], "caption": t["stat_caption"]})
+        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "before": f"${fig['old_price']}", "after": f"${fig['new_price']}",
+                       "label": t["per_million"], "caption": tagged(event, t["stat_caption"], t)})
     elif "score" in fig:
-        slides.append({"layout": "stat", "eyebrow": label, "value": f"{fig['score']}%", "label": fig.get("benchmark", ""),
-                       "caption": t["stat_caption"]})
+        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['score']}%", "label": fig.get("benchmark", ""),
+                       "caption": tagged(event, t["stat_caption"], t)})
     elif "percent" in fig:
-        slides.append({"layout": "stat", "eyebrow": label, "value": f"{fig['percent']}%", "label": label, "caption": t["stat_caption"]})
+        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['percent']}%", "label": label,
+                       "caption": tagged(event, t["stat_caption"], t)})
     facts = [{"emoji": "📎", "title": t["src"], "text": event.source_name},
              {"emoji": "📅", "title": t["when"], "text": event.when.date().isoformat()},
              {"emoji": "🔎", "title": t["trust"], "text": trust_label(event, t)}]

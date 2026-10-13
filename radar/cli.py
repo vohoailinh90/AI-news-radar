@@ -157,7 +157,8 @@ def cmd_export(args, root: Path) -> int:
         print(f"refused: {exc}", file=sys.stderr)
         return 4
     (out / "REPORT.md").write_text(export_mod.render_report(events, reports, rules, utcnow()), encoding="utf-8")
-    used = {e.item_id for e in export_mod.select(events, rules)}
+    stories, absorbed = export_mod.select_with_absorbed(events, rules)
+    used = {e.item_id for e in stories} | absorbed          # a report folded into a story is spent with it
     leftovers = [e for e in events if e.item_id not in used and e.score >= rules["export"]["min_score"]]
     save_scan(root, leftovers, reports, datetime.fromisoformat(generated))
     print(f"{len(written)} file(s) for {slug} -> {out}" + (f" and {args.studio}" if args.studio else ""))

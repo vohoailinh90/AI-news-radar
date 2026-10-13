@@ -58,7 +58,8 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - Anthropic không có feed chính thức, nên tin được đọc qua một feed mirror của cộng đồng. Vì thế mirror **không** được tin: chỉ nhận mục có link
   trỏ về anthropic.com (`allowed_hosts`), và với mỗi tin radar **tự tải trang đó** rồi so tiêu đề (`og:title` hoặc `<title>`, so bằng, không so tiền tố).
   Khớp thì mới là nguồn chính thức; không khớp, không tải được, hay vượt giới hạn 15 trang mỗi lượt thì tin bị hạ xuống "cộng đồng, chưa xác nhận"
-  và run report ghi lý do. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`.
+  và run report ghi lý do. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`. Vì chỉ **tiêu đề** được xác nhận, nguồn
+  bật `confirm_page` chỉ được nhận diện trên tiêu đề, không bao giờ trên phần tóm tắt do mirror cung cấp.
 - Luật phát hiện khớp **cụm hành động** (reset, tăng gấp đôi, miễn phí đến, giảm 30%…), không khớp danh từ trơn như "limit" hay "free".
   Các chủ đề thương mại (giới hạn, miễn phí, giá) chỉ tính khi văn bản nhắc tên một hãng AI; tên model phải kèm phiên bản/tầng
   ("GPT-6", "Claude Opus 9", không phải "Claude Code"). Dòng "Fixed…", "Show HN" bị loại. Luật nằm trong `config/rules.yaml` — sửa ở đó,
@@ -82,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 151 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 163 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -100,6 +101,10 @@ và có đủ vi/ja/en.
 - Đối chứng ("tin cộng đồng được nguồn chính thức xác nhận") chỉ nhìn trong các tin còn nằm trong lượt quét + phần giữ lại, cần cùng vendor,
   cùng chủ đề, ≥ 2 từ khoá chung và cùng chiều ("tăng gấp đôi" không xác nhận "bị cắt"). Nó thiên về **không** xác nhận: một tin thật có thể
   vẫn mang nhãn chưa xác nhận, và đó là mặc định an toàn.
+- Một tin chính thức và bản tin cộng đồng về **cùng một việc** (`rank.same_story`) được gộp thành một tin: tin của nguồn chính thức là bản chính
+  (kể cả khi bản cộng đồng điểm cao hơn), nguồn kia ghi trong brief (`also reported by …`) và không bị đăng lại ở số sau.
+- Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau
+  khi lưu trạng thái hỏng không đăng trùng, còn một lần giảm giá lặp lại thật vẫn là tin mới.
 - Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Đã thử trên HTML
   viết tay theo dạng của GitHub, **chưa** thử trên bản thật; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).
 - Chưa có Reddit/X. Chưa có cơ chế tự mở PR vào studio (cần token chéo repo do bạn tạo).

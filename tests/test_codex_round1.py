@@ -205,6 +205,7 @@ def test_p2_score_percentages_need_a_model_or_a_benchmark(title, expected):
 # ---- P2 vetoes read the headline, not the summary
 def test_p2_summary_words_cannot_veto_a_valid_headline_but_headline_words_still_do():
     body = "Learn how the new allowance works under our policy."
-    assert [e.kind for e in detect([item("anthropic-news", "Claude usage limits doubled", body)], SOURCES, RULES, NOW)] == ["usage-limit-change"]
-    assert [e.kind for e in detect([item("anthropic-news", "Why usage limits doubled", body)], SOURCES, RULES, NOW)] == []
-    assert [e.kind for e in detect([item("anthropic-news", "Weekly usage limits reset for Claude plans", "no reset policy applies elsewhere")], SOURCES, RULES, NOW)] == ["quota-reset"]
+    # openai-news reads its summaries; anthropic-news (page-confirmed) is headline-only by design, so it cannot show this
+    assert [e.kind for e in detect([item("openai-news", "Codex usage limits doubled", body)], SOURCES, RULES, NOW)] == ["usage-limit-change"]
+    assert [e.kind for e in detect([item("openai-news", "Why Codex usage limits doubled", body)], SOURCES, RULES, NOW)] == []
+    assert [e.kind for e in detect([item("openai-news", "Weekly usage limits reset for Codex plans", "no reset policy applies elsewhere")], SOURCES, RULES, NOW)] == ["quota-reset"]

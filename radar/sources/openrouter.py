@@ -49,12 +49,15 @@ def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
 def collect(source: Source, ctx: Context):
     current = snapshot_of(ctx.fetch(source.url, max_bytes=source.opt("max_bytes", 8_000_000)), source)
     previous = ctx.state.snapshots.get(source.id)
-    ctx.state.snapshots[source.id] = current
+    ctx.state.snapshots[source.id] = {"taken": ctx.now.strftime("%Y%m%dT%H%M%S"), "models": current}
     if previous is None:
         return [], []                              # baseline
+    # A transition's id names the snapshot it was measured against, not the time of this scan: if the run dies before
+    # the state is saved, the replay measures against the same snapshot and gets the same ids (no double post), while
+    # a genuine repeat (10 -> 5, back to 10, 5 again) is measured against a newer snapshot and is a new event.
+    previous, since = (previous["models"], previous["taken"]) if "models" in previous else (previous, "legacy")
     min_drop = float(source.opt("min_drop_pct", 20))
     groups: dict[str, list[tuple[tuple, Event]]] = {"free": [], "new": [], "drop": [], "gone": []}
-    stamp = ctx.now.strftime("%Y%m%dT%H%M%S")      # one scan = one observation, so a repeat of an old transition is new
 
     def make(group, sort_key, kind, topic, model_id, entry, title, figures, when=None, suffix=""):
         # the id carries what makes this occurrence unique, so a second price drop or a second
@@ -79,10 +82,10 @@ def collect(source: Source, ctx: Context):
                      f"{now_entry['name']} is now listed on OpenRouter", figs, created)
         elif now_entry["free"] and not before.get("free"):
             make("free", newest_first, "model-became-free", "free", model_id, now_entry,
-                 f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{stamp}")
+                 f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{since}")
         elif before.get("free") and not now_entry["free"]:
             make("gone", (0, now_entry["name"]), "model-no-longer-free", "free", model_id, now_entry,
-                 f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{stamp}")
+                 f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{since}")
         elif before.get("prompt") and now_entry["prompt"] is not None and not now_entry["free"]:
             drop = (before["prompt"] - now_entry["prompt"]) / before["prompt"] * 100
             if drop >= min_drop:
@@ -90,11 +93,11 @@ def collect(source: Source, ctx: Context):
                         "new_price": per_million(now_entry["prompt"])}
                 make("drop", (-drop, now_entry["name"]), "price-drop", "discount", model_id, now_entry,
                      f"{now_entry['name']} input price drops {figs['percent']}% on OpenRouter: "
-                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['old_price']}>{figs['new_price']}@{stamp}")
+                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['old_price']}>{figs['new_price']}@{since}")
     for model_id, before in previous.items():
         if before.get("free") and model_id not in current:
             make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,
-                 f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{stamp}")
+                 f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{since}")
     out: list[Event] = []
     for group in groups.values():
         out += [event for _, event in sorted(group, key=lambda pair: pair[0])[:MAX_PER_KIND]]
