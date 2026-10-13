@@ -5,6 +5,8 @@ The first run only records. A source whose newest entry is old is reported as st
 from __future__ import annotations
 
 
+import math
+
 import yaml
 
 from ..config import Source
@@ -30,6 +32,8 @@ def parse(raw: bytes, source: Source) -> list[dict]:
             score = float(row[fields["score"]])
         except (KeyError, TypeError, ValueError):
             continue                               # an entry without a score cannot be ranked
+        if not math.isfinite(score):
+            continue                               # YAML accepts .nan and .inf; neither is a score
         stamp = row.get(fields.get("date", "date"))
         entries.append({"id": str(row.get(fields["id"]) or row.get(fields["name"])), "name": str(row.get(fields["name"])),
                         "score": score, "date": str(stamp) if stamp else "", "cost": row.get(fields.get("cost", "cost"))})

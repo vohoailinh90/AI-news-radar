@@ -25,6 +25,7 @@ sources:
     vendor: anthropic
     trust: primary
     allowed_hosts: [www.anthropic.com, anthropic.com]   # a mirror may only point at the vendor's own site
+    confirm_page: true           # ...and an event stays primary only if that page, fetched by the radar, carries the same headline
     max_age_days: 14
     live_checked: "2026-10-13"
 

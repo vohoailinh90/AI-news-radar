@@ -44,15 +44,16 @@ def rule_kind(source: Source, item: Item) -> str:
     return "release_notes" if source.kind == "rss" and "bullets" in item.extra else source.kind
 
 
-def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False, vendor_ok: bool = True):
-    """The highest-weight topic whose rule matches `text`, as (name, spec) or None."""
+def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False, vendor_ok: bool = True, headline: str | None = None):
+    """The highest-weight topic whose rule matches `text`, as (name, spec) or None. The vetoes (`unless`) read the
+    headline only: a summary that merely says "how it works" must not cancel a valid headline."""
     best = None
     for name, spec in compiled["topics"].items():
         if kind in spec.get("not_in_kinds", []) or ("only_in_kinds" in spec and kind not in spec["only_in_kinds"]):
             continue
         if spec.get("needs_vendor") and not vendor_ok:
             continue                                    # "free" / "limits" / "price cut" alone could be about anything
-        if any(p.search(text) for p in spec["unless"]):
+        if any(p.search(text if headline is None else headline) for p in spec["unless"]):
             continue
         if spec["bullet_start"]:
             if not bullet or not spec["bullet_start"].search(text):
@@ -92,7 +93,7 @@ def detect(items: list[Item], sources: dict[str, Source], rules: dict, now: date
         if any(p.search(title) for p in compiled["exclude"]):
             continue
         vendor = vendor_for(text, source.vendor, compiled)
-        hit = match_topic(text, source.kind, compiled, vendor_ok=_vendor_ok(text, source, compiled))
+        hit = match_topic(text, source.kind, compiled, vendor_ok=_vendor_ok(text, source, compiled), headline=title)
         if hit:
             name, spec = hit
             events.append(_event(item, source, name, spec["topic"], vendor, title, when, figures_for(title, spec["topic"])))

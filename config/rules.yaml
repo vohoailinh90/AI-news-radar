@@ -99,7 +99,8 @@ topics:
     any:
       - '\b(?:state[- ]of[- ]the[- ]art|sota)\b.{0,40}\b(?:benchmarks?|swe-bench|leaderboard|coding|reasoning|results?|scores?)\b'
       - '\b(?:tops?|leads?|beats?|outperforms?)\b.{0,40}\b(?:leaderboard|swe-bench|benchmarks?|arena)\b'
-      - '\bscores?\s+\d{1,3}(?:\.\d+)?\s?%'
+      - '\b{model}.{0,40}\bscores?\s+\d{1,3}(?:\.\d+)?\s?%'
+      - '\bscores?\s+\d{1,3}(?:\.\d+)?\s?%\s+(?:on|in)\s+(?:the\s+)?(?:[\w-]*bench\w*|aider|gpqa|mmlu|humaneval|arena|leaderboard)\b'
   announcement:
     topic: news
     weight: 4

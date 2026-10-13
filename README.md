@@ -34,7 +34,7 @@ của đúng tool đó. Xong đợt đăng thì xoá thư mục cũ nếu muốn
 | Nguồn | Loại | Tin cậy | Đã chạy thật? |
 |---|---|---|---|
 | Claude Code changelog | `changelog_md` | chính thức | ✅ 2026-10-13 (dữ liệu thật trong `tests/fixtures`) |
-| Anthropic news (bản feed của cộng đồng, link trỏ về anthropic.com) | `rss` | chính thức | ✅ 2026-10-13 |
+| Anthropic news (đọc qua bản feed của cộng đồng; mỗi tin được xác nhận bằng trang anthropic.com) | `rss` | chính thức **sau khi xác nhận** | ✅ 2026-10-13 |
 | Aider polyglot leaderboard | `yaml_leaderboard` | chính thức | ✅ nhưng **nguồn đã cũ**: mục mới nhất 2025-10-03 — run report ghi `STALE` |
 | OpenRouter (model mới, miễn phí, giảm giá) | `openrouter` | chính thức | ❌ chưa từng gọi thật |
 | Hacker News (Algolia) | `hn` | **cộng đồng** | ❌ chưa từng gọi thật |
@@ -55,8 +55,10 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - Nguồn `community` (Hacker News) → `verified: false`: bài có slide **"Tin cộng đồng, chưa xác nhận"** và dòng nói về tin đó trong caption mang nhãn
   `[chưa xác nhận]` / 【未確認】 / `[unconfirmed]`. Chỉ được nâng lên đã xác nhận khi một nguồn chính thức nói **cùng vendor, cùng chủ đề và
   có ít nhất 2 từ khoá chung** (không tính tên vendor) trong 48 giờ; vendor "other" không bao giờ đối chứng.
-- Bản Anthropic news đọc qua một feed mirror của cộng đồng: chỉ nhận mục có link trỏ về anthropic.com (`allowed_hosts`). Nếu mirror bị
-  chiếm quyền, nó vẫn có thể bịa tiêu đề trỏ vào một trang thật — nên đọc nguồn trước khi duyệt.
+- Anthropic không có feed chính thức, nên tin được đọc qua một feed mirror của cộng đồng. Vì thế mirror **không** được tin: chỉ nhận mục có link
+  trỏ về anthropic.com (`allowed_hosts`), và với mỗi tin radar **tự tải trang đó** rồi so tiêu đề (`og:title` hoặc `<title>`, so bằng, không so tiền tố).
+  Khớp thì mới là nguồn chính thức; không khớp, không tải được, hay vượt giới hạn 15 trang mỗi lượt thì tin bị hạ xuống "cộng đồng, chưa xác nhận"
+  và run report ghi lý do. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`.
 - Luật phát hiện khớp **cụm hành động** (reset, tăng gấp đôi, miễn phí đến, giảm 30%…), không khớp danh từ trơn như "limit" hay "free".
   Các chủ đề thương mại (giới hạn, miễn phí, giá) chỉ tính khi văn bản nhắc tên một hãng AI; tên model phải kèm phiên bản/tầng
   ("GPT-6", "Claude Opus 9", không phải "Claude Code"). Dòng "Fixed…", "Show HN" bị loại. Luật nằm trong `config/rules.yaml` — sửa ở đó,
@@ -73,13 +75,14 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
   tối đa `carry_days` ngày và chấm điểm lại (tin cũ nhạt dần) — không bị mất. Ngày của số báo tính theo giờ Việt Nam (`timezone_offset_hours`).
 - Lần quét đầu tiên là **baseline** cho OpenRouter và leaderboard (chưa có gì để so sánh nên không phát tin);
   changelog chỉ báo bản mới nhất. Trạng thái nằm ở `data/state.json` (Action tự commit). File hỏng sẽ dừng lượt chạy
-  thay vì âm thầm reset và báo lại tin cũ.
+  thay vì âm thầm reset và báo lại tin cũ — kể cả khi file là JSON hợp lệ nhưng sai hình dạng (`[]`, `null`…). Mỗi lượt quét ghi
+  `last-scan.json` (nguyên tử) **trước** rồi mới ghi `state.json`, nên bị ngắt giữa chừng thì tin được phát hiện lại thay vì bị đánh dấu "đã thấy" mà chưa lưu ở đâu.
 
 ## Phát triển
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 122 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 151 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 

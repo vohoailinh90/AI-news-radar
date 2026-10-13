@@ -8,7 +8,9 @@ Read `README.md` first; it is the contract.
 - **Never fabricate news.** Every story traces to a source in `config/sources.yaml`. No demo or placeholder stories
   in `out/` or `data/`; fixtures live in `tests/fixtures` and say whether they are real or `synthetic_*`.
 - **Verified means a primary source.** Community sources (Hacker News) are `verified: false` until a primary source
-  corroborates them (`Event.verified`). Posts must never state an unconfirmed report as fact.
+  corroborates them (`Event.verified`). A source read through a third party (`confirm_page`) is primary only for
+  the events whose vendor page the radar fetched and found to carry the same headline. Posts must never state an
+  unconfirmed report as fact, and every line that restates one carries the unconfirmed tag.
 - **Rules match actions, not nouns** (`config/rules.yaml`). Add a negative test with every new rule.
 - **Posts are drafts.** `status: draft` always; the exporter never overwrites an issue (`--force` only replaces drafts)
   and never overwrites a post whose status is not `draft`.

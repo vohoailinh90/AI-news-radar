@@ -13,6 +13,7 @@ from dataclasses import asdict
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from . import confirm as confirm_mod
 from . import detect as detect_mod
 from . import export as export_mod
 from . import rank
@@ -68,8 +69,14 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
     for e in load_pending(root):
         if e.when >= horizon and e.item_id not in ids:
             carried.setdefault(e.item_id or f"anon-{len(carried)}", e)           # one per id, even if the file holds twins
+    flagged = {s.id for s in sources if s.opt("confirm_page")}
+    for note in confirm_mod.confirm_events(fresh, flagged, fetcher):      # before ranking: trust decides the score
+        reports.append(SourceReport("confirm", False, 0, note))
     ranked = rank.score_events(fresh + list(carried.values()), rules, now, {i.id: i.points for i in items})
     if any(r.ok for r in reports):                    # all sources down: keep the old state, do not lose a baseline
+        # Pending events first, "seen" marks second: a crash between the two re-detects (and de-duplicates against
+        # the pending copy) instead of marking events seen that were never written anywhere.
+        save_scan(root, ranked, reports, now)
         state.save(now)
     return ranked, reports
 
@@ -82,17 +89,22 @@ def datetime_date(text: str):
 def save_scan(root: Path, events, reports, now) -> Path:
     path = root / "data" / "last-scan.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({"generated": now.isoformat(), "events": [event_to_dict(e) for e in events],
-                                "sources": [asdict(r) for r in reports]}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"generated": now.isoformat(), "events": [event_to_dict(e) for e in events],
+                               "sources": [asdict(r) for r in reports]}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    tmp.replace(path)                                 # atomic: a crash never leaves half a pending file
     return path
 
 
 def load_pending(root: Path) -> list:
-    """The events in data/last-scan.json: everything the last scan found that the last export did not use."""
+    """The events in data/last-scan.json: everything the last scan found that the last export did not use.
+    No file means none pending; a file that cannot be read stops the run, because dropping it would lose news."""
+    if not (root / "data" / "last-scan.json").exists():
+        return []
     try:
         return load_scan(root)[0]
-    except (SystemExit, KeyError, ValueError, TypeError):
-        return []
+    except (KeyError, ValueError, TypeError) as exc:
+        raise RuntimeError(f"data/last-scan.json is unreadable ({exc}); fix or delete it — silently dropping the pending events would lose news") from exc
 
 
 def load_scan(root: Path):
@@ -105,8 +117,7 @@ def load_scan(root: Path):
 
 def cmd_scan(args, root: Path) -> int:
     now = utcnow()
-    events, reports = scan(root, now=now)
-    save_scan(root, events, reports, now)
+    events, reports = scan(root, now=now)             # scan() has already written data/last-scan.json and the state
     for r in reports:
         print(f"{'ok  ' if r.ok else 'FAIL'} {r.id}: {r.items} item(s) {r.note}".rstrip())
     print(f"{len(events)} new event(s); top: " + "; ".join(f"{e.score:.1f} {e.kind}" for e in events[:3]))

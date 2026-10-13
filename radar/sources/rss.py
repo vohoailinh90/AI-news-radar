@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import xml.etree.ElementTree as ET
+from xml.parsers import expat
 from datetime import timedelta
 from urllib.parse import urlparse
 
@@ -62,13 +63,26 @@ def _link(node: ET.Element) -> str:
     return ""
 
 
+def _refuse_dtd(raw: bytes, source: Source) -> None:
+    """Entity expansion is the one real attack on a parser that only reads feeds. Let expat itself say whether the
+    document declares a DOCTYPE or an ENTITY, anywhere in the body (padding, comments, CDATA and the encoding
+    cannot hide one from the parser that would expand it). Malformed XML is left for ElementTree to report."""
+    def reject(*_):
+        raise SourceError(f"{source.id}: feed declares a DOCTYPE/ENTITY; refused")
+    guard = expat.ParserCreate()
+    guard.StartDoctypeDeclHandler = reject
+    guard.EntityDeclHandler = reject
+    try:
+        guard.Parse(raw, True)
+    except expat.ExpatError:
+        pass
+
+
 def parse(raw: bytes, source: Source) -> list[Item]:
-    head = raw[:4096].lower()
     declared = ENCODING.search(raw[:200])
     if raw[:2] in (b"\xff\xfe", b"\xfe\xff") or b"\x00" in raw[:100] or (declared and declared.group(1).lower() not in (b"utf-8", b"us-ascii")):
         raise SourceError(f"{source.id}: only UTF-8 feeds are read (a wide encoding would hide a DOCTYPE from the check below)")
-    if b"<!doctype" in head or b"<!entity" in head or b"<!entity" in raw[:200_000].lower():
-        raise SourceError(f"{source.id}: feed declares a DOCTYPE/ENTITY; refused")
+    _refuse_dtd(raw, source)
     try:
         root = ET.fromstring(raw)
     except ET.ParseError as exc:

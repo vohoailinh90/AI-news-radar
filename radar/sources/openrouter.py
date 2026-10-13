@@ -54,7 +54,7 @@ def collect(source: Source, ctx: Context):
         return [], []                              # baseline
     min_drop = float(source.opt("min_drop_pct", 20))
     groups: dict[str, list[tuple[tuple, Event]]] = {"free": [], "new": [], "drop": [], "gone": []}
-    day = ctx.now.date().isoformat()
+    stamp = ctx.now.strftime("%Y%m%dT%H%M%S")      # one scan = one observation, so a repeat of an old transition is new
 
     def make(group, sort_key, kind, topic, model_id, entry, title, figures, when=None, suffix=""):
         # the id carries what makes this occurrence unique, so a second price drop or a second
@@ -79,10 +79,10 @@ def collect(source: Source, ctx: Context):
                      f"{now_entry['name']} is now listed on OpenRouter", figs, created)
         elif now_entry["free"] and not before.get("free"):
             make("free", newest_first, "model-became-free", "free", model_id, now_entry,
-                 f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{day}")
+                 f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{stamp}")
         elif before.get("free") and not now_entry["free"]:
             make("gone", (0, now_entry["name"]), "model-no-longer-free", "free", model_id, now_entry,
-                 f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{day}")
+                 f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{stamp}")
         elif before.get("prompt") and now_entry["prompt"] is not None and not now_entry["free"]:
             drop = (before["prompt"] - now_entry["prompt"]) / before["prompt"] * 100
             if drop >= min_drop:
@@ -90,11 +90,11 @@ def collect(source: Source, ctx: Context):
                         "new_price": per_million(now_entry["prompt"])}
                 make("drop", (-drop, now_entry["name"]), "price-drop", "discount", model_id, now_entry,
                      f"{now_entry['name']} input price drops {figs['percent']}% on OpenRouter: "
-                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['new_price']}")
+                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['old_price']}>{figs['new_price']}@{stamp}")
     for model_id, before in previous.items():
         if before.get("free") and model_id not in current:
             make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,
-                 f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{day}")
+                 f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{stamp}")
     out: list[Event] = []
     for group in groups.values():
         out += [event for _, event in sorted(group, key=lambda pair: pair[0])[:MAX_PER_KIND]]

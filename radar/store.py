@@ -28,11 +28,15 @@ class State:
     @classmethod
     def load(cls, path: Path) -> "State":
         try:
-            return cls(path, json.loads(path.read_text(encoding="utf-8")))
+            data = json.loads(path.read_text(encoding="utf-8"))
         except FileNotFoundError:
             return cls(path)
         except (OSError, json.JSONDecodeError) as exc:
             raise RuntimeError(f"{path} is unreadable ({exc}); fix or delete it — a silent reset would re-report old news") from exc
+        shaped = isinstance(data, dict) and all(isinstance(data.get(k, {}), dict) for k in ("seen", "versions", "snapshots"))
+        if not shaped:                      # [] / null / false / 0 are valid JSON and would otherwise reset the history quietly
+            raise RuntimeError(f"{path} is unreadable (not the JSON object this tool writes); fix or delete it — a silent reset would re-report old news")
+        return cls(path, data)
 
     def mark_seen(self, item_id: str, now: datetime) -> None:
         self.seen.setdefault(item_id, now.isoformat())
