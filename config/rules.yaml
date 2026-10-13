@@ -141,6 +141,7 @@ scoring:
 export:
   max_stories: 5
   min_score: 6
+  max_per_source_kind: 2         # a burst from one source and kind (ten new models) must not fill the whole issue
   spotlights: 2                  # extra single-story posts for the top N
   timezone_offset_hours: 7       # the issue date is the date where the readers are (Vietnam)
   carry_days: 7                  # qualifying events not exported today wait this long for a later issue

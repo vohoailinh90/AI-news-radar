@@ -26,30 +26,6 @@ def run(tmp_path, state, rows, hours):
     return openrouter.collect(src, ctx)[1]
 
 
-# ---- P2 events beyond the per-kind cap must be deferred, never dropped
-def test_p2_a_burst_of_new_models_is_drip_fed_not_lost(tmp_path):
-    state = State(tmp_path / "s.json")
-    base = [model("acme/old", "Old", 1)]
-    assert run(tmp_path, state, base, 0) == []                                                     # baseline
-    names = [f"M{n}" for n in range(8)]
-    rows = base + [model(f"acme/m{n}", name, 100 + n) for n, name in enumerate(names)]
-    first = [e.figures["model"] for e in run(tmp_path, state, rows, 1)]
-    second = [e.figures["model"] for e in run(tmp_path, state, rows, 2)]                            # the same list again
-    third = [e.figures["model"] for e in run(tmp_path, state, rows, 3)]
-    assert first == ["M7", "M6", "M5", "M4", "M3"] and second == ["M2", "M1", "M0"] and third == []
-    assert sorted(first + second) == sorted(names)                                                 # every model was reported once
-
-
-def test_p2_overflowing_price_drops_and_removals_are_deferred_too(tmp_path):
-    state = State(tmp_path / "s.json")
-    before = [model(f"acme/p{n}", f"P{n}", 1, "0.000010") for n in range(7)]
-    after = [model(f"acme/p{n}", f"P{n}", 1, f"{0.000010 * (1 - (0.30 + 0.05 * n)):.9f}") for n in range(7)]    # drops of 30%, 35% ... 60%
-    run(tmp_path, state, before, 0)
-    first = [e.figures["model"] for e in run(tmp_path, state, after, 1) if e.kind == "price-drop"]
-    second = [e.figures["model"] for e in run(tmp_path, state, after, 2) if e.kind == "price-drop"]
-    assert len(first) == 5 and len(second) == 2 and not set(first) & set(second)
-
-
 # ---- P2 a model that is re-added is a new occurrence
 def test_p2_re_adding_a_model_is_reported_again_for_free_and_paid_models(tmp_path):
     state = State(tmp_path / "s.json")
@@ -63,22 +39,6 @@ def test_p2_re_adding_a_model_is_reported_again_for_free_and_paid_models(tmp_pat
     added = [i for k, i in ids if k == "free-model-added"]
     listed = [i for k, i in ids if k == "model-listed"]
     assert len(added) == len(set(added)) == 2 and len(listed) == len(set(listed)) == 2
-
-
-# ---- leaderboard: the same cap must not lose entries
-def test_leaderboard_overflow_entries_are_deferred_not_lost(tmp_path):
-    src = source("aider-polyglot")
-    state = State(tmp_path / "s.json")
-    def rows(n):
-        return ("".join(f"- {{dirname: e{i}, model: M{i}, pass_rate_2: {10 + i}.0, date: 2026-10-13}}\n" for i in range(n))).encode()
-    leaderboard.collect(src, context(tmp_path, {src.url: rows(1)}, state=state))                    # baseline: e0
-    first = leaderboard.collect(src, context(tmp_path, {src.url: rows(9)}, state=state))[1]
-    assert len(first) == leaderboard.MAX_NEW
-    assert set(state.snapshots[src.id]["ids"]) == {"e0", "e4", "e5", "e6", "e7", "e8"}                   # the overflow is NOT recorded as seen
-    second = leaderboard.collect(src, context(tmp_path, {src.url: rows(9)}, state=state))[1]
-    third = leaderboard.collect(src, context(tmp_path, {src.url: rows(9)}, state=state))[1]
-    names = [e.figures["model"] for e in first + second]
-    assert sorted(names) == sorted(f"M{i}" for i in range(1, 9)) and third == []
 
 
 # ---- P1 every string that restates an unconfirmed claim carries the tag

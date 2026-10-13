@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 import shutil
@@ -36,13 +37,19 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
     for source in sources:
         if not source.enabled:
             continue
+        backup = (copy.deepcopy(state.snapshots.get(source.id)), state.versions.get(source.id))
         try:
             got_items, got_events = COLLECTORS[source.kind].collect(source, ctx)
-        except (FetchError, SourceError) as exc:
-            reports.append(SourceReport(source.id, False, 0, str(exc)[:200]))
-            continue
         except Exception as exc:                      # a parser bug in one source must not hide the others
-            reports.append(SourceReport(source.id, False, 0, f"internal error: {type(exc).__name__}: {exc}"[:200]))
+            # A source that failed must leave no trace in the shared state: otherwise the next scan would take its
+            # half-processed payload as the baseline and silently lose the transitions between the two.
+            for table, saved in ((state.snapshots, backup[0]), (state.versions, backup[1])):
+                if saved is None:
+                    table.pop(source.id, None)
+                else:
+                    table[source.id] = saved
+            note = str(exc)[:200] if isinstance(exc, (FetchError, SourceError)) else f"internal error: {type(exc).__name__}: {exc}"[:200]
+            reports.append(SourceReport(source.id, False, 0, note))
             continue
         note = ""
         if source.kind == "yaml_leaderboard":

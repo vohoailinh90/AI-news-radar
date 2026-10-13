@@ -58,7 +58,7 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
     """The stories of an issue, best first, plus the ids of reports folded into them. Events that rank.same_story()
     says are one piece of news become ONE story: the primary-source event is the canonical one (a higher-scoring
     community report does not displace it), and the other source is kept as evidence (`also_reported_by`)."""
-    cfg, seen, picked, absorbed = rules["export"], set(), [], set()
+    cfg, seen, picked, absorbed, per_kind = rules["export"], set(), [], set(), {}
     window = timedelta(hours=rules["scoring"]["corroboration_window_hours"])      # the same bound ranking uses
     for event in events:
         if event.score < cfg["min_score"] or event.item_id in seen:
@@ -66,6 +66,11 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
         seen.add(event.item_id)
         twin = next((p for p in picked if same_story(p, event) and abs(p.when - event.when) <= window), None)
         if twin is None:
+            slot = (event.source, event.kind)
+            if per_kind.get(slot, 0) >= cfg["max_per_source_kind"]:
+                seen.discard(event.item_id)           # not a story today and not absorbed: it waits for a later issue
+                continue
+            per_kind[slot] = per_kind.get(slot, 0) + 1
             picked.append(event)
             continue
         keep, drop = (event, twin) if event.trust == PRIMARY and twin.trust != PRIMARY else (twin, event)
@@ -133,9 +138,10 @@ def _brief(stories, rules, slug, date, n) -> dict:
     features, claims = [], []
     for i, e in enumerate(stories, 1):
         fact = headline(e, "en")
-        features.append({"id": f"story-{i}-{e.kind}", "fact": f"{fact}. Source: {e.source_name}, {e.when.date().isoformat()}"})
+        shown = fact if e.verified else f"[unconfirmed] {fact}"       # the brief is the studio's source material: say so here too
+        features.append({"id": f"story-{i}-{e.kind}", "fact": f"{shown}. Source: {e.source_name}, {e.when.date().isoformat()}"})
         also = f"; also reported by {', '.join(e.also_reported_by)}" if e.also_reported_by else ""
-        claims.append({"id": f"story-{i}", "text": fact, "evidence": f"{e.source_name}: {e.url}{also}",
+        claims.append({"id": f"story-{i}", "text": shown, "evidence": f"{e.source_name}: {e.url}{also}",
                        "verified": e.verified})
     return {
         "slug": slug, "name": "AI News", "repo": "vohoailinh90/ai-news-radar", "status": "beta",

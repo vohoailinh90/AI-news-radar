@@ -10,8 +10,6 @@ from ..config import Source
 from ..models import Event
 from . import Context, SourceError, vendor_of_prefix
 
-MAX_PER_KIND = 5
-
 
 def price(value) -> float | None:
     """Per-token price as a float; None when unknown (OpenRouter uses "-1" for variable pricing)."""
@@ -27,6 +25,16 @@ def per_million(value: float) -> str:
     return f"{scaled:.2f}" if scaled >= 0.01 else f"{scaled:.4f}"      # never print $0.00 for a price that is not zero
 
 
+def timestamp(value) -> int:
+    """A creation time in seconds; 0 for anything that is not a plausible one (the row stays, its date is just unknown)."""
+    try:
+        seconds = int(value or 0)
+        datetime.fromtimestamp(seconds, timezone.utc)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return 0
+    return seconds
+
+
 def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
     try:
         rows = json.loads(raw)["data"]
@@ -40,7 +48,7 @@ def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
         prompt, completion = price(pricing.get("prompt")), price(pricing.get("completion"))
         free = str(row["id"]).endswith(":free") or (prompt == 0 and completion == 0)
         models[str(row["id"])] = {"name": str(row.get("name") or row["id"]), "prompt": prompt,
-                                  "free": free, "created": int(row.get("created") or 0)}
+                                  "free": free, "created": timestamp(row.get("created"))}
     if not models:
         raise SourceError(f"{source.id}: the model list is empty")
     return models
@@ -50,8 +58,8 @@ def collect(source: Source, ctx: Context):
     current = snapshot_of(ctx.fetch(source.url, max_bytes=source.opt("max_bytes", 8_000_000)), source)
     previous = ctx.state.snapshots.get(source.id)
     taken = ctx.now.strftime("%Y%m%dT%H%M%S")
-    ctx.state.snapshots[source.id] = {"taken": taken, "models": current}
     if previous is None:
+        ctx.state.snapshots[source.id] = {"taken": taken, "models": current}
         return [], []                              # baseline
     # A transition's id names the snapshot it was measured against, not the time of this scan: if the run dies before
     # the state is saved, the replay measures against the same snapshot and gets the same ids (no double post), while
@@ -71,7 +79,7 @@ def collect(source: Source, ctx: Context):
 
     for model_id, now_entry in current.items():
         before = previous.get(model_id)
-        created = datetime.fromtimestamp(now_entry["created"], timezone.utc) if now_entry["created"] else ctx.now
+        created = datetime.fromtimestamp(now_entry["created"], timezone.utc) if now_entry["created"] else ctx.now      # 0 = unknown
         newest_first = (-now_entry["created"], now_entry["name"])
         if before is None:
             if now_entry["free"]:
@@ -99,20 +107,8 @@ def collect(source: Source, ctx: Context):
         if before.get("free") and model_id not in current:
             make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,
                  f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{since}")
-    out: list[Event] = []
-    deferred: list[str] = []
-    for group in groups.values():
-        ranked = sorted(group, key=lambda trio: trio[0])
-        out += [event for _, event, _ in ranked[:MAX_PER_KIND]]
-        deferred += [model_id for _, _, model_id in ranked[MAX_PER_KIND:]]
-    if deferred:
-        # The cap spreads a burst over several issues; it must not lose any of it. A deferred model keeps its OLD
-        # snapshot entry (or none, if it is new), so the next scan finds the same transition and reports it then.
-        kept = dict(current)
-        for model_id in deferred:
-            if model_id in previous:
-                kept[model_id] = previous[model_id]
-            else:
-                kept.pop(model_id, None)
-        ctx.state.snapshots[source.id] = {"taken": taken, "models": kept}
+    # Every transition seen is returned now and persisted by the scan before any "seen" mark: the exporter spreads a
+    # burst over several issues (and keeps the rest pending), the collector never holds events back in its snapshot.
+    out = [event for group in groups.values() for _, event, _ in sorted(group, key=lambda trio: trio[0])]
+    ctx.state.snapshots[source.id] = {"taken": taken, "models": current}       # last: a failure above leaves the old snapshot
     return [], out

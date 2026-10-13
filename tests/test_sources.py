@@ -84,13 +84,13 @@ def test_leaderboard_baseline_emits_nothing_then_new_leader(tmp_path):
     assert events[0].figures["score"] == "88" and events[0].trust == "primary"
 
 
-def test_leaderboard_burst_of_new_ids_is_capped_and_stamped_with_first_seen_time(tmp_path):
+def test_leaderboard_burst_of_new_ids_is_all_reported_and_stamped_with_first_seen_time(tmp_path):
     src = source("aider-polyglot")
     raw = fixture("aider_polyglot_leaderboard.yml")
     state = State(tmp_path / "s.json")
     state.snapshots[src.id] = {"ids": [], "best": 0}
     _, events = leaderboard.collect(src, context(tmp_path, {src.url: raw}, state=state))
-    assert len(events) == leaderboard.MAX_NEW == 5 and all(e.when == NOW for e in events)   # an old run date does not hide it
+    assert len(events) == 69 and all(e.when == NOW for e in events)            # an old run date does not hide them; the exporter spreads the burst
 
 
 def test_leaderboard_a_tie_with_the_best_score_is_not_a_new_leader(tmp_path):
@@ -142,7 +142,7 @@ def _model(model_id, name, created, prompt="0.000003"):
     return {"id": model_id, "name": name, "created": created, "pricing": {"prompt": prompt, "completion": "0.00001"}}
 
 
-def test_openrouter_cap_keeps_the_newest_models_not_the_alphabetically_first(tmp_path):
+def test_openrouter_reports_every_new_model_newest_first(tmp_path):
     src = source("openrouter-models")
     state = State(tmp_path / "s.json")
     base = json.dumps({"data": [_model("acme/old", "Old", 1)]}).encode()
@@ -150,7 +150,7 @@ def test_openrouter_cap_keeps_the_newest_models_not_the_alphabetically_first(tmp
     newcomers = [_model(f"acme/m{n}", name, 1000 + n) for n, name in enumerate("ABCDEFGHI")]
     raw = json.dumps({"data": [_model("acme/old", "Old", 1)] + newcomers}).encode()
     events = openrouter.collect(src, context(tmp_path, {src.url: raw}, state=state))[1]
-    assert [e.figures["model"] for e in events] == ["I", "H", "G", "F", "E"]            # newest five
+    assert [e.figures["model"] for e in events] == list("IHGFEDCBA")                     # all nine, newest first
 
 
 def test_openrouter_a_second_price_drop_of_the_same_model_is_a_new_event(tmp_path):

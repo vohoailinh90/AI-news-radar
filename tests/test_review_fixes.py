@@ -132,7 +132,8 @@ def test_15_a_wide_encoded_feed_cannot_smuggle_a_doctype_past_the_check():
 
 def test_7_events_not_exported_today_wait_for_a_later_issue(tmp_path):
     root = make_root(tmp_path)
-    many = [Event(kind="free-promo", vendor="openai", topic="free", title=f"Codex is free for {n} days", url=f"https://e.org/{n}", source="a",
+    vendors = ["openai", "anthropic", "google", "deepseek", "qwen", "meta", "xai", "mistral"]       # distinct vendors: eight different stories
+    many = [Event(kind="free-promo", vendor=vendors[n], topic="free", title=f"Codex is free for {n} days", url=f"https://e.org/{n}", source=f"a{n}",
                   source_name="A", trust="primary", when=NOW, item_id=f"i{n}", score=20 - n) for n in range(8)]
     cli.save_scan(root, many, [], NOW)
     assert cli.cmd_export(argparse.Namespace(date="2026-10-13", studio=None, force=False), root) == 0

@@ -83,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 169 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 174 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -101,10 +101,14 @@ và có đủ vi/ja/en.
 - Đối chứng ("tin cộng đồng được nguồn chính thức xác nhận") chỉ nhìn trong các tin còn nằm trong lượt quét + phần giữ lại, cần cùng vendor,
   cùng chủ đề, ≥ 2 từ khoá chung và cùng chiều ("tăng gấp đôi" không xác nhận "bị cắt"). Nó thiên về **không** xác nhận: một tin thật có thể
   vẫn mang nhãn chưa xác nhận, và đó là mặc định an toàn.
+- Brief xuất ra cũng ghi rõ: tin chưa xác nhận có tiền tố `[unconfirmed]` ở cả `features[].fact` lẫn `claims[].text` (và `verified: false`).
 - Một tin chính thức và bản tin cộng đồng về **cùng một việc** (`rank.same_story`) được gộp thành một tin: tin của nguồn chính thức là bản chính
   (kể cả khi bản cộng đồng điểm cao hơn), nguồn kia ghi trong brief (`also reported by …`) và không bị đăng lại ở số sau.
-- Giới hạn số sự kiện mỗi loại trong một lượt (OpenRouter: 5 mỗi loại; leaderboard: 5 mục mới) chỉ **trải** tin ra nhiều số chứ không bỏ: phần dư
-  không được ghi vào ảnh chụp trạng thái nên lượt quét sau báo tiếp. Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ
+- Collector không bao giờ cắt hay giữ lại sự kiện: mọi thay đổi quan sát được (model mới, đổi giá, mục leaderboard mới) được ghi ngay vào
+  `last-scan.json` trước khi đánh dấu "đã thấy". Bộ xuất bản mới là nơi trải tin: tối đa `max_per_source_kind` (2) tin cho mỗi nguồn và loại trong một
+  số, phần còn lại ở lại làm tin chờ (`carry_days`). Ảnh chụp trạng thái của một nguồn chỉ được ghi khi nguồn đó xử lý xong; nguồn lỗi giữa chừng
+  bị hoàn tác, nên lượt sau không lấy dữ liệu dở dang làm mốc.
+Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ
   48 giờ (`corroboration_window_hours`); một lần lặp lại sau nhiều ngày là tin riêng, chưa xác nhận.
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test
   duyệt từng chuỗi của bài để chắc điều đó.
