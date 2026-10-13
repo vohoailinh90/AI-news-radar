@@ -4,6 +4,7 @@
   {"id": "acme/beta", "name": "Acme Beta", "created": 1760000000, "pricing": {"prompt": "0.000009", "completion": "0.000027"}},
   {"id": "acme/gamma", "name": "Acme Gamma", "created": 1760000000, "pricing": {"prompt": "0", "completion": "0"}},
   {"id": "acme/delta", "name": "Acme Delta", "created": 1760000000, "pricing": {"prompt": "0.000004", "completion": "0.000012"}},
+  {"id": "acme/epsilon", "name": "Acme Epsilon", "created": 1750000000, "pricing": {"prompt": "0.000001", "completion": "0.000002"}},
   {"id": "acme/router", "name": "Acme Router", "created": 1750000000, "pricing": {"prompt": "-1", "completion": "-1"}},
   {"id": "openai/gpt-new:free", "name": "GPT New (free)", "created": 1791000000, "pricing": {"prompt": "0", "completion": "0"}},
   {"id": "anthropic/claude-new", "name": "Claude New", "created": 1791000000, "pricing": {"prompt": "0.000003", "completion": "0.000015"}}

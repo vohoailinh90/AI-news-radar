@@ -40,8 +40,9 @@ def test_vendor_comes_from_the_text_then_the_source():
 
 
 def test_community_story_without_a_rule_needs_enough_points_to_trend():
-    assert kinds([_item("hn-ai", "Show HN: my weekend project", points=120)]) == []
-    assert kinds([_item("hn-ai", "Show HN: my weekend project", points=450)]) == ["trending"]
+    assert kinds([_item("hn-ai", "My weekend project got a lot of attention", points=120)]) == []
+    assert kinds([_item("hn-ai", "My weekend project got a lot of attention", points=450)]) == ["trending"]
+    assert kinds([_item("hn-ai", "Show HN: I built a tool to reset Docker rate limits", points=900)]) == []   # Show HN is never news
 
 
 def test_percent_figure_is_extracted_for_discounts():
@@ -78,19 +79,40 @@ def test_real_changelog_and_feed_through_detect(tmp_path):
     assert all("`" not in e.title for e in events)
 
 
-def test_ranking_prefers_newer_primary_hot_and_corroborated():
-    base = dict(vendor="anthropic", topic="quota", url="https://example.org", when=NOW)
+def _ev(title, source, trust, vendor="anthropic", topic="quota", item_id="i"):
     from radar.models import Event
+    return Event(kind="quota-reset", vendor=vendor, topic=topic, url="https://e.org", when=NOW, source=source, source_name=source,
+                 trust=trust, title=title, item_id=item_id)
+
+
+def test_ranking_prefers_newer_and_corroborated():
+    from radar.models import Event
+    base = dict(vendor="anthropic", topic="quota", url="https://example.org", when=NOW)
     fresh = Event(kind="quota-reset", source="a", source_name="A", trust="primary", title="fresh", **base)
     old = Event(kind="quota-reset", source="b", source_name="B", trust="primary", title="old", **{**base, "when": NOW - timedelta(days=5)})
-    ranked = score_events([old, fresh], RULES, NOW)
-    assert [e.title for e in ranked] == ["fresh", "old"]
-    rumour = Event(kind="quota-reset", source="hn-ai", source_name="Hacker News", trust="community", title="rumour", item_id="hn:1", **base)
-    official = Event(kind="quota-reset", source="anthropic-news", source_name="Anthropic news", trust="primary", title="official", **base)
-    alone = score_events([Event(**{**rumour.__dict__})], RULES, NOW, {"hn:1": 0})[0]
-    paired = {e.title: e for e in score_events([rumour, official], RULES, NOW, {"hn:1": 0})}
-    assert paired["rumour"].score > alone.score and paired["rumour"].corroborated_by == ["Anthropic news"]
-    assert paired["rumour"].verified and not alone.verified          # a primary source corroborating upgrades it
+    assert [e.title for e in score_events([old, fresh], RULES, NOW)] == ["fresh", "old"]
+    rumour = _ev("Anthropic resets weekly usage limits", "hn-ai", "community", item_id="hn:1")
+    official = _ev("Weekly usage limits have been reset for Claude plans", "anthropic-news", "primary")
+    alone = score_events([_ev("Anthropic resets weekly usage limits", "hn-ai", "community", item_id="hn:1")], RULES, NOW)[0]
+    paired = {e.source: e for e in score_events([rumour, official], RULES, NOW)}
+    assert paired["hn-ai"].score > alone.score and paired["hn-ai"].corroborated_by == ["anthropic-news"]
+    assert paired["hn-ai"].verified and not alone.verified          # a primary source corroborating upgrades it
+
+
+def test_corroboration_needs_the_same_story_not_just_the_same_vendor_and_topic():
+    official = _ev("Introducing Claude Opus 9", "anthropic-news", "primary", topic="model")
+    wrapper = _ev("I released a Claude wrapper for my team", "hn-ai", "community", topic="model", item_id="hn:2")
+    assert not {e.source: e for e in score_events([wrapper, official], RULES, NOW)}["hn-ai"].verified
+    # an unknown vendor matches anything, so it never corroborates
+    free_hn = _ev("Free credits for my startup", "hn-ai", "community", vendor="other", topic="free", item_id="hn:3")
+    free_or = _ev("Free credits for my startup", "openrouter-models", "primary", vendor="other", topic="free")
+    assert not {e.source: e for e in score_events([free_hn, free_or], RULES, NOW)}["hn-ai"].verified
+
+
+def test_rescoring_a_carried_event_forgets_an_old_corroboration():
+    rumour = _ev("Anthropic resets weekly usage limits", "hn-ai", "community", item_id="hn:1")
+    rumour.corroborated_by = ["Anthropic news"]
+    assert score_events([rumour], RULES, NOW)[0].corroborated_by == [] and not rumour.verified
 
 
 def test_ranking_is_deterministic():

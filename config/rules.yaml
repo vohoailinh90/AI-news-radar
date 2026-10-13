@@ -29,48 +29,65 @@ vendor_names:                   # how a post writes the vendor (no dots: the stu
   mistral: Mistral
   other: AI
 
+# A model name only counts with a version or tier after it: "Claude Opus 9" and "GPT-6" are models,
+# "Claude Code security review" and "Claude is available in X" are not. Used as {model} below.
+model_name: '(?:claude[- ](?:opus|sonnet|haiku|\d)\S*|(?:opus|sonnet|haiku)[- ]?\d\S*|gpt-?\s?\d\S*|o[1-9](?:-mini|-pro)?\b|gemini[- ]\d\S*|gemma[- ]?\d\S*|codex[- ](?:\d|max|mini)\S*|llama[- ]?\d\S*|qwen[- ]?\d\S*|deepseek[- ]?[vr]?\d\S*|grok[- ]?\d\S*|mistral[- ](?:large|medium|small|\d)\S*)'
+
+# needs_vendor: the commercial topics (limits, free, price) only count when the text names an AI vendor,
+# or the source is itself that vendor's primary channel. unless: phrases that turn a match into not-news.
 # Order matters only for ties: the highest weight wins when one item matches several topics.
 topics:
   quota-reset:
     topic: quota
     weight: 10
-    not_in_kinds: [changelog_md]          # a changelog sentence about the "limit resets" message is UX, not a reset
+    needs_vendor: true
+    not_in_kinds: [changelog_md, release_notes]   # a changelog sentence about the "limit resets" message is UX, not a reset
     any:
-      - '\b(?:reset|resetting|refresh(?:ed|ing)?)\b.{0,40}\b(?:usage|rate|weekly|5-hour|five-hour|message)?\s*(?:limits?|quotas?)\b'
-      - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,40}\b(?:reset|refreshed)\b'
+      - '\b(?:reset|resets|resetting|refresh(?:es|ed|ing)?)\b.{0,40}\b(?:limits?|quotas?)\b'
+      - '\b(?:limits?|quotas?)\b.{0,40}\b(?:reset|resets|refreshed|refreshes)\b'
+      - '\b(?:usage|rate|weekly|5-hour|five-hour|message)\s+reset\b'
+    unless: ['\bno\s+resets?\b', '\bnever\s+reset', '\bpolicy\b', '\bhow\s+(?:to|we)\b', '\bwhy\b']
   usage-limit-change:
     topic: quota
     weight: 8
+    needs_vendor: true
     any:
-      - '\b(?:increas|rais|doubl|extend|expand|lower|reduc|cut|tighten)\w*\b.{0,30}\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b'
-      - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,30}\b(?:increase|doubled|raised|reduced|cut|tightened)\b'
+      - '\b(?:increas|rais|doubl|extend|expand|lower|reduc|cut|tighten|boost|bump)\w*\b.{0,30}\b(?:(?:usage|rate|weekly|5-hour|message)\s+)?(?:limits?|quotas?)\b'
+      - '\b(?:usage|rate|weekly|5-hour|message)\s+(?:limits?|quotas?)\b.{0,30}\b(?:increas|doubl|rais|reduc|expand|extend|tighten)\w*\b'
+      - '\b(?:\d+(?:\.\d+)?x|double|twice|triple)\s+(?:the\s+)?(?:(?:usage|rate|weekly)\s+)?(?:limits?|quotas?)\b'
+      - '\b(?:more|higher|extra|bonus)\s+(?:usage|rate)\s+limits?\b'
+    unless: ['\blimit\s+(?:errors?|messages?|alerts?|notices?|display|banner|warnings?)\b', '\bfrequency\b', '\bhow\b', '\bwhy\b', '\bpolicy\b']
   free-promo:
     topic: free
     weight: 9
+    needs_vendor: true
     any:
       - '\bfree\s+(?:for|until|through|to use|access|trial|usage|credits?)\b'
-      - '\b(?:now|is|are)\s+free\b'
+      - '\bnow\s+free\b'
+      - '\bavailable\s+(?:for\s+)?free\b'
       - '\bfree\s+(?:tier|plan)\b.{0,40}\b(?:includes?|adds?|now|gets?)\b'
   discount:
     topic: discount
     weight: 9
+    needs_vendor: true
     any:
       - '\b\d{1,3}\s?%\s*(?:off|discount|cheaper|lower)\b'
       - '\bprice\s+(?:cut|drop|reduction)s?\b'
-      - '\b(?:cuts?|slash(?:es|ed)?|lowers?|reduc(?:es|ed))\b.{0,30}\b(?:price|pricing|cost)s?\b'
+      - '\b(?:cuts?|slash(?:es|ed)?|lowers?|reduc(?:es|ed))\b.{0,30}\b(?:prices?|pricing)\b'
       - '\bhalf[- ]price\b'
   new-model:
     topic: model
     weight: 8
     any:
-      - '\b(?:introducing|launch(?:es|ed|ing)?|releas(?:es|ed|ing)|announc(?:es|ed|ing)|unveil(?:s|ed|ing)?)\b.{0,60}\b(?:claude|gpt-?\S*|gemini|gemma|codex|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b'
-      - '\b(?:claude|gpt-?\S*|gemini|llama|qwen|deepseek|grok|mistral|opus|sonnet|haiku)\b.{0,40}\b(?:is now available|now available|released|launch(?:es|ed)|releases|debuts?|arrives?)\b'
+      - '\b(?:introducing|launch(?:es|ed|ing)?|releas(?:es|ed|ing)|announc(?:es|ed|ing)|unveil(?:s|ed|ing)?)\b.{0,60}\b{model}'
+      - '\b{model}.{0,40}\b(?:is now available|now available|released|launch(?:es|ed)|releases|debuts?|arrives?)\b'
   benchmark:
     topic: benchmark
     weight: 7
+    needs_vendor: true
     any:
-      - '\b(?:state[- ]of[- ]the[- ]art|sota)\b'
-      - '\b(?:tops?|leads?|beats?|outperforms?)\b.{0,40}\b(?:leaderboard|swe-bench|benchmark|arena)\b'
+      - '\b(?:state[- ]of[- ]the[- ]art|sota)\b.{0,40}\b(?:benchmarks?|swe-bench|leaderboard|coding|reasoning|results?|scores?)\b'
+      - '\b(?:tops?|leads?|beats?|outperforms?)\b.{0,40}\b(?:leaderboard|swe-bench|benchmarks?|arena)\b'
       - '\bscores?\s+\d{1,3}(?:\.\d+)?\s?%'
   announcement:
     topic: news
@@ -81,10 +98,10 @@ topics:
   new-feature:
     topic: feature
     weight: 5
-    only_in_kinds: [changelog_md]
-    # A changelog bullet is a feature only when it starts with Added/Introduced AND names something
+    only_in_kinds: [changelog_md, release_notes]
+    # A release-note bullet is a feature only when it starts with Added/Introduced AND names something
     # users notice. The list is deliberately short; widening it is a one-line change.
-    bullet_start: '^(?:added|introduced|new:)\b'
+    bullet_start: '^(?:added|introduced)\b'
     boost: ['\bagent', '\bplugin', '\bmcp\b', '\bmodel', '\bmode\b', '\bvoice\b', '\bbackground\b', '\bworkflow', '\bskills?\b', '\bhooks?\b', '\bsandbox']
 
 # A changelog bullet matching one of these is never picked as a "notable feature": settings plumbing
@@ -96,6 +113,7 @@ feature_skip:
 # Bullets/lines that are never news, whatever else they say.
 exclude:
   - '^(?:fixed|fix|bugfix|reverted|removed)\b'
+  - '^(?:show|ask|tell)\s+hn\b'
   - '\bregression in\b'
 
 scoring:
@@ -105,10 +123,11 @@ scoring:
   trending_points: 300           # a community story with no rule match still counts above this
   corroboration_bonus: 3         # per other distinct source on the same vendor+topic within 48h
   corroboration_window_hours: 48
-  undated_age_hours: 12          # items with no date (changelog versions) are treated as this old
+  unknown_vendor_penalty: {model-listed: 4}   # an obscure listing should not outrank a changelog feature
 
 export:
   max_stories: 5
   min_score: 6
   spotlights: 2                  # extra single-story posts for the top N
-  first_run_note: true
+  timezone_offset_hours: 7       # the issue date is the date where the readers are (Vietnam)
+  carry_days: 7                  # qualifying events not exported today wait this long for a later issue

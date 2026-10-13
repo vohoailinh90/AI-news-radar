@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 
+from .textsafe import defang
+
 PRIMARY, COMMUNITY = "primary", "community"
 TRUSTS = (PRIMARY, COMMUNITY)
 
@@ -40,6 +42,11 @@ class Event:
     item_id: str = ""
     score: float = 0.0
     corroborated_by: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Nothing link-looking may leave an Event: model names like "Z.AI: GLM 4.6" read as domains to the studio."""
+        self.title, self.detail = defang(self.title), defang(self.detail)
+        self.figures = {k: defang(str(v)) for k, v in self.figures.items()}
 
     @property
     def verified(self) -> bool:

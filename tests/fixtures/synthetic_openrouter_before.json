@@ -5,5 +5,6 @@
   {"id": "acme/gamma", "name": "Acme Gamma", "created": 1760000000, "pricing": {"prompt": "0.000002", "completion": "0.000006"}},
   {"id": "acme/delta", "name": "Acme Delta", "created": 1760000000, "pricing": {"prompt": "0.000004", "completion": "0.000012"}},
   {"id": "acme/old:free", "name": "Acme Old (free)", "created": 1750000000, "pricing": {"prompt": "0", "completion": "0"}},
+  {"id": "acme/epsilon", "name": "Acme Epsilon", "created": 1750000000, "pricing": {"prompt": "0", "completion": "0"}},
   {"id": "acme/router", "name": "Acme Router", "created": 1750000000, "pricing": {"prompt": "-1", "completion": "-1"}}
  ]}

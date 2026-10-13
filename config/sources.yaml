@@ -24,6 +24,7 @@ sources:
     name: Anthropic news
     vendor: anthropic
     trust: primary
+    allowed_hosts: [www.anthropic.com, anthropic.com]   # a mirror may only point at the vendor's own site
     max_age_days: 14
     live_checked: "2026-10-13"
 
@@ -31,6 +32,7 @@ sources:
     kind: rss
     url: https://github.com/openai/codex/releases.atom
     name: Codex releases
+    release_notes: true          # the release body is read bullet by bullet, like a changelog
     vendor: openai
     trust: primary
     max_age_days: 14
@@ -40,6 +42,7 @@ sources:
     kind: rss
     url: https://github.com/google-gemini/gemini-cli/releases.atom
     name: Gemini CLI releases
+    release_notes: true          # the release body is read bullet by bullet, like a changelog
     vendor: google
     trust: primary
     max_age_days: 14

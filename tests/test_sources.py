@@ -84,13 +84,24 @@ def test_leaderboard_baseline_emits_nothing_then_new_leader(tmp_path):
     assert events[0].figures["score"] == "88" and events[0].trust == "primary"
 
 
-def test_leaderboard_ignores_back_filled_old_entries(tmp_path):
+def test_leaderboard_burst_of_new_ids_is_capped_and_stamped_with_first_seen_time(tmp_path):
     src = source("aider-polyglot")
     raw = fixture("aider_polyglot_leaderboard.yml")
     state = State(tmp_path / "s.json")
     state.snapshots[src.id] = {"ids": [], "best": 0}
-    _, events = leaderboard.collect(src, context(tmp_path, {src.url: raw}, state=state))   # NOW is a year later
-    assert events == []
+    _, events = leaderboard.collect(src, context(tmp_path, {src.url: raw}, state=state))
+    assert len(events) == leaderboard.MAX_NEW == 5 and all(e.when == NOW for e in events)   # an old run date does not hide it
+
+
+def test_leaderboard_a_tie_with_the_best_score_is_not_a_new_leader(tmp_path):
+    src = source("aider-polyglot")
+    raw = fixture("aider_polyglot_leaderboard.yml")
+    entries = leaderboard.parse(raw, src)
+    top = max(entries, key=lambda e: e["score"])
+    state = State(tmp_path / "s.json")
+    state.snapshots[src.id] = {"ids": sorted(e["id"] for e in entries if e["id"] != top["id"]), "best": top["score"]}
+    _, events = leaderboard.collect(src, context(tmp_path, {src.url: raw}, state=state))
+    assert [e.kind for e in events] == ["benchmark-entry"]
 
 
 def _openrouter(tmp_path, before, after):
@@ -107,7 +118,8 @@ def test_openrouter_diff_finds_free_new_and_price_drop(tmp_path):
     assert events[("free-model-added", "GPT New (free)")].vendor == "openai"
     assert ("model-became-free", "Acme Gamma") in events                  # 2.00 -> free
     assert ("free-model-removed", "Acme Old (free)") in events
-    assert ("new-model", "Claude New") in events and events[("new-model", "Claude New")].figures["input_price"] == "3.00"
+    assert ("model-listed", "Claude New") in events and events[("model-listed", "Claude New")].figures["input_price"] == "3.00"
+    assert ("model-no-longer-free", "Acme Epsilon") in events          # still listed, now paid: not "removed"
     drop = events[("price-drop", "Acme Alpha")]
     assert drop.figures == {"model": "Acme Alpha", "percent": "40", "old_price": "5.00", "new_price": "3.00"}
     assert ("price-drop", "Acme Beta") not in events                       # a 10% cut is under min_drop_pct
@@ -124,3 +136,43 @@ def test_hn_parse_skips_empty_titles_and_falls_back_to_discussion_link():
     items = hn.parse(fixture("synthetic_hn_hits.json"), source("hn-ai"))
     assert [i.id for i in items] == ["hn-ai:9001", "hn-ai:9002"]
     assert items[1].url == "https://news.ycombinator.com/item?id=9002" and items[0].points == 450
+
+
+def _model(model_id, name, created, prompt="0.000003"):
+    return {"id": model_id, "name": name, "created": created, "pricing": {"prompt": prompt, "completion": "0.00001"}}
+
+
+def test_openrouter_cap_keeps_the_newest_models_not_the_alphabetically_first(tmp_path):
+    src = source("openrouter-models")
+    state = State(tmp_path / "s.json")
+    base = json.dumps({"data": [_model("acme/old", "Old", 1)]}).encode()
+    openrouter.collect(src, context(tmp_path, {src.url: base}, state=state))
+    newcomers = [_model(f"acme/m{n}", name, 1000 + n) for n, name in enumerate("ABCDEFGHI")]
+    raw = json.dumps({"data": [_model("acme/old", "Old", 1)] + newcomers}).encode()
+    events = openrouter.collect(src, context(tmp_path, {src.url: raw}, state=state))[1]
+    assert [e.figures["model"] for e in events] == ["I", "H", "G", "F", "E"]            # newest five
+
+
+def test_openrouter_a_second_price_drop_of_the_same_model_is_a_new_event(tmp_path):
+    src = source("openrouter-models")
+    state = State(tmp_path / "s.json")
+    prices = ["0.000010", "0.000006", "0.000002"]
+    ids = []
+    for price in prices:
+        raw = json.dumps({"data": [_model("acme/a", "A", 1, price)]}).encode()
+        ids += [e.item_id for e in openrouter.collect(src, context(tmp_path, {src.url: raw}, state=state))[1]]
+    assert len(ids) == len(set(ids)) == 2
+
+
+def test_openrouter_tiny_price_is_never_printed_as_zero():
+    assert openrouter.per_million(4e-9) == "0.0040" and openrouter.per_million(3e-6) == "3.00"
+
+
+def test_openrouter_vendor_name_with_a_dot_cannot_reach_a_post(tmp_path):
+    src = source("openrouter-models")
+    state = State(tmp_path / "s.json")
+    openrouter.collect(src, context(tmp_path, {src.url: json.dumps({"data": [_model("acme/old", "Old", 1)]}).encode()}, state=state))
+    raw = json.dumps({"data": [_model("acme/old", "Old", 1), _model("z-ai/glm", "Z.AI: GLM 4.6", 2000)]}).encode()
+    event = openrouter.collect(src, context(tmp_path, {src.url: raw}, state=state))[1][0]
+    from radar.textsafe import has_link
+    assert not has_link(event.title) and not has_link(event.figures["model"])

@@ -4,13 +4,14 @@ The first run only records. A source whose newest entry is old is reported as st
 
 from __future__ import annotations
 
-from datetime import timedelta, timezone, datetime
 
 import yaml
 
 from ..config import Source
 from ..models import COMMUNITY, Event
 from . import Context, SourceError, parse_time
+
+MAX_NEW = 5
 
 
 def parse(raw: bytes, source: Source) -> list[dict]:
@@ -48,10 +49,11 @@ def collect(source: Source, ctx: Context):
         return [], []                              # baseline
     known, old_best = set(previous["ids"]), float(previous["best"])
     events = []
-    for entry in sorted((e for e in entries if e["id"] not in known), key=lambda e: -e["score"]):
-        when = parse_time(entry["date"]) or ctx.now
-        if when < ctx.now - timedelta(days=source.opt("max_age_days", 30)):
-            continue                               # a back-filled old entry is not news
+    # "new" means first seen by the radar, whatever the run's own date says: entries are often merged weeks
+    # after the run. A burst of new ids is capped at the best few so a reformat cannot flood an issue.
+    fresh = sorted((e for e in entries if e["id"] not in known), key=lambda e: -e["score"])[:MAX_NEW]
+    for entry in fresh:
+        when = ctx.now
         leader = entry["score"] > old_best
         events.append(Event(
             kind="benchmark-new-leader" if leader else "benchmark-entry", vendor="other", topic="benchmark",

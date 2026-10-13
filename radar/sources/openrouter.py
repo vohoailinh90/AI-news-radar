@@ -1,5 +1,5 @@
 """OpenRouter's public model list. Prices are per token as strings; we compare per 1M input tokens.
-Diffed against the last snapshot: a new model, a model that became free, a price drop."""
+Diffed against the last snapshot: a new model, a model that became free (or stopped being), a price drop."""
 
 from __future__ import annotations
 
@@ -23,7 +23,8 @@ def price(value) -> float | None:
 
 
 def per_million(value: float) -> str:
-    return f"{value * 1_000_000:.2f}"
+    scaled = value * 1_000_000
+    return f"{scaled:.2f}" if scaled >= 0.01 else f"{scaled:.4f}"      # never print $0.00 for a price that is not zero
 
 
 def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
@@ -52,42 +53,49 @@ def collect(source: Source, ctx: Context):
     if previous is None:
         return [], []                              # baseline
     min_drop = float(source.opt("min_drop_pct", 20))
-    events: dict[str, list[Event]] = {"free": [], "new": [], "drop": [], "gone": []}
+    groups: dict[str, list[tuple[tuple, Event]]] = {"free": [], "new": [], "drop": [], "gone": []}
+    day = ctx.now.date().isoformat()
 
-    def make(kind, topic, model_id, entry, title, figures, when=None):
-        return Event(kind=kind, vendor=vendor_of_prefix(model_id, ctx.rules), topic=topic, title=title,
-                     url=f"https://openrouter.ai/{model_id}", source=source.id, source_name=source.name,
-                     trust=source.trust, when=when or ctx.now, item_id=f"{source.id}:{kind}:{model_id}",
-                     figures={"model": entry["name"], **figures})
+    def make(group, sort_key, kind, topic, model_id, entry, title, figures, when=None, suffix=""):
+        # the id carries what makes this occurrence unique, so a second price drop or a second
+        # "became free" for the same model is a new event rather than a repeat of the first
+        event = Event(kind=kind, vendor=vendor_of_prefix(model_id, ctx.rules), topic=topic, title=title,
+                      url=f"https://openrouter.ai/{model_id}", source=source.id, source_name=source.name,
+                      trust=source.trust, when=when or ctx.now, item_id=f"{source.id}:{kind}:{model_id}{suffix}",
+                      figures={"model": entry["name"], **figures})
+        groups[group].append((sort_key, event))
 
     for model_id, now_entry in current.items():
         before = previous.get(model_id)
         created = datetime.fromtimestamp(now_entry["created"], timezone.utc) if now_entry["created"] else ctx.now
+        newest_first = (-now_entry["created"], now_entry["name"])
         if before is None:
             if now_entry["free"]:
-                events["free"].append(make("free-model-added", "free", model_id, now_entry,
-                                           f"{now_entry['name']} is available free of charge", {}, created))
+                make("free", newest_first, "free-model-added", "free", model_id, now_entry,
+                     f"{now_entry['name']} is available free of charge on OpenRouter", {}, created)
             else:
                 figs = {"input_price": per_million(now_entry["prompt"])} if now_entry["prompt"] else {}
-                events["new"].append(make("new-model", "model", model_id, now_entry,
-                                          f"{now_entry['name']} is now listed", figs, created))
+                make("new", newest_first, "model-listed", "model", model_id, now_entry,
+                     f"{now_entry['name']} is now listed on OpenRouter", figs, created)
         elif now_entry["free"] and not before.get("free"):
-            events["free"].append(make("model-became-free", "free", model_id, now_entry,
-                                       f"{now_entry['name']} became free of charge", {}))
+            make("free", newest_first, "model-became-free", "free", model_id, now_entry,
+                 f"{now_entry['name']} became free of charge on OpenRouter", {}, suffix=f"@{day}")
+        elif before.get("free") and not now_entry["free"]:
+            make("gone", (0, now_entry["name"]), "model-no-longer-free", "free", model_id, now_entry,
+                 f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{day}")
         elif before.get("prompt") and now_entry["prompt"] is not None and not now_entry["free"]:
             drop = (before["prompt"] - now_entry["prompt"]) / before["prompt"] * 100
             if drop >= min_drop:
                 figs = {"percent": f"{round(drop)}", "old_price": per_million(before["prompt"]),
                         "new_price": per_million(now_entry["prompt"])}
-                events["drop"].append(make("price-drop", "discount", model_id, now_entry,
-                                           f"{now_entry['name']} input price drops {figs['percent']}%: "
-                                           f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs))
+                make("drop", (-drop, now_entry["name"]), "price-drop", "discount", model_id, now_entry,
+                     f"{now_entry['name']} input price drops {figs['percent']}% on OpenRouter: "
+                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['new_price']}")
     for model_id, before in previous.items():
         if before.get("free") and model_id not in current:
-            events["gone"].append(make("free-model-removed", "free", model_id, before,
-                                       f"{before['name']} is no longer listed as free", {}))
+            make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,
+                 f"{before['name']} was removed from OpenRouter's free models", {}, suffix=f"@{day}")
     out: list[Event] = []
-    for group in events.values():
-        group.sort(key=lambda e: (-(float(e.figures.get("percent", 0))), e.title))
-        out += group[:MAX_PER_KIND]
+    for group in groups.values():
+        out += [event for _, event in sorted(group, key=lambda pair: pair[0])[:MAX_PER_KIND]]
     return [], out

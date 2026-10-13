@@ -7,16 +7,21 @@ import re
 from datetime import datetime
 
 from .config import Source
-from .models import COMMUNITY, Event, Item
-from .textsafe import defang
+from .models import COMMUNITY, PRIMARY, Event, Item
 
 PERCENT = re.compile(r"(\d{1,3})\s?%")
 
 
 def compile_rules(rules: dict) -> dict:
+    model = rules.get("model_name", "")
+
+    def comp(pattern: str, flags=re.I):
+        return re.compile(pattern.replace("{model}", model), flags)
+
     return {
         "vendors": {v: [re.compile(p, re.I) for p in pats] for v, pats in rules["vendors"].items()},
-        "topics": {name: {**spec, "any": [re.compile(p, re.I) for p in spec.get("any", [])],
+        "topics": {name: {**spec, "any": [comp(p) for p in spec.get("any", [])],
+                          "unless": [comp(p) for p in spec.get("unless", [])],
                           "boost": [re.compile(p, re.I) for p in spec.get("boost", [])],
                           "bullet_start": re.compile(spec["bullet_start"], re.I) if spec.get("bullet_start") else None}
                    for name, spec in rules["topics"].items()},
@@ -33,11 +38,20 @@ def vendor_for(text: str, fallback: str, compiled: dict) -> str:
     return fallback
 
 
-def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False):
+def rule_kind(source: Source, item: Item) -> str:
+    """Release-notes bullets (changelog files, GitHub release feeds) follow the changelog rules."""
+    return "release_notes" if source.kind == "rss" and "bullets" in item.extra else source.kind
+
+
+def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False, vendor_ok: bool = True):
     """The highest-weight topic whose rule matches `text`, as (name, spec) or None."""
     best = None
     for name, spec in compiled["topics"].items():
         if kind in spec.get("not_in_kinds", []) or ("only_in_kinds" in spec and kind not in spec["only_in_kinds"]):
+            continue
+        if spec.get("needs_vendor") and not vendor_ok:
+            continue                                    # "free" / "limits" / "price cut" alone could be about anything
+        if any(p.search(text) for p in spec["unless"]):
             continue
         if spec["bullet_start"]:
             if not bullet or not spec["bullet_start"].search(text):
@@ -52,10 +66,15 @@ def match_topic(text: str, kind: str, compiled: dict, *, bullet: bool = False):
 
 
 def figures_for(text: str, topic: str) -> dict:
+    """A percent figure, taken from the headline text given (never from a body), so it is also in the brief."""
     found = PERCENT.search(text)
     if found and topic in ("discount", "quota"):
         return {"percent": found.group(1)}
     return {}
+
+
+def _vendor_ok(text: str, source: Source, compiled: dict) -> bool:
+    return vendor_for(text, "other", compiled) != "other" or (source.vendor != "other" and source.trust == PRIMARY)
 
 
 def detect(items: list[Item], sources: dict[str, Source], rules: dict, now: datetime) -> list[Event]:
@@ -64,20 +83,19 @@ def detect(items: list[Item], sources: dict[str, Source], rules: dict, now: date
     for item in items:
         source = sources[item.source]
         when = item.published or now
-        if source.kind == "changelog_md":
-            events += _from_changelog(item, source, compiled, when)
+        if "bullets" in item.extra:
+            events += _from_bullets(item, source, compiled, when)
             continue
-        text = f"{item.title}. {item.body[:600]}"
+        text = f"{item.title}. {item.body[:600]}" if source.opt("match_body", True) else item.title
         if any(p.search(item.title) for p in compiled["exclude"]):
             continue
-        hit = match_topic(text, source.kind, compiled)
         vendor = vendor_for(text, source.vendor, compiled)
+        hit = match_topic(text, source.kind, compiled, vendor_ok=_vendor_ok(text, source, compiled))
         if hit:
             name, spec = hit
-            events.append(_event(item, source, name, spec["topic"], vendor, defang(item.title), when,
-                                 figures_for(text, spec["topic"])))
+            events.append(_event(item, source, name, spec["topic"], vendor, item.title, when, figures_for(item.title, spec["topic"])))
         elif source.trust == COMMUNITY and item.points >= compiled["trending_points"]:
-            events.append(_event(item, source, "trending", "news", vendor, defang(item.title), when, {}))
+            events.append(_event(item, source, "trending", "news", vendor, item.title, when, {}))
     return events
 
 
@@ -86,17 +104,17 @@ def _event(item, source, kind, topic, vendor, title, when, figures) -> Event:
                  source_name=source.name, trust=source.trust, when=when, figures=figures, item_id=item.id)
 
 
-def _from_changelog(item: Item, source: Source, compiled: dict, when: datetime) -> list[Event]:
-    version, features, others = item.extra["version"], [], []
+def _from_bullets(item: Item, source: Source, compiled: dict, when: datetime) -> list[Event]:
+    version, features, others, kind = item.extra["version"], [], [], rule_kind(source, item)
     for number, bullet in enumerate(item.extra["bullets"]):
         if any(p.search(bullet) for p in compiled["exclude"]):
             continue
-        hit = match_topic(bullet, source.kind, compiled, bullet=True)
+        hit = match_topic(bullet, kind, compiled, bullet=True, vendor_ok=_vendor_ok(bullet, source, compiled))
         if not hit:
             continue
         name, spec = hit
         event = _event(item, source, name, spec["topic"], vendor_for(bullet, source.vendor, compiled),
-                       f"{source.name} {version}: {defang(bullet)}", when, {"version": version, **figures_for(bullet, spec["topic"])})
+                       f"{source.name} {version}: {bullet}", when, {"version": version, **figures_for(bullet, spec["topic"])})
         event.item_id = f"{item.id}#{number}"
         boosts = sum(1 for p in compiled["topics"][name]["boost"] if p.search(bullet))
         (features if name == "new-feature" else others).append((boosts, number, event))
