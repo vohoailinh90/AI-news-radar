@@ -108,8 +108,8 @@ và có đủ vi/ja/en.
   `last-scan.json` trước khi đánh dấu "đã thấy". Bộ xuất bản mới là nơi trải tin: tối đa `max_per_source_kind` (2) tin cho mỗi nguồn và loại trong một
   số, phần còn lại ở lại làm tin chờ (`carry_days`). Ảnh chụp trạng thái của một nguồn chỉ được ghi khi nguồn đó xử lý xong; nguồn lỗi giữa chừng
   bị hoàn tác, nên lượt sau không lấy dữ liệu dở dang làm mốc.
-Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ
-  48 giờ (`corroboration_window_hours`); một lần lặp lại sau nhiều ngày là tin riêng, chưa xác nhận.
+- Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ 48 giờ (`corroboration_window_hours`); một lần lặp lại
+  sau nhiều ngày là tin riêng, chưa xác nhận.
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test
   duyệt từng chuỗi của bài để chắc điều đó.
 - Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau
