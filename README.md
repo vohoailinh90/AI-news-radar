@@ -38,7 +38,8 @@ của đúng tool đó. Xong đợt đăng thì xoá thư mục cũ nếu muốn
    thì mang **những thay đổi riêng của nhánh** sang (`git merge --squash`) — lượt quét hôm nay tiếp nối trạng thái hôm qua, không báo lại tin cũ,
    và file bạn xoá hay thêm trên `main` trong lúc đó không bị hoàn nguyên hay xoá mất. Xung đột với `main` (ví dụ bạn sửa tay `data/state.json`)
    thì dừng và báo lỗi thay vì đoán: sửa trên nhánh, hoặc xoá nhánh để bắt đầu lại.
-2. `python radar.py run` như trước.
+2. `python radar.py run` như trước. Chạy lần hai trong cùng một ngày (giờ Việt Nam) mà có tin mới thì export bị từ chối vì số báo hôm nay đã có (mã 4):
+   lượt quét vẫn được lưu, tin mới nằm chờ trong `data/last-scan.json` cho số kế tiếp và Action vẫn chạy tiếp bước 3. Mã 2 (mọi nguồn hỏng) và 5 (bài có chữ giống đường link) vẫn làm job đỏ.
 3. `publish`: commit `data/` và `out/`, push nhánh (ghi đè có kiểm soát — nhánh được dựng lại trên `main` mỗi ngày nên **đừng commit vào nó**),
    mở PR "Daily scan data" nếu chưa có PR mở, rồi kích hoạt `ci.yml` trên nhánh nếu đầu nhánh chưa có lượt chạy của check `tests`
    (commit và PR tạo bằng token của workflow **không** tự chạy CI, nên check bắt buộc sẽ không bao giờ báo nếu thiếu bước này; bị từ chối thì lần chạy sau thử lại).
@@ -110,7 +111,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 539 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 547 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 

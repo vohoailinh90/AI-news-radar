@@ -34,12 +34,16 @@ jobs:
         # a scan whose pull request is still open is the baseline for today's, or yesterday's news would be found again
         run: python scripts/publish_scan.py prepare
       - name: Scan and export
-        # exit 3 = nothing worth posting today (not a failure); 2 = every source failed (a failure)
+        # exit 3 = nothing worth posting today; 4 = export refused because today's issue (local date) already exists, e.g. a
+        # manual run after the scheduled one: the scan itself was saved and its events wait in data/last-scan.json for the next
+        # issue, so the run goes on to publish them. Both are not failures. 2 (every source failed) and 5 (a post with
+        # link-looking text) stay failures: the owner has to see those.
         run: |
           set +e
           python radar.py run
           code=$?
           if [ "$code" -eq 3 ]; then echo "nothing worth posting today"; exit 0; fi
+          if [ "$code" -eq 4 ]; then echo "::notice::export refused (today's issue already exists): the new events stay pending in data/last-scan.json for the next issue"; exit 0; fi
           exit $code
       - name: Commit, push and open the pull request
         run: python scripts/publish_scan.py publish

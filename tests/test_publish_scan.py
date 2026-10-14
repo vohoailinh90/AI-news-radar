@@ -1,15 +1,20 @@
 """The scan Action delivers through a pull request (scripts/publish_scan.py): real git against a bare remote, a fake GitHub."""
 
+import argparse
 import io
 import json
 import subprocess
 import urllib.error
+from datetime import timedelta
 from pathlib import Path
 
 import pytest
 import yaml
 
+from radar import cli
 from radar.config import ROOT
+from radar.models import Event
+from tests.helpers import NOW, REAL, fetcher_for, make_root
 from scripts import publish_scan as ps
 
 
@@ -490,3 +495,45 @@ def test_ci_can_be_dispatched_on_the_scan_branch():
     triggers = wf.get("on", wf.get(True))
     assert "workflow_dispatch" in triggers and "pull_request" in triggers
     assert any(step.get("run") == "python -m pytest -q" for step in wf["jobs"]["tests"]["steps"])        # the job a branch rule requires is still called `tests`
+
+
+# ---- the scan step's exit codes: only a real failure may stop the run before the scan is saved
+def run_scan_step(tmp_path, code):
+    """Execute the workflow's own "Scan and export" script the way Actions does (bash -eo pipefail), with `python` stubbed to exit with `code`."""
+    step = next(step for step in workflow("scan.yml")["jobs"]["scan"]["steps"] if step.get("name") == "Scan and export")
+    shim = tmp_path / "bin"
+    shim.mkdir(exist_ok=True)
+    (shim / "python").write_text(f"#!/bin/sh\nexit {code}\n")
+    (shim / "python").chmod(0o755)
+    done = subprocess.run(["bash", "--noprofile", "--norc", "-eo", "pipefail", "-c", step["run"]], capture_output=True, text=True,
+                          env={"PATH": f"{shim}:/usr/bin:/bin"}, cwd=tmp_path)
+    return done.returncode, done.stdout
+
+
+@pytest.mark.parametrize("code, expected", [(0, 0), (3, 0), (4, 0), (2, 2), (5, 5), (1, 1)])
+def test_the_scan_step_fails_only_when_the_scan_itself_could_not_be_trusted(tmp_path, code, expected):
+    assert run_scan_step(tmp_path, code)[0] == expected
+    # 3: nothing worth posting. 4: today's issue already exists (a second run the same local day): the scan was saved and its
+    # events wait in data/last-scan.json for the next issue, so the run must go on to publish them instead of discarding them.
+    # 2 (every source failed) and 5 (a post with link-looking text) stay red: the owner has to see those.
+
+
+def test_a_refused_export_says_so_in_the_log(tmp_path):
+    assert "stay pending" in run_scan_step(tmp_path, 4)[1]
+
+
+def test_a_refused_export_leaves_the_scan_saved_and_its_events_wait_for_the_next_issue(tmp_path):
+    """The premise of the exit-4 handling above: `run` is scan then export, so when export is refused the scan is already on disk."""
+    root = make_root(tmp_path)
+    promo = Event(kind="free-promo", vendor="openai", topic="free", title="Codex is free for one week", url="https://e.org", source="aider-polyglot",
+                  source_name="A", trust="primary", when=NOW, item_id="promo", score=12)
+    cli.save_scan(root, [promo], [], NOW)
+    (root / "out" / "ai-news-2026-10-14" / "tools" / "ai-news-2026-10-14").mkdir(parents=True)          # today's issue (22:00 UTC is the 14th in Vietnam) exists
+    fetch = fetcher_for({"aider-polyglot": "aider_polyglot_leaderboard.yml"})
+    cli.scan(root, fetcher=fetch, now=NOW)
+    assert cli.cmd_export(argparse.Namespace(date=None, studio=None, force=False), root) == 4              # refused: nothing is exported...
+    assert (root / "data" / "state.json").exists() and "promo" in [e.item_id for e in cli.load_pending(root)]      # ...and the scan and its event are saved
+    tomorrow = NOW + timedelta(days=1)
+    cli.scan(root, fetcher=fetch, now=tomorrow)
+    assert cli.cmd_export(argparse.Namespace(date=None, studio=None, force=False), root) == 0
+    assert "Codex is free for one week" in (root / "out" / "ai-news-2026-10-15" / "REPORT.md").read_text(encoding="utf-8")     # the next issue carries it
