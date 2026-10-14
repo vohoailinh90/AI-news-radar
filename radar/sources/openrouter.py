@@ -103,7 +103,7 @@ def collect(source: Source, ctx: Context):
                         "new_price": per_million(now_entry["prompt"])}
                 make("drop", (-drop, now_entry["name"]), "price-drop", "discount", model_id, now_entry,
                      f"{now_entry['name']} input price drops {figs['percent']}% on OpenRouter: "
-                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{figs['old_price']}>{figs['new_price']}@{since}")
+                     f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{since}")
     for model_id, before in previous.items():
         if before.get("free") and model_id not in current:
             make("gone", (1, before["name"]), "free-model-removed", "free", model_id, before,

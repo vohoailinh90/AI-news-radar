@@ -83,7 +83,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 183 test; test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 489 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -110,6 +110,9 @@ và có đủ vi/ja/en.
   bị hoàn tác, nên lượt sau không lấy dữ liệu dở dang làm mốc.
 - Một lần quan sát (id) gắn với **thế hệ** ảnh chụp mà nó được so (bộ đếm tăng dần, không phải đồng hồ), tính tuổi từ lúc quan sát chứ không từ ngày
   tạo model (ngày tạo giữ ở `detail`), và một bản chờ đã hết hạn vẫn chặn bản replay của nó: `carry_days` là cuối cùng.
+- Gộp tin bắc cầu: mọi bản tin của cùng một việc (đã chọn, đang chờ ô, hay mới đến) gộp thành một tin, tin chính thức là bản chính; tin bị đẩy
+  ra hoặc chưa có chỗ vẫn "hút" các bản tin đến sau, nên không bao giờ có chuyện bản cộng đồng được đăng trước còn bản chính thức chờ số sau.
+  `tests/test_select_properties.py` kiểm điều đó trên 300 bộ sự kiện ngẫu nhiên.
 - Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ 48 giờ (`corroboration_window_hours`); một lần lặp lại
   sau nhiều ngày là tin riêng, chưa xác nhận.
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test

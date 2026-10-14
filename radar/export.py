@@ -55,38 +55,60 @@ def vendor_name(event: Event, rules: dict) -> str:
 
 
 def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event], set[str]]:
-    """The stories of an issue, best first, plus the ids of reports folded into them. Events that rank.same_story()
-    says are one piece of news become ONE story: the primary-source event is the canonical one (a higher-scoring
-    community report does not displace it), and the other source is kept as evidence (`also_reported_by`).
-    One source and kind may fill at most `max_per_source_kind` stories; the rest are neither stories nor absorbed,
-    they wait for a later issue. Slot use is counted from the stories picked, never kept as a running total."""
-    cfg, seen, picked, absorbed = rules["export"], set(), [], set()
+    """The stories of an issue, best first, plus the ids of reports folded into them.
+
+    Events that rank.same_story() says are one piece of news become ONE story, whoever else matches: every event of a
+    group (already picked, waiting for a slot, or new) is folded into a single canonical one. The primary-source event is
+    canonical (a higher-scoring community report does not displace it), the others are absorbed, and their sources are
+    kept as evidence (`also_reported_by`).
+
+    One source and kind may fill at most `max_per_source_kind` stories. An event that does not fit, and a story displaced
+    by a canonical replacement, WAIT: they are neither stories nor absorbed, and later reports of them are still folded
+    in, so the same news is never published through a report while its canonical event waits. Slot use is counted from
+    the stories picked, never kept as a running total."""
+    cfg, seen, picked, waiting, absorbed = rules["export"], set(), [], [], set()
     window = timedelta(hours=rules["scoring"]["corroboration_window_hours"])      # the same bound ranking uses
     limit = cfg["max_per_source_kind"]
 
-    def used(slot):
-        return sum(1 for p in picked if (p.source, p.kind) == slot)
+    def slot(e):
+        return (e.source, e.kind)
+
+    def used(slot_, among):
+        return sum(1 for p in among if slot(p) == slot_)
+
+    def matches(a, b):
+        return same_story(a, b) and abs(a.when - b.when) <= window
 
     for event in events:
         if event.score < cfg["min_score"] or event.item_id in seen:
             continue
         seen.add(event.item_id)
-        twin = next((p for p in picked if same_story(p, event) and abs(p.when - event.when) <= window), None)
-        if twin is None:
-            if used((event.source, event.kind)) >= limit:
-                continue                              # not a story today and not absorbed: it waits for a later issue
-            picked.append(event)
-            continue
-        keep, drop = (event, twin) if event.trust == PRIMARY and twin.trust != PRIMARY else (twin, event)
-        if keep is not twin and used((keep.source, keep.kind)) >= limit:
-            # the canonical event comes from a full slot (same_story needs two different sources, so it is never the
-            # twin's own slot): the lowest-ranked story already in it waits for a later issue
-            victim = next((p for p in reversed(picked) if (p.source, p.kind) == (keep.source, keep.kind)), None)
-            if victim is not None:
-                picked.remove(victim)
-        keep.also_reported_by = list(dict.fromkeys(keep.also_reported_by + drop.also_reported_by + [drop.source_name]))
-        absorbed |= {drop.item_id}
-        picked[picked.index(twin)] = keep
+        twins = [p for p in picked if matches(p, event)]
+        waiters = [w for w in waiting if matches(w, event)]
+        group = twins + waiters + [event]
+        canonical = next((e for e in group if e.trust == PRIMARY), group[0])
+        others = [e for e in group if e is not canonical]
+        for other in others:
+            canonical.also_reported_by = list(dict.fromkeys(canonical.also_reported_by + other.also_reported_by + [other.source_name]))
+            absorbed.add(other.item_id)
+        keep_slot = bool(twins)                       # the story was already one of today's: it stays one
+        members = {id(e) for e in group}
+        base = [p for p in picked if id(p) not in members]
+        waiting[:] = [w for w in waiting if id(w) not in members]
+        if keep_slot or used(slot(canonical), base) < limit:
+            if used(slot(canonical), base) >= limit:
+                # the canonical event comes from a full slot: the lowest-ranked story already in it waits
+                victim = next((p for p in reversed(base) if slot(p) == slot(canonical)), None)
+                if victim is not None:
+                    base.remove(victim)
+                    waiting.append(victim)
+            # the story keeps the rank of its best-placed member: insert after the stories that came before it
+            at = sum(1 for p in picked[: picked.index(twins[0])] if id(p) not in members) if twins else len(base)
+            base.insert(min(at, len(base)), canonical)
+            picked[:] = base
+        else:
+            waiting.append(canonical)                 # no room: not a story today, not absorbed; its reports are folded in when they come
+            picked[:] = base
     return picked[: cfg["max_stories"]], absorbed
 
 

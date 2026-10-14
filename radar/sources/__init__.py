@@ -45,7 +45,11 @@ def parse_time(text: str | None) -> datetime | None:
 def occurrence(previous) -> str:
     """The name of the snapshot an observation is measured against: a monotonic generation, never a wall-clock time
     (two scans in the same second, or with the same supplied `now`, must not share an occurrence)."""
-    return f"g{previous['gen']}" if isinstance(previous, dict) and isinstance(previous.get("gen"), int) else "legacy"
+    if isinstance(previous, dict) and isinstance(previous.get("gen"), int):
+        return f"g{previous['gen']}"
+    if isinstance(previous, dict) and isinstance(previous.get("taken"), str):
+        return previous["taken"]                  # written by the version that stamped with the clock: keep its ids
+    return "legacy"
 
 
 def next_generation(previous) -> int:
