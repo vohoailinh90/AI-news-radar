@@ -5,7 +5,8 @@ The default branch is protected (pull request, required check, no bypass), so th
 to it. It works on the branch `scan-data` and keeps one pull request open from it:
 
   prepare   start the work tree from the default branch; when the branch holds a scan that is still waiting
-            (its latest pull request is open, or was never opened) bring the branch's own changes over it
+            (its latest pull request is open, never opened, or did not cover the branch tip: a scan pushed after
+            the previous pull request was finished) bring the branch's own changes over it
             (`git merge --squash`: what the branch added to the default branch it was built on, nothing else),
             so the scan continues from yesterday's state instead of re-detecting yesterday's news. A conflict
             with the default branch stops the run: guessing would corrupt the state file
@@ -138,7 +139,10 @@ def prepare(gh, cwd: Path, branch: str = BRANCH, base: str = BASE) -> str:
     if listed.returncode == 0:
         git("fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}", cwd=cwd)
         latest = gh.latest_pull_request(branch)
-        carry = latest is None or latest.get("state") == "open"      # merged or closed: what the branch holds is delivered or dropped
+        # A finished pull request settles only the tip it covered. A scan pushed after it (its own pull request failed to
+        # open) is still waiting, and so is any tip the pull request cannot be shown to have covered: never discard on doubt.
+        carry = (latest is None or latest.get("state") == "open"
+                 or (latest.get("head") or {}).get("sha") != rev(f"refs/remotes/origin/{branch}", cwd))
     else:
         git("update-ref", "-d", f"refs/remotes/origin/{branch}", cwd=cwd, check=False)      # no stale expectation for the lease
     git("checkout", "-B", branch, f"origin/{base}", cwd=cwd)

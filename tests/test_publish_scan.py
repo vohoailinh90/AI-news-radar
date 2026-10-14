@@ -106,6 +106,11 @@ class World:
             sh("git", "commit", "-m", "squash pr", cwd=self.owner)
         sh("git", "push", "-q", "origin", "main", cwd=self.owner)
 
+    def closed_pr(self, merged):
+        """The newest pull request of the branch, finished, as the API reports it: its head is the branch tip it covered."""
+        return {"state": "closed", "merged_at": "2026-10-02T00:00:00Z" if merged else None,
+                "head": {"sha": self.remote("rev-parse", "scan-data")}}
+
     def owner_removes(self, path):
         sh("git", "pull", "-q", "origin", "main", cwd=self.owner)
         sh("git", "rm", "-q", path, cwd=self.owner)
@@ -163,7 +168,7 @@ def test_after_a_merge_nothing_is_delivered_until_there_is_something_new(world, 
     world.run(gh, 1)
     tip = world.remote("rev-parse", "scan-data")
     world.owner_merges(how)
-    gh.latest = {"state": "closed", "merged_at": "2026-10-02T00:00:00Z"}
+    gh.latest = world.closed_pr(merged=True)
     assert world.run(gh, 0) == ("fresh", "nothing")
     assert world.remote("rev-parse", "scan-data") == tip and len(gh.created) == 1               # no empty pull request, no push
     world.day(3)
@@ -175,7 +180,7 @@ def test_after_a_merge_nothing_is_delivered_until_there_is_something_new(world, 
 def test_a_closed_pull_request_drops_what_the_branch_held(world):
     gh = world.gh()
     world.run(gh, 1)
-    gh.latest = {"state": "closed", "merged_at": None}
+    gh.latest = world.closed_pr(merged=False)
     assert ps.prepare(gh, world.work) == "fresh"
     assert not (world.work / "out/ai-news-2026-10-01").exists()
 
@@ -313,6 +318,30 @@ def test_a_waiting_scan_that_conflicts_with_main_stops_the_run_and_leaves_a_clea
     with pytest.raises(ps.PublishError, match="conflicts with main"):
         ps.prepare(gh, world.work)
     assert sh("git", "status", "--porcelain", cwd=world.work) == "" and sh("git", "rev-parse", "HEAD", cwd=world.work) == world.remote("rev-parse", "main")
+
+
+# ---- a scan pushed after the previous pull request was finished is still waiting
+def test_a_scan_pushed_after_a_merged_pull_request_survives_a_failed_pull_request_creation(world):
+    gh = world.gh()
+    world.run(gh, 1)
+    world.owner_merges("merge")
+    finished = world.closed_pr(merged=True)                                                      # pull request 1 covered the tip it was merged at
+    gh = world.gh(latest=finished, refuse_create=True)
+    with pytest.raises(ps.PublishError, match="could not be opened"):
+        world.run(gh, 2)                                                                         # day 2 is pushed, its pull request is not opened
+    assert "out/ai-news-2026-10-02/post.yaml" in world.remote("ls-tree", "-r", "--name-only", "scan-data").split()
+    gh = world.gh(latest=finished)                                                               # the API still answers with the old, finished pull request
+    assert world.run(gh, 0) == ("continue", "published")
+    assert json.loads((world.work / "data/state.json").read_text()) == {"day": 2}                # day 2's state was not thrown away
+    assert world.branch_files() == ["data/state.json", "out/ai-news-2026-10-02/post.yaml"]
+    assert len(gh.created) == 1                                                                  # and it gets its pull request now
+
+
+def test_a_finished_pull_request_without_a_head_commit_never_discards_a_waiting_scan(world):
+    gh = world.gh()
+    world.run(gh, 1)
+    gh.latest = {"state": "closed", "merged_at": None}                                           # nothing says which tip it covered: keep the data
+    assert ps.prepare(gh, world.work) == "continue"
 
 
 # ---- the branch follows main even when main's tree does not change

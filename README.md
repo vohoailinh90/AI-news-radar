@@ -34,7 +34,7 @@ của đúng tool đó. Xong đợt đăng thì xoá thư mục cũ nếu muốn
 `main` có thể được bảo vệ (bắt buộc PR, bắt buộc check `tests`, bắt buộc cập nhật với `main`, không cho bypass), nên Action
 (`.github/workflows/scan.yml`, 22:17 UTC) **không push vào `main`**. Nó dùng `scripts/publish_scan.py`:
 
-1. `prepare`: dựng nhánh `scan-data` từ `main`; nếu nhánh đang chứa một lượt quét chưa được merge (PR của nó còn mở, hoặc chưa từng mở được)
+1. `prepare`: dựng nhánh `scan-data` từ `main`; nếu nhánh đang chứa một lượt quét chưa được merge (PR của nó còn mở, chưa từng mở được, hoặc PR gần nhất đã đóng nhưng không bao phủ đầu nhánh hiện tại — tức lượt quét được đẩy *sau* PR đó mà việc mở PR mới thất bại)
    thì mang **những thay đổi riêng của nhánh** sang (`git merge --squash`) — lượt quét hôm nay tiếp nối trạng thái hôm qua, không báo lại tin cũ,
    và file bạn xoá hay thêm trên `main` trong lúc đó không bị hoàn nguyên hay xoá mất. Xung đột với `main` (ví dụ bạn sửa tay `data/state.json`)
    thì dừng và báo lỗi thay vì đoán: sửa trên nhánh, hoặc xoá nhánh để bắt đầu lại.
@@ -110,7 +110,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 537 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 539 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
