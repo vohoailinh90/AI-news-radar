@@ -39,7 +39,7 @@ def test_p2_every_picked_report_matched_by_the_canonical_event_is_absorbed():
 
 
 # ---- P2 a displaced or skipped story keeps absorbing its later reports
-def test_p2_a_report_of_a_displaced_story_is_folded_into_it_not_selected_on_its_own():
+def test_p2_a_report_of_a_story_is_folded_into_it_however_the_slots_fall():
     p1 = ev("p1", "Weekly usage limits reset for Claude plans", "anthropic-news", "primary", "anthropic", 20)
     p2 = ev("p2", "Codex usage limits reset for all users today", "anthropic-news", "primary", "openai", 19)
     c3 = ev("c3", "Gemini quota refreshed across every region", "hn-ai", "community", "google", 18)
@@ -47,8 +47,8 @@ def test_p2_a_report_of_a_displaced_story_is_folded_into_it_not_selected_on_its_
     late = ev("late", "Codex usage limits have been reset for every user", "reddit", "community", "openai", 16)       # a report of p2
     stories, absorbed = export.select_with_absorbed([p1, p2, c3, p3, late], SMALL)
     ids = [s.item_id for s in stories]
-    assert "p2" not in ids and "late" not in ids and "late" in absorbed                       # not published now by the back door
-    assert "p2" not in absorbed                                                              # p2 itself still waits, with its report attached
+    assert ids == ["p1", "p2"] and absorbed == {"c3", "late"}                                 # each report is folded into its story; none leaks out
+    assert "p3" not in absorbed                                                              # p3, the official Gemini story, waits with c3 attached
 
 
 def test_p2_a_report_of_a_story_skipped_for_a_full_slot_is_folded_into_it():

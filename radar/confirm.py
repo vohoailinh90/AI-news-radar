@@ -50,22 +50,38 @@ def confirms(page: str, headline: str) -> bool:
     return wanted in page_titles(page)          # equality only: a shorter, invented headline is not confirmed by a longer real one
 
 
-def confirm_events(events: list[Event], flagged: set[str], fetch) -> list[str]:
+def _checks_out(event: Event, fetch, cache: dict) -> bool:
+    """Does the vendor's page carry this event's headline? One fetch per URL per scan, at most MAX_CONFIRMATIONS of them."""
+    if event.url not in cache:
+        if len(cache) >= MAX_CONFIRMATIONS:
+            cache[event.url] = False                    # over the cap: unconfirmed, never silently trusted
+        else:
+            try:
+                cache[event.url] = confirms(fetch(event.url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace"), event.title)
+            except FetchError:
+                cache[event.url] = False
+    return cache[event.url]
+
+
+def confirm_events(events: list[Event], flagged: set[str], fetch, cache: dict | None = None) -> list[str]:
     """Demote to community every flagged-source event the vendor's page does not confirm. Returns notes for the run report."""
-    notes, cache = [], {}
+    notes, cache = [], {} if cache is None else cache
     for event in events:
         if event.source not in flagged or event.trust != PRIMARY or not event.url.startswith("https://"):
             continue
-        if event.url not in cache:
-            if len(cache) >= MAX_CONFIRMATIONS:
-                ok = False                                  # over the cap: unconfirmed, never silently trusted
-            else:
-                try:
-                    ok = confirms(fetch(event.url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace"), event.title)
-                except FetchError:
-                    ok = False
-            cache[event.url] = ok
-        if not cache[event.url]:
+        if not _checks_out(event, fetch, cache):
             event.trust = COMMUNITY
             notes.append(f"{event.source}: the page for '{event.title[:60]}' did not confirm the headline; reported as unconfirmed")
     return notes
+
+
+def reconfirm_events(events: list[Event], original: dict[str, str], fetch, cache: dict | None = None) -> None:
+    """Events kept pending after a failed confirmation get another chance each scan: a page that is reachable now and
+    carries the headline restores the source's own trust. Events that were never demoted are not fetched again."""
+    cache = {} if cache is None else cache
+    for event in events:
+        trust = original.get(event.source)
+        if trust is None or event.trust == trust or not event.url.startswith("https://"):
+            continue
+        if _checks_out(event, fetch, cache):
+            event.trust = trust

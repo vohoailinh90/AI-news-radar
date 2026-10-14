@@ -58,7 +58,8 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - Anthropic không có feed chính thức, nên tin được đọc qua một feed mirror của cộng đồng. Vì thế mirror **không** được tin: chỉ nhận mục có link
   trỏ về anthropic.com (`allowed_hosts`), và với mỗi tin radar **tự tải trang đó** rồi so tiêu đề (`og:title` hoặc `<title>`, so bằng, không so tiền tố).
   Khớp thì mới là nguồn chính thức; không khớp, không tải được, hay vượt giới hạn 15 trang mỗi lượt thì tin bị hạ xuống "cộng đồng, chưa xác nhận"
-  và run report ghi lý do. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`. Vì chỉ **tiêu đề** được xác nhận, nguồn
+  và run report ghi lý do; tin đang chờ bị hạ như vậy được **kiểm tra lại** ở mỗi lượt quét sau (cùng giới hạn 15 trang) và được trả về chính thức
+  khi trang đã tải được và khớp. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`. Vì chỉ **tiêu đề** được xác nhận, nguồn
   bật `confirm_page` chỉ được nhận diện trên tiêu đề, không bao giờ trên phần tóm tắt do mirror cung cấp.
 - Luật phát hiện khớp **cụm hành động** (reset, tăng gấp đôi, miễn phí đến, giảm 30%…), không khớp danh từ trơn như "limit" hay "free".
   Các chủ đề thương mại (giới hạn, miễn phí, giá) chỉ tính khi văn bản nhắc tên một hãng AI; tên model phải kèm phiên bản/tầng
@@ -83,7 +84,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 489 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 493 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -110,9 +111,10 @@ và có đủ vi/ja/en.
   bị hoàn tác, nên lượt sau không lấy dữ liệu dở dang làm mốc.
 - Một lần quan sát (id) gắn với **thế hệ** ảnh chụp mà nó được so (bộ đếm tăng dần, không phải đồng hồ), tính tuổi từ lúc quan sát chứ không từ ngày
   tạo model (ngày tạo giữ ở `detail`), và một bản chờ đã hết hạn vẫn chặn bản replay của nó: `carry_days` là cuối cùng.
-- Gộp tin bắc cầu: mọi bản tin của cùng một việc (đã chọn, đang chờ ô, hay mới đến) gộp thành một tin, tin chính thức là bản chính; tin bị đẩy
-  ra hoặc chưa có chỗ vẫn "hút" các bản tin đến sau, nên không bao giờ có chuyện bản cộng đồng được đăng trước còn bản chính thức chờ số sau.
-  `tests/test_select_properties.py` kiểm điều đó trên 300 bộ sự kiện ngẫu nhiên.
+- Gộp tin theo **thành phần liên thông**: nếu A khớp B và B khớp C thì cả ba là một tin dù A không khớp C, và kết quả không phụ thuộc thứ tự đến.
+  Mỗi nhóm có một tin chính (tin của nguồn chính thức trước, rồi tin xếp hạng cao nhất), các tin còn lại được gộp vào và ghi trong brief. Sau đó
+  mới áp giới hạn ô theo thứ hạng của thành viên tốt nhất; nhóm không có chỗ thì chờ cùng các bản tin đã gộp, nên không bao giờ có chuyện bản
+  cộng đồng được đăng trước còn bản chính thức chờ số sau. `tests/test_select_properties.py` kiểm điều này trên 300 bộ sự kiện ngẫu nhiên.
 - Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ 48 giờ (`corroboration_window_hours`); một lần lặp lại
   sau nhiều ngày là tin riêng, chưa xác nhận.
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test

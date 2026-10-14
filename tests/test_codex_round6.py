@@ -38,9 +38,9 @@ def test_p2_a_primary_replacement_cannot_push_its_slot_past_the_limit():
     p3 = ev("p3", "Gemini usage quota refreshed across all regions", "anthropic-news", "primary", "google", 17)
     stories, absorbed = export.select_with_absorbed([p1, p2, c3, p3], rules)
     ids = [s.item_id for s in stories]
-    assert ids.count("p3") == 1 and "c3" not in ids and absorbed == {"c3"}                           # the official version is the story
-    assert sum(1 for s in stories if s.source == "anthropic-news") <= 2                              # ...and the slot limit still holds
-    assert "p2" not in ids and "p2" not in absorbed                                                  # the displaced one waits for a later issue
+    assert sum(1 for s in stories if s.source == "anthropic-news") <= 2                              # the slot limit holds
+    assert "c3" not in ids and absorbed == {"c3"}                                                    # the report is never published ahead of its official twin
+    assert ids == ["p1", "p2"] and "p3" not in absorbed                                              # the better-ranked stories keep the slot; p3 (the story) waits
 
 
 # ---- P2 a new listing is aged from when it was observed, not from when the model was created
