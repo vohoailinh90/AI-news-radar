@@ -49,7 +49,8 @@ của đúng tool đó. Xong đợt đăng thì xoá thư mục cũ nếu muốn
 Đóng PR mà không merge = bỏ những gì nhánh đang giữ. Muốn bắt đầu lại hoàn toàn: xoá nhánh `scan-data`.
 **Hạn chế:** nhánh chứa `main` đúng lúc được push. Nếu `main` có commit mới trước khi bạn merge, PR sẽ "out-of-date" cho tới lượt quét kế tiếp
 (nhánh dựng lại trên `main` mới) — chạy *Run workflow* để cập nhật ngay. Bấm "Update branch" cũng được nhưng commit đó bị lượt dựng lại kế tiếp bỏ đi.
-Nếu bạn merge đúng lúc Action đang chạy, lượt đó có thể lỗi (đẩy bị từ chối vì nhánh đã đổi) — không mất gì, lần sau bắt đầu lại từ `main`.
+Nếu bạn merge đúng lúc Action đang chạy, lượt đó có thể lỗi (đẩy bị từ chối vì nhánh đã đổi) và lần sau bắt đầu lại từ `main`.
+**Giới hạn đã biết — lượt quét không được lưu:** khi `radar.py run` lỗi sau khi quét (mã 5, hoặc lỗi bất ngờ) hoặc khi lượt đó bị đẩy bị từ chối như trên, job đỏ và trạng thái của lượt đó (`data/state.json`, `data/last-scan.json`) chỉ nằm trên máy chạy rồi mất. Không có gì bị đánh dấu "đã thấy" mà chưa lưu, nên lượt sau phát hiện lại cùng các tin đó (snapshot so với snapshot đã lưu gần nhất, feed đọc lại trong cửa sổ `max_age_days`) — **trừ khi chính nguồn đã gỡ tin đó trong khoảng giữa**. Mã 5 chỉ xảy ra khi template hoặc headline có lỗi, và bạn phải sửa code rồi chạy lại.
 Nhánh chỉ khác `main` ở `data/` và `out/` — không bao giờ mang theo thay đổi workflow, vì token của workflow không được phép push file trong `.github/workflows/`.
 
 **Cài đặt một lần (chưa kiểm chứng được từ môi trường build):** *Settings → Actions → General → Workflow permissions → tick "Allow GitHub Actions to create and approve pull requests"*.
