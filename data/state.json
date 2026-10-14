@@ -1,0 +1,2874 @@
+{
+ "last_run": "2026-10-14T05:38:52.006271+00:00",
+ "seen": {
+  "anthropic-news:https://www.anthropic.com/news/anthropic-cyber-mission": "2026-10-14T05:38:52.006271+00:00",
+  "claude-code-changelog:2.1.299#3f163f2f8ea9": "2026-10-14T05:38:52.006271+00:00",
+  "claude-code-changelog:2.1.299#5c2c4ff055c4": "2026-10-14T05:38:52.006271+00:00",
+  "claude-code-changelog:2.1.299#f401cf0b5d4f": "2026-10-14T05:38:52.006271+00:00",
+  "deepmind-blog:https://deepmind.google/blog/introducing-synthid-bio/": "2026-10-14T05:38:52.006271+00:00",
+  "hn-ai:50059523": "2026-10-14T05:38:52.006271+00:00",
+  "hn-ai:50060694": "2026-10-14T05:38:52.006271+00:00",
+  "hn-ai:50073879": "2026-10-14T05:38:52.006271+00:00",
+  "huggingface-blog:https://huggingface.co/blog/tiiuae/falcon-asr": "2026-10-14T05:38:52.006271+00:00"
+ },
+ "snapshots": {
+  "aider-polyglot": {
+   "best": 88.0,
+   "gen": 1,
+   "ids": [
+    "2024-12-21-18-41-18--polyglot-gpt-4o-mini",
+    "2024-12-21-19-23-03--polyglot-o1-hard-diff",
+    "2024-12-21-20-56-21--polyglot-deepseek-diff",
+    "2024-12-21-21-46-27--polyglot-haiku-diff",
+    "2024-12-22-13-22-32--polyglot-qwen-diff",
+    "2024-12-22-18-43-25--gemini-exp-1206-polyglot-whole-2",
+    "2024-12-22-20-08-13--gemini-2.0-flash-exp-polyglot-whole",
+    "2024-12-22-21-26-35--polyglot-o1mini-whole",
+    "2024-12-23-01-11-56--yi-test",
+    "2024-12-25-13-31-51--deepseekv3preview-diff2",
+    "2024-12-26-00-55-20--Qwen2.5-Coder-32B-Instruct",
+    "2024-12-30-20-44-54--gpt4o-ex-as-sys-clean-prompt",
+    "2024-12-30-20-57-12--gpt-4o-2024-11-20-ex-as-sys",
+    "2025-01-13-18-17-25--codestral-whole2",
+    "2025-01-17-19-44-33--sonnet-baseline-jan-17",
+    "2025-01-20-19-11-38--ds-turns-upd-cur-msgs-fix-with-summarizer",
+    "2025-01-21-22-51-49--gemini-2.0-flash-thinking-exp-01-21-polyglot-diff",
+    "2025-01-23-19-14-48--r1-architect-sonnet",
+    "2025-01-28-16-00-03--qwen-max-2025-01-25-polyglot-diff",
+    "2025-01-31-20-27-46--o3-mini-diff2",
+    "2025-01-31-20-42-47--o3-mini-diff-high",
+    "2025-02-15-19-51-22--chatgpt4o-feb15-diff",
+    "2025-02-24-19-54-07--sonnet37-diff",
+    "2025-02-24-21-47-23--sonnet37-diff-think-32k-64k",
+    "2025-02-25-20-23-07--gemini-pro",
+    "2025-02-27-20-26-15--gpt45-diff3",
+    "2025-03-06-17-40-24--qwq32b-diff-temp-topp-ex-sys-remind-user-for-real",
+    "2025-03-07-15-11-27--qwq32b-arch-temp-topp-again",
+    "2025-03-14-23-40-00--cmda-quality-whole2",
+    "2025-03-15-01-21-24--gemma3-27b-or",
+    "2025-03-24-15-41-33--deepseek-v3-0324-polyglot-diff",
+    "2025-03-29-05-24-55--chatgpt4o-mar28-diff",
+    "2025-04-04-02-57-25--qalpha-diff-exsys",
+    "2025-04-06-08-39-52--llama-4-maverick-17b-128e-instruct-polyglot-whole",
+    "2025-04-10-04-21-31--grok3-diff-exuser",
+    "2025-04-10-18-47-24--grok3-mini-whole-exuser",
+    "2025-04-10-19-02-44--oalpha-diff-exsys",
+    "2025-04-10-23-59-02--xai-grok3-mini-whole-high",
+    "2025-04-12-04-55-50--gemini-25-pro-diff-fenced",
+    "2025-04-14-21-05-54--gpt41-diff-exuser",
+    "2025-04-14-21-27-53--gpt41mini-diff",
+    "2025-04-14-22-46-01--gpt41nano-diff",
+    "2025-04-16-22-01-58--o4-mini-high-diff-exsys",
+    "2025-04-19-14-43-04--o4-mini-patch",
+    "2025-04-20-19-54-31--flash25-diff-no-think",
+    "2025-05-07-19-32-40--gemini0506-diff-fenced-completion_cost",
+    "2025-05-08-03-20-24--qwen3-32b-default",
+    "2025-05-09-17-02-02--qwen3-235b-a22b.unthink_16k_diff",
+    "2025-05-24-21-17-54--sonnet4-diff-exuser",
+    "2025-05-24-22-10-36--sonnet4-diff-exuser-think32k",
+    "2025-05-25-19-57-20--opus4-diff-exuser",
+    "2025-05-25-20-40-51--opus4-diff-exuser",
+    "2025-05-25-22-58-44--flash25-05-20-24k-think",
+    "2025-05-26-15-56-31--flash25-05-20-24k-think",
+    "2025-06-06-16-36-21--gemini0605-32k-think-diff-fenced",
+    "2025-06-06-16-47-07--r1-diff",
+    "2025-06-06-18-38-56--gemini0605-diff-fenced",
+    "2025-06-25-20-30-16--o3-price-reduction",
+    "2025-06-25-21-04-24--o3-price-reduction-high",
+    "2025-06-27-23-53-57--o3-mini-high-diff-arch",
+    "2025-06-28-00-38-18--o3-pro-high",
+    "2025-07-11-19-37-40--xai-or-grok4-high",
+    "2025-07-17-17-41-54--kimi-k2-diff-or-pricing",
+    "2025-08-06-04-54-48--gpt-oss-120b-high-polyglot",
+    "2025-08-23-15-47-21--gpt-5-high",
+    "2025-08-25-13-23-27--gpt-5-medium",
+    "2025-08-25-14-16-37--gpt-5-low",
+    "2025-10-03-09-21-36--deepseek-v3.2-chat",
+    "2025-10-03-09-45-34--deepseek-v3.2-reasoner"
+   ],
+   "newest": "2025-10-03",
+   "taken": "20261014T053852"
+  },
+  "openrouter-models": {
+   "gen": 1,
+   "models": {
+    "aion-labs/aion-2.0": {
+     "created": 1771881306,
+     "free": false,
+     "name": "AionLabs: Aion-2.0",
+     "prompt": 8e-07
+    },
+    "aion-labs/aion-3.0": {
+     "created": 1783443095,
+     "free": false,
+     "name": "AionLabs: Aion-3.0",
+     "prompt": 3e-06
+    },
+    "aion-labs/aion-3.0-mini": {
+     "created": 1783443096,
+     "free": false,
+     "name": "AionLabs: Aion-3.0-Mini",
+     "prompt": 7e-07
+    },
+    "aion-labs/aion-3.5": {
+     "created": 1790170961,
+     "free": false,
+     "name": "AionLabs: Aion 3.5",
+     "prompt": 3e-06
+    },
+    "aion-labs/aion-3.5-mini": {
+     "created": 1790170962,
+     "free": false,
+     "name": "AionLabs: Aion 3.5 Mini",
+     "prompt": 7e-07
+    },
+    "aion-labs/aion-rp-llama-3.1-8b": {
+     "created": 1738696718,
+     "free": false,
+     "name": "AionLabs: Aion-RP 1.0 (8B)",
+     "prompt": 8e-07
+    },
+    "amazon/nova-2-lite-v1": {
+     "created": 1764696672,
+     "free": false,
+     "name": "Amazon: Nova 2 Lite",
+     "prompt": 3e-07
+    },
+    "amazon/nova-lite-v1": {
+     "created": 1733437363,
+     "free": false,
+     "name": "Amazon: Nova Lite 1.0",
+     "prompt": 6e-08
+    },
+    "amazon/nova-micro-v1": {
+     "created": 1733437237,
+     "free": false,
+     "name": "Amazon: Nova Micro 1.0",
+     "prompt": 3.5e-08
+    },
+    "amazon/nova-premier-v1": {
+     "created": 1761950332,
+     "free": false,
+     "name": "Amazon: Nova Premier 1.0",
+     "prompt": 2.5e-06
+    },
+    "amazon/nova-pro-v1": {
+     "created": 1733436303,
+     "free": false,
+     "name": "Amazon: Nova Pro 1.0",
+     "prompt": 8e-07
+    },
+    "anthracite-org/magnum-v4-72b": {
+     "created": 1729555200,
+     "free": false,
+     "name": "Magnum v4 72B",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-fable-5": {
+     "created": 1781007515,
+     "free": false,
+     "name": "Anthropic: Claude Fable 5",
+     "prompt": 1e-05
+    },
+    "anthropic/claude-fable-5.1": {
+     "created": 1788285838,
+     "free": false,
+     "name": "Anthropic: Claude Fable 5.1",
+     "prompt": 1e-05
+    },
+    "anthropic/claude-fable-5.1:batch": {
+     "created": 1788285838,
+     "free": false,
+     "name": "Anthropic: Claude Fable 5.1 (batch)",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-fable-5:batch": {
+     "created": 1781007515,
+     "free": false,
+     "name": "Anthropic: Claude Fable 5 (batch)",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-haiku-4.5": {
+     "created": 1760547638,
+     "free": false,
+     "name": "Anthropic: Claude Haiku 4.5",
+     "prompt": 1e-06
+    },
+    "anthropic/claude-haiku-4.5:batch": {
+     "created": 1760547638,
+     "free": false,
+     "name": "Anthropic: Claude Haiku 4.5 (batch)",
+     "prompt": 5e-07
+    },
+    "anthropic/claude-haiku-5.5": {
+     "created": 1791397883,
+     "free": false,
+     "name": "Anthropic: Claude Haiku 5.5",
+     "prompt": 1e-07
+    },
+    "anthropic/claude-haiku-5.5:batch": {
+     "created": 1791397883,
+     "free": false,
+     "name": "Anthropic: Claude Haiku 5.5 (batch)",
+     "prompt": 5e-08
+    },
+    "anthropic/claude-opus-4.1": {
+     "created": 1754411591,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.1",
+     "prompt": 1.5e-05
+    },
+    "anthropic/claude-opus-4.1:batch": {
+     "created": 1754411591,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.1 (batch)",
+     "prompt": 7.5e-06
+    },
+    "anthropic/claude-opus-4.5": {
+     "created": 1764010580,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.5",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-opus-4.5:batch": {
+     "created": 1764010580,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.5 (batch)",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-opus-4.6": {
+     "created": 1770219050,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.6",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-opus-4.6:batch": {
+     "created": 1770219050,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.6 (batch)",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-opus-4.7": {
+     "created": 1776351100,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.7",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-opus-4.7:batch": {
+     "created": 1776351100,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.7 (batch)",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-opus-4.8": {
+     "created": 1779905091,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.8",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-opus-4.8:batch": {
+     "created": 1779905091,
+     "free": false,
+     "name": "Anthropic: Claude Opus 4.8 (batch)",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-opus-5": {
+     "created": 1784912544,
+     "free": false,
+     "name": "Anthropic: Claude Opus 5",
+     "prompt": 5e-06
+    },
+    "anthropic/claude-opus-5.5": {
+     "created": 1790094732,
+     "free": false,
+     "name": "Anthropic: Claude Opus 5.5",
+     "prompt": 4e-06
+    },
+    "anthropic/claude-opus-5.5:batch": {
+     "created": 1790094732,
+     "free": false,
+     "name": "Anthropic: Claude Opus 5.5 (batch)",
+     "prompt": 2e-06
+    },
+    "anthropic/claude-opus-5:batch": {
+     "created": 1784912544,
+     "free": false,
+     "name": "Anthropic: Claude Opus 5 (batch)",
+     "prompt": 2.5e-06
+    },
+    "anthropic/claude-sonnet-4": {
+     "created": 1747930371,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 4",
+     "prompt": 3e-06
+    },
+    "anthropic/claude-sonnet-4.5": {
+     "created": 1759161676,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 4.5",
+     "prompt": 3e-06
+    },
+    "anthropic/claude-sonnet-4.5:batch": {
+     "created": 1759161676,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 4.5 (batch)",
+     "prompt": 1.5e-06
+    },
+    "anthropic/claude-sonnet-4.6": {
+     "created": 1771342990,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 4.6",
+     "prompt": 3e-06
+    },
+    "anthropic/claude-sonnet-4.6:batch": {
+     "created": 1771342990,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 4.6 (batch)",
+     "prompt": 1.5e-06
+    },
+    "anthropic/claude-sonnet-5": {
+     "created": 1782843083,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 5",
+     "prompt": 2e-06
+    },
+    "anthropic/claude-sonnet-5.5": {
+     "created": 1790618686,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 5.5",
+     "prompt": 2e-06
+    },
+    "anthropic/claude-sonnet-5.5:batch": {
+     "created": 1790618686,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 5.5 (batch)",
+     "prompt": 1e-06
+    },
+    "anthropic/claude-sonnet-5:batch": {
+     "created": 1782843083,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet 5 (batch)",
+     "prompt": 1e-06
+    },
+    "arcee-ai/trinity-large-thinking": {
+     "created": 1775058318,
+     "free": false,
+     "name": "Arcee AI: Trinity Large Thinking",
+     "prompt": 2.5e-07
+    },
+    "bytedance-seed/seed-1.6": {
+     "created": 1766504997,
+     "free": false,
+     "name": "ByteDance Seed: Seed 1.6",
+     "prompt": 2.5e-07
+    },
+    "bytedance-seed/seed-1.6-flash": {
+     "created": 1766505011,
+     "free": false,
+     "name": "ByteDance Seed: Seed 1.6 Flash",
+     "prompt": 7.5e-08
+    },
+    "bytedance-seed/seed-2-1-turbo": {
+     "created": 1786552176,
+     "free": false,
+     "name": "ByteDance Seed: Seed 2.1 Turbo",
+     "prompt": 5e-07
+    },
+    "bytedance-seed/seed-2.0-code": {
+     "created": 1786550701,
+     "free": false,
+     "name": "ByteDance Seed: Seed-2.0-Code",
+     "prompt": 5e-07
+    },
+    "bytedance-seed/seed-2.0-lite": {
+     "created": 1773157231,
+     "free": false,
+     "name": "ByteDance Seed: Seed-2.0-Lite",
+     "prompt": 2.5e-07
+    },
+    "bytedance-seed/seed-2.0-mini": {
+     "created": 1772131107,
+     "free": false,
+     "name": "ByteDance Seed: Seed-2.0-Mini",
+     "prompt": 1e-07
+    },
+    "bytedance/ui-tars-1.5-7b": {
+     "created": 1753205056,
+     "free": false,
+     "name": "ByteDance: UI-TARS 7B ",
+     "prompt": 1e-07
+    },
+    "cognitivecomputations/dolphin-mistral-24b-venice-edition": {
+     "created": 1752094966,
+     "free": false,
+     "name": "Venice: Uncensored",
+     "prompt": 2e-07
+    },
+    "cohere/command-a": {
+     "created": 1741894342,
+     "free": false,
+     "name": "Cohere: Command A",
+     "prompt": 2.5e-06
+    },
+    "cohere/command-a-plus": {
+     "created": 1790102896,
+     "free": false,
+     "name": "Cohere: Command A+",
+     "prompt": 3e-07
+    },
+    "cohere/command-r-08-2024": {
+     "created": 1724976000,
+     "free": false,
+     "name": "Cohere: Command R (08-2024)",
+     "prompt": 1.5e-07
+    },
+    "cohere/command-r-plus-08-2024": {
+     "created": 1724976000,
+     "free": false,
+     "name": "Cohere: Command R+ (08-2024)",
+     "prompt": 2.5e-06
+    },
+    "cohere/command-r7b-12-2024": {
+     "created": 1734158152,
+     "free": false,
+     "name": "Cohere: Command R7B (12-2024)",
+     "prompt": 3.75e-08
+    },
+    "cohere/north-mini-code:free": {
+     "created": 1781723748,
+     "free": true,
+     "name": "Cohere: North Mini Code (free)",
+     "prompt": 0.0
+    },
+    "deepseek/deepseek-chat": {
+     "created": 1735241320,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3",
+     "prompt": 3.2e-07
+    },
+    "deepseek/deepseek-chat-v3-0324": {
+     "created": 1742824755,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3 0324",
+     "prompt": 2.9e-07
+    },
+    "deepseek/deepseek-chat-v3.1": {
+     "created": 1755779628,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3.1",
+     "prompt": 2.5e-07
+    },
+    "deepseek/deepseek-r1": {
+     "created": 1737381095,
+     "free": false,
+     "name": "DeepSeek: R1",
+     "prompt": 7e-07
+    },
+    "deepseek/deepseek-r1-0528": {
+     "created": 1748455170,
+     "free": false,
+     "name": "DeepSeek: R1 0528",
+     "prompt": 5e-07
+    },
+    "deepseek/deepseek-v3.1-terminus": {
+     "created": 1758548275,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3.1 Terminus",
+     "prompt": 2.7e-07
+    },
+    "deepseek/deepseek-v3.2": {
+     "created": 1764594642,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3.2",
+     "prompt": 2.59e-07
+    },
+    "deepseek/deepseek-v3.2-exp": {
+     "created": 1759150481,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V3.2 Exp",
+     "prompt": 2.7e-07
+    },
+    "deepseek/deepseek-v4-flash": {
+     "created": 1777000666,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Flash 0423",
+     "prompt": 9.1e-08
+    },
+    "deepseek/deepseek-v4-flash-0731": {
+     "created": 1785478908,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Flash 0731",
+     "prompt": 1.6e-08
+    },
+    "deepseek/deepseek-v4-flash-vision-exp": {
+     "created": 1787311563,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Flash Vision Exp",
+     "prompt": 2.156e-07
+    },
+    "deepseek/deepseek-v4-pro": {
+     "created": 1777000679,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Pro 0423",
+     "prompt": 9.5526e-07
+    },
+    "deepseek/deepseek-v4-pro-0813": {
+     "created": 1786549364,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Pro 0813",
+     "prompt": 6.6e-07
+    },
+    "deepseek/deepseek-v4.1-flash": {
+     "created": 1789021285,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4.1 Flash",
+     "prompt": 2.529e-08
+    },
+    "deepseek/deepseek-v4.1-flash:batch": {
+     "created": 1789021285,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4.1 Flash (batch)",
+     "prompt": 1.12e-07
+    },
+    "dots-studio/dots-3-note-preview:free": {
+     "created": 1786680361,
+     "free": true,
+     "name": "Dots Studio: Dots3-Note Preview (free)",
+     "prompt": 0.0
+    },
+    "fireworks/ember-1": {
+     "created": 1790208461,
+     "free": false,
+     "name": "Fireworks: Ember-1",
+     "prompt": 3e-06
+    },
+    "google/gemini-2.5-flash": {
+     "created": 1750172488,
+     "free": false,
+     "name": "Google: Gemini 2.5 Flash",
+     "prompt": 3e-07
+    },
+    "google/gemini-2.5-flash-image": {
+     "created": 1759870431,
+     "free": false,
+     "name": "Google: Nano Banana (Gemini 2.5 Flash Image)",
+     "prompt": 3e-07
+    },
+    "google/gemini-2.5-flash-lite": {
+     "created": 1753200276,
+     "free": false,
+     "name": "Google: Gemini 2.5 Flash Lite",
+     "prompt": 1e-07
+    },
+    "google/gemini-2.5-flash-lite:batch": {
+     "created": 1753200276,
+     "free": false,
+     "name": "Google: Gemini 2.5 Flash Lite (batch)",
+     "prompt": 5e-08
+    },
+    "google/gemini-2.5-flash:batch": {
+     "created": 1750172488,
+     "free": false,
+     "name": "Google: Gemini 2.5 Flash (batch)",
+     "prompt": 1.5e-07
+    },
+    "google/gemini-2.5-pro": {
+     "created": 1750169544,
+     "free": false,
+     "name": "Google: Gemini 2.5 Pro",
+     "prompt": 1.25e-06
+    },
+    "google/gemini-2.5-pro-preview": {
+     "created": 1749137257,
+     "free": false,
+     "name": "Google: Gemini 2.5 Pro Preview 06-05",
+     "prompt": 1.25e-06
+    },
+    "google/gemini-2.5-pro:batch": {
+     "created": 1750169544,
+     "free": false,
+     "name": "Google: Gemini 2.5 Pro (batch)",
+     "prompt": 6.25e-07
+    },
+    "google/gemini-3-flash-preview": {
+     "created": 1765987078,
+     "free": false,
+     "name": "Google: Gemini 3 Flash Preview",
+     "prompt": 5e-07
+    },
+    "google/gemini-3-flash-preview:batch": {
+     "created": 1765987078,
+     "free": false,
+     "name": "Google: Gemini 3 Flash Preview (batch)",
+     "prompt": 2.5e-07
+    },
+    "google/gemini-3-pro-image": {
+     "created": 1781754054,
+     "free": false,
+     "name": "Google: Nano Banana Pro (Gemini 3 Pro Image)",
+     "prompt": 2e-06
+    },
+    "google/gemini-3-pro-image-preview": {
+     "created": 1763653797,
+     "free": false,
+     "name": "Google: Nano Banana Pro (Gemini 3 Pro Image Preview)",
+     "prompt": 2e-06
+    },
+    "google/gemini-3.1-flash-image": {
+     "created": 1781754065,
+     "free": false,
+     "name": "Google: Nano Banana 2 (Gemini 3.1 Flash Image)",
+     "prompt": 5e-07
+    },
+    "google/gemini-3.1-flash-image-preview": {
+     "created": 1772119558,
+     "free": false,
+     "name": "Google: Nano Banana 2 (Gemini 3.1 Flash Image Preview)",
+     "prompt": 5e-07
+    },
+    "google/gemini-3.1-flash-lite": {
+     "created": 1778168828,
+     "free": false,
+     "name": "Google: Gemini 3.1 Flash Lite",
+     "prompt": 2.5e-07
+    },
+    "google/gemini-3.1-flash-lite-image": {
+     "created": 1782837225,
+     "free": false,
+     "name": "Google: Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)",
+     "prompt": 2.5e-07
+    },
+    "google/gemini-3.1-flash-lite-preview": {
+     "created": 1772512673,
+     "free": false,
+     "name": "Google: Gemini 3.1 Flash Lite Preview",
+     "prompt": 2.5e-07
+    },
+    "google/gemini-3.1-flash-lite:batch": {
+     "created": 1778168828,
+     "free": false,
+     "name": "Google: Gemini 3.1 Flash Lite (batch)",
+     "prompt": 1.25e-07
+    },
+    "google/gemini-3.1-pro-preview": {
+     "created": 1771509627,
+     "free": false,
+     "name": "Google: Gemini 3.1 Pro Preview",
+     "prompt": 2e-06
+    },
+    "google/gemini-3.1-pro-preview-customtools": {
+     "created": 1772045923,
+     "free": false,
+     "name": "Google: Gemini 3.1 Pro Preview Custom Tools",
+     "prompt": 2e-06
+    },
+    "google/gemini-3.1-pro-preview:batch": {
+     "created": 1771509627,
+     "free": false,
+     "name": "Google: Gemini 3.1 Pro Preview (batch)",
+     "prompt": 1e-06
+    },
+    "google/gemini-3.5-flash": {
+     "created": 1779193800,
+     "free": false,
+     "name": "Google: Gemini 3.5 Flash",
+     "prompt": 1.5e-06
+    },
+    "google/gemini-3.5-flash-lite": {
+     "created": 1784646726,
+     "free": false,
+     "name": "Google: Gemini 3.5 Flash Lite",
+     "prompt": 3e-07
+    },
+    "google/gemini-3.5-flash-lite:batch": {
+     "created": 1784646726,
+     "free": false,
+     "name": "Google: Gemini 3.5 Flash Lite (batch)",
+     "prompt": 1.5e-07
+    },
+    "google/gemini-3.5-flash:batch": {
+     "created": 1779193800,
+     "free": false,
+     "name": "Google: Gemini 3.5 Flash (batch)",
+     "prompt": 7.5e-07
+    },
+    "google/gemini-3.6-flash": {
+     "created": 1784646733,
+     "free": false,
+     "name": "Google: Gemini 3.6 Flash",
+     "prompt": 7.5e-07
+    },
+    "google/gemini-3.6-flash:batch": {
+     "created": 1784646733,
+     "free": false,
+     "name": "Google: Gemini 3.6 Flash (batch)",
+     "prompt": 3.75e-07
+    },
+    "google/gemini-3.7-flash": {
+     "created": 1786640581,
+     "free": false,
+     "name": "Google: Gemini 3.7 Flash",
+     "prompt": 7.5e-07
+    },
+    "google/gemini-3.7-flash:batch": {
+     "created": 1786640581,
+     "free": false,
+     "name": "Google: Gemini 3.7 Flash (batch)",
+     "prompt": 3.75e-07
+    },
+    "google/gemini-3.8-flash": {
+     "created": 1788362056,
+     "free": false,
+     "name": "Google: Gemini 3.8 Flash",
+     "prompt": 7.5e-07
+    },
+    "google/gemini-3.8-flash:batch": {
+     "created": 1788362056,
+     "free": false,
+     "name": "Google: Gemini 3.8 Flash (batch)",
+     "prompt": 3.75e-07
+    },
+    "google/gemini-4-argon": {
+     "created": 1791907477,
+     "free": false,
+     "name": "Google: Gemini 4 Argon",
+     "prompt": 2e-06
+    },
+    "google/gemini-4-argon:batch": {
+     "created": 1791907477,
+     "free": false,
+     "name": "Google: Gemini 4 Argon (batch)",
+     "prompt": 1e-06
+    },
+    "google/gemini-nano-banana-2.1": {
+     "created": 1791300825,
+     "free": false,
+     "name": "Google: Nano Banana 2.1",
+     "prompt": 1.5e-06
+    },
+    "google/gemma-2-27b-it": {
+     "created": 1720828800,
+     "free": false,
+     "name": "Google: Gemma 2 27B",
+     "prompt": 6.5e-07
+    },
+    "google/gemma-3-12b-it": {
+     "created": 1741902625,
+     "free": false,
+     "name": "Google: Gemma 3 12B",
+     "prompt": 5e-08
+    },
+    "google/gemma-3-27b-it": {
+     "created": 1741756359,
+     "free": false,
+     "name": "Google: Gemma 3 27B",
+     "prompt": 8e-08
+    },
+    "google/gemma-3-4b-it": {
+     "created": 1741905510,
+     "free": false,
+     "name": "Google: Gemma 3 4B",
+     "prompt": 5e-08
+    },
+    "google/gemma-4-26b-a4b-it": {
+     "created": 1775227989,
+     "free": false,
+     "name": "Google: Gemma 4 26B A4B ",
+     "prompt": 7.65e-08
+    },
+    "google/gemma-4-26b-a4b-it:free": {
+     "created": 1775227989,
+     "free": true,
+     "name": "Google: Gemma 4 26B A4B  (free)",
+     "prompt": 0.0
+    },
+    "google/gemma-4-31b-it": {
+     "created": 1775148486,
+     "free": false,
+     "name": "Google: Gemma 4 31B",
+     "prompt": 9e-08
+    },
+    "google/gemma-4-31b-it:free": {
+     "created": 1775148486,
+     "free": true,
+     "name": "Google: Gemma 4 31B (free)",
+     "prompt": 0.0
+    },
+    "google/lyria-3-clip-preview": {
+     "created": 1774907255,
+     "free": true,
+     "name": "Google: Lyria 3 Clip Preview",
+     "prompt": 0.0
+    },
+    "google/lyria-3-pro-preview": {
+     "created": 1774907286,
+     "free": true,
+     "name": "Google: Lyria 3 Pro Preview",
+     "prompt": 0.0
+    },
+    "gryphe/mythomax-l2-13b": {
+     "created": 1688256000,
+     "free": false,
+     "name": "MythoMax 13B",
+     "prompt": 8e-08
+    },
+    "ibm-granite/granite-4.0-h-micro": {
+     "created": 1760927695,
+     "free": false,
+     "name": "IBM: Granite 4.0 Micro",
+     "prompt": 1.7e-08
+    },
+    "ibm-granite/granite-4.2-8b": {
+     "created": 1788206780,
+     "free": false,
+     "name": "IBM: Granite 4.2 8B",
+     "prompt": 6e-08
+    },
+    "inception/mercury-2": {
+     "created": 1772636275,
+     "free": false,
+     "name": "Inception: Mercury 2",
+     "prompt": 2.5e-07
+    },
+    "inception/mercury-2.5": {
+     "created": 1788892137,
+     "free": false,
+     "name": "Inception: Mercury 2.5",
+     "prompt": 4e-08
+    },
+    "inclusionai/ling-3.0-flash": {
+     "created": 1784818580,
+     "free": false,
+     "name": "inclusionAI: Ling 3.0 Flash",
+     "prompt": 2.1e-08
+    },
+    "inclusionai/ling-3.0-flash-vl": {
+     "created": 1789056114,
+     "free": false,
+     "name": "inclusionAI: Ling 3.0 Flash VL",
+     "prompt": 6e-08
+    },
+    "inclusionai/ling-3.1-flash": {
+     "created": 1790950024,
+     "free": false,
+     "name": "inclusionAI: Ling 3.1 Flash",
+     "prompt": 7.5e-08
+    },
+    "inference-net/schematron-v2-small": {
+     "created": 1789176933,
+     "free": false,
+     "name": "Inference.net: Schematron V2 Small",
+     "prompt": 5e-08
+    },
+    "inference-net/schematron-v2-turbo": {
+     "created": 1789176949,
+     "free": false,
+     "name": "Inference.net: Schematron V2 Turbo",
+     "prompt": 3e-08
+    },
+    "liquid/lfm-2.5-2.6b:free": {
+     "created": 1786470519,
+     "free": true,
+     "name": "LiquidAI: LFM2.5-2.6B (free)",
+     "prompt": 0.0
+    },
+    "liquid/lfm-2.5-24b-a2b": {
+     "created": 1791912025,
+     "free": false,
+     "name": "LiquidAI: LFM2.5-24B-A2B",
+     "prompt": 5e-08
+    },
+    "mancer/weaver": {
+     "created": 1690934400,
+     "free": false,
+     "name": "Mancer: Weaver (alpha)",
+     "prompt": 4e-07
+    },
+    "meituan/longcat-2.0": {
+     "created": 1784554658,
+     "free": false,
+     "name": "Meituan: LongCat 2.0",
+     "prompt": 3e-07
+    },
+    "meta-llama/llama-3.1-70b-instruct": {
+     "created": 1721692800,
+     "free": false,
+     "name": "Meta: Llama 3.1 70B Instruct",
+     "prompt": 4e-07
+    },
+    "meta-llama/llama-3.1-8b-instruct": {
+     "created": 1721692800,
+     "free": false,
+     "name": "Meta: Llama 3.1 8B Instruct",
+     "prompt": 5e-08
+    },
+    "meta-llama/llama-3.2-1b-instruct": {
+     "created": 1727222400,
+     "free": false,
+     "name": "Meta: Llama 3.2 1B Instruct",
+     "prompt": 2.7e-08
+    },
+    "meta-llama/llama-3.2-3b-instruct": {
+     "created": 1727222400,
+     "free": false,
+     "name": "Meta: Llama 3.2 3B Instruct",
+     "prompt": 5e-08
+    },
+    "meta-llama/llama-3.3-70b-instruct": {
+     "created": 1733506137,
+     "free": false,
+     "name": "Meta: Llama 3.3 70B Instruct",
+     "prompt": 5.9e-07
+    },
+    "meta-llama/llama-4-maverick": {
+     "created": 1743881822,
+     "free": false,
+     "name": "Meta: Llama 4 Maverick",
+     "prompt": 1.875e-07
+    },
+    "meta-llama/llama-4-scout": {
+     "created": 1743881519,
+     "free": false,
+     "name": "Meta: Llama 4 Scout",
+     "prompt": 1.8e-07
+    },
+    "meta-llama/llama-guard-4-12b": {
+     "created": 1745975193,
+     "free": false,
+     "name": "Meta: Llama Guard 4 12B",
+     "prompt": 1.8e-07
+    },
+    "meta/muse-glimmer-30b": {
+     "created": 1786302394,
+     "free": false,
+     "name": "Meta: Muse Glimmer 30B",
+     "prompt": 3e-07
+    },
+    "meta/muse-spark-1.1": {
+     "created": 1784215741,
+     "free": false,
+     "name": "Meta: Muse Spark 1.1",
+     "prompt": 1.25e-06
+    },
+    "meta/muse-spark-1.2": {
+     "created": 1785959287,
+     "free": false,
+     "name": "Meta: Muse Spark 1.2",
+     "prompt": 1.25e-06
+    },
+    "meta/muse-spark-1.2-contributor": {
+     "created": 1787336476,
+     "free": false,
+     "name": "Meta: Muse Spark 1.2 Contributor",
+     "prompt": 1e-07
+    },
+    "meta/muse-spark-1.3": {
+     "created": 1788378359,
+     "free": false,
+     "name": "Meta: Muse Spark 1.3",
+     "prompt": 1.25e-06
+    },
+    "meta/muse-spark-1.3-contributor": {
+     "created": 1788381519,
+     "free": false,
+     "name": "Meta: Muse Spark 1.3 Contributor",
+     "prompt": 1e-07
+    },
+    "meta/muse-wonder": {
+     "created": 1791807945,
+     "free": false,
+     "name": "Meta: Muse Wonder",
+     "prompt": 4e-06
+    },
+    "microsoft/phi-4": {
+     "created": 1736489872,
+     "free": false,
+     "name": "Microsoft: Phi 4",
+     "prompt": 7e-08
+    },
+    "microsoft/wizardlm-2-8x22b": {
+     "created": 1713225600,
+     "free": false,
+     "name": "WizardLM-2 8x22B",
+     "prompt": 6.2e-07
+    },
+    "minimax/minimax-01": {
+     "created": 1736915462,
+     "free": false,
+     "name": "MiniMax: MiniMax-01",
+     "prompt": 2e-07
+    },
+    "minimax/minimax-m1": {
+     "created": 1750200414,
+     "free": false,
+     "name": "MiniMax: MiniMax M1",
+     "prompt": 5.5e-07
+    },
+    "minimax/minimax-m2": {
+     "created": 1761252093,
+     "free": false,
+     "name": "MiniMax: MiniMax M2",
+     "prompt": 2.55e-07
+    },
+    "minimax/minimax-m2-her": {
+     "created": 1769177239,
+     "free": false,
+     "name": "MiniMax: MiniMax M2-her",
+     "prompt": 3e-07
+    },
+    "minimax/minimax-m2.1": {
+     "created": 1766454997,
+     "free": false,
+     "name": "MiniMax: MiniMax M2.1",
+     "prompt": 3e-07
+    },
+    "minimax/minimax-m2.5": {
+     "created": 1770908502,
+     "free": false,
+     "name": "MiniMax: MiniMax M2.5",
+     "prompt": 2.7e-07
+    },
+    "minimax/minimax-m2.7": {
+     "created": 1773836697,
+     "free": false,
+     "name": "MiniMax: MiniMax M2.7",
+     "prompt": 3e-07
+    },
+    "minimax/minimax-m3": {
+     "created": 1780245374,
+     "free": false,
+     "name": "MiniMax: MiniMax M3",
+     "prompt": 3e-07
+    },
+    "mistralai/codestral-2508": {
+     "created": 1754079630,
+     "free": false,
+     "name": "Mistral: Codestral 2508",
+     "prompt": 3e-07
+    },
+    "mistralai/codestral-2508:batch": {
+     "created": 1754079630,
+     "free": false,
+     "name": "Mistral: Codestral 2508 (batch)",
+     "prompt": 1.5e-07
+    },
+    "mistralai/devstral-2512": {
+     "created": 1765285419,
+     "free": false,
+     "name": "Mistral: Devstral 2 2512",
+     "prompt": 4e-07
+    },
+    "mistralai/ministral-14b-2512": {
+     "created": 1764681735,
+     "free": false,
+     "name": "Mistral: Ministral 3 14B 2512",
+     "prompt": 2e-07
+    },
+    "mistralai/ministral-3b-2512": {
+     "created": 1764681560,
+     "free": false,
+     "name": "Mistral: Ministral 3 3B 2512",
+     "prompt": 1e-07
+    },
+    "mistralai/ministral-8b-2512": {
+     "created": 1764681654,
+     "free": false,
+     "name": "Mistral: Ministral 3 8B 2512",
+     "prompt": 1.5e-07
+    },
+    "mistralai/ministral-8b-2512:batch": {
+     "created": 1764681654,
+     "free": false,
+     "name": "Mistral: Ministral 3 8B 2512 (batch)",
+     "prompt": 7.5e-08
+    },
+    "mistralai/mistral-large": {
+     "created": 1708905600,
+     "free": false,
+     "name": "Mistral Large",
+     "prompt": 2e-06
+    },
+    "mistralai/mistral-large-2407": {
+     "created": 1731978415,
+     "free": false,
+     "name": "Mistral Large 2407",
+     "prompt": 2e-06
+    },
+    "mistralai/mistral-large-2512": {
+     "created": 1764624472,
+     "free": false,
+     "name": "Mistral: Mistral Large 3 2512",
+     "prompt": 5e-07
+    },
+    "mistralai/mistral-large-2512:batch": {
+     "created": 1764624472,
+     "free": false,
+     "name": "Mistral: Mistral Large 3 2512 (batch)",
+     "prompt": 2.5e-07
+    },
+    "mistralai/mistral-large-4-0": {
+     "created": 1791294122,
+     "free": false,
+     "name": "Mistral: Mistral Large 4",
+     "prompt": 6.8e-07
+    },
+    "mistralai/mistral-medium-3": {
+     "created": 1746627341,
+     "free": false,
+     "name": "Mistral: Mistral Medium 3",
+     "prompt": 4e-07
+    },
+    "mistralai/mistral-medium-3-5": {
+     "created": 1777570439,
+     "free": false,
+     "name": "Mistral: Mistral Medium 3.5",
+     "prompt": 1.5e-06
+    },
+    "mistralai/mistral-medium-3-5:batch": {
+     "created": 1777570439,
+     "free": false,
+     "name": "Mistral: Mistral Medium 3.5 (batch)",
+     "prompt": 7.5e-07
+    },
+    "mistralai/mistral-medium-3.1": {
+     "created": 1755095639,
+     "free": false,
+     "name": "Mistral: Mistral Medium 3.1",
+     "prompt": 4e-07
+    },
+    "mistralai/mistral-medium-3.1:batch": {
+     "created": 1755095639,
+     "free": false,
+     "name": "Mistral: Mistral Medium 3.1 (batch)",
+     "prompt": 2e-07
+    },
+    "mistralai/mistral-nemo": {
+     "created": 1721347200,
+     "free": false,
+     "name": "Mistral: Mistral Nemo",
+     "prompt": 2.9e-08
+    },
+    "mistralai/mistral-saba": {
+     "created": 1739803239,
+     "free": false,
+     "name": "Mistral: Saba",
+     "prompt": 2e-07
+    },
+    "mistralai/mistral-small-24b-instruct-2501": {
+     "created": 1738255409,
+     "free": false,
+     "name": "Mistral: Mistral Small 3",
+     "prompt": 5e-08
+    },
+    "mistralai/mistral-small-2603": {
+     "created": 1773695685,
+     "free": false,
+     "name": "Mistral: Mistral Small 4",
+     "prompt": 1.5e-07
+    },
+    "mistralai/mistral-small-2603:batch": {
+     "created": 1773695685,
+     "free": false,
+     "name": "Mistral: Mistral Small 4 (batch)",
+     "prompt": 7.5e-08
+    },
+    "mistralai/mistral-small-3.1-24b-instruct": {
+     "created": 1742238937,
+     "free": false,
+     "name": "Mistral: Mistral Small 3.1 24B",
+     "prompt": 3.51e-07
+    },
+    "mistralai/mistral-small-3.2-24b-instruct": {
+     "created": 1750443016,
+     "free": false,
+     "name": "Mistral: Mistral Small 3.2 24B",
+     "prompt": 9.375e-08
+    },
+    "mistralai/mixtral-8x22b-instruct": {
+     "created": 1713312000,
+     "free": false,
+     "name": "Mistral: Mixtral 8x22B Instruct",
+     "prompt": 2e-06
+    },
+    "mistralai/voxtral-small-24b-2507": {
+     "created": 1761835144,
+     "free": false,
+     "name": "Mistral: Voxtral Small 24B 2507",
+     "prompt": 1e-07
+    },
+    "moonshotai/kimi-k2": {
+     "created": 1752263252,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2 0711",
+     "prompt": 5.7e-07
+    },
+    "moonshotai/kimi-k2-0905": {
+     "created": 1757021147,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2 0905",
+     "prompt": 6e-07
+    },
+    "moonshotai/kimi-k2-thinking": {
+     "created": 1762440622,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2 Thinking",
+     "prompt": 6e-07
+    },
+    "moonshotai/kimi-k2.5": {
+     "created": 1769487076,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2.5",
+     "prompt": 5e-07
+    },
+    "moonshotai/kimi-k2.6": {
+     "created": 1776699402,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2.6",
+     "prompt": 6.5e-07
+    },
+    "moonshotai/kimi-k2.7-code": {
+     "created": 1781266361,
+     "free": false,
+     "name": "MoonshotAI: Kimi K2.7 Code",
+     "prompt": 6.712e-07
+    },
+    "moonshotai/kimi-k3": {
+     "created": 1784215858,
+     "free": false,
+     "name": "MoonshotAI: Kimi K3",
+     "prompt": 7e-07
+    },
+    "moonshotai/kimi-k3:batch": {
+     "created": 1784215858,
+     "free": false,
+     "name": "MoonshotAI: Kimi K3 (batch)",
+     "prompt": 2.28e-06
+    },
+    "morph/morph-v3-fast": {
+     "created": 1751910002,
+     "free": false,
+     "name": "Morph: Morph V3 Fast",
+     "prompt": 8e-07
+    },
+    "morph/morph-v3-large": {
+     "created": 1751910858,
+     "free": false,
+     "name": "Morph: Morph V3 Large",
+     "prompt": 9e-07
+    },
+    "nex-agi/nex-n2.5-mini": {
+     "created": 1788890061,
+     "free": false,
+     "name": "Nex AGI: Nex-N2.5-Mini",
+     "prompt": 2.5e-08
+    },
+    "nex-agi/nex-n2.5-pro": {
+     "created": 1788890050,
+     "free": false,
+     "name": "Nex AGI: Nex-N2.5-Pro",
+     "prompt": 7.5e-08
+    },
+    "nousresearch/hermes-3-llama-3.1-405b": {
+     "created": 1723766400,
+     "free": false,
+     "name": "Nous: Hermes 3 405B Instruct",
+     "prompt": 1e-06
+    },
+    "nousresearch/hermes-3-llama-3.1-70b": {
+     "created": 1723939200,
+     "free": false,
+     "name": "Nous: Hermes 3 70B Instruct",
+     "prompt": 7e-07
+    },
+    "nousresearch/hermes-4-405b": {
+     "created": 1756235463,
+     "free": false,
+     "name": "Nous: Hermes 4 405B",
+     "prompt": 1e-06
+    },
+    "nvidia/nemotron-3-nano-30b-a3b": {
+     "created": 1765731275,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3 Nano 30B A3B",
+     "prompt": 6e-08
+    },
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
+     "created": 1777393095,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3 Nano Omni (free)",
+     "prompt": 0.0
+    },
+    "nvidia/nemotron-3-super-120b-a12b": {
+     "created": 1773245239,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3 Super",
+     "prompt": 8e-08
+    },
+    "nvidia/nemotron-3-super-120b-a12b:free": {
+     "created": 1773245239,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3 Super (free)",
+     "prompt": 0.0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b": {
+     "created": 1780551208,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3 Ultra",
+     "prompt": 6e-07
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b:free": {
+     "created": 1780551208,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3 Ultra (free)",
+     "prompt": 0.0
+    },
+    "nvidia/nemotron-3.5-content-safety": {
+     "created": 1780581864,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3.5 Content Safety",
+     "prompt": 2e-07
+    },
+    "nvidia/nemotron-3.5-content-safety:free": {
+     "created": 1780581864,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3.5 Content Safety (free)",
+     "prompt": 0.0
+    },
+    "nvidia/nemotron-3.5-lightning": {
+     "created": 1786452751,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3.5 Lightning",
+     "prompt": 7e-08
+    },
+    "nvidia/nemotron-3.5-lightning:free": {
+     "created": 1786452751,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
+     "prompt": 0.0
+    },
+    "nvidia/switchyard": {
+     "created": 1790025947,
+     "free": false,
+     "name": "NVIDIA: Switchyard",
+     "prompt": null
+    },
+    "openai/gpt-3.5-turbo": {
+     "created": 1685232000,
+     "free": false,
+     "name": "OpenAI: GPT-3.5 Turbo",
+     "prompt": 5e-07
+    },
+    "openai/gpt-3.5-turbo-0613": {
+     "created": 1706140800,
+     "free": false,
+     "name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-3.5-turbo-16k": {
+     "created": 1693180800,
+     "free": false,
+     "name": "OpenAI: GPT-3.5 Turbo 16k",
+     "prompt": 3e-06
+    },
+    "openai/gpt-3.5-turbo-instruct": {
+     "created": 1695859200,
+     "free": false,
+     "name": "OpenAI: GPT-3.5 Turbo Instruct",
+     "prompt": 1.5e-06
+    },
+    "openai/gpt-3.5-turbo:batch": {
+     "created": 1685232000,
+     "free": false,
+     "name": "OpenAI: GPT-3.5 Turbo (batch)",
+     "prompt": 2.5e-07
+    },
+    "openai/gpt-4": {
+     "created": 1685232000,
+     "free": false,
+     "name": "OpenAI: GPT-4",
+     "prompt": 3e-05
+    },
+    "openai/gpt-4-turbo": {
+     "created": 1712620800,
+     "free": false,
+     "name": "OpenAI: GPT-4 Turbo",
+     "prompt": 1e-05
+    },
+    "openai/gpt-4-turbo:batch": {
+     "created": 1712620800,
+     "free": false,
+     "name": "OpenAI: GPT-4 Turbo (batch)",
+     "prompt": 5e-06
+    },
+    "openai/gpt-4.1": {
+     "created": 1744651385,
+     "free": false,
+     "name": "OpenAI: GPT-4.1",
+     "prompt": 2e-06
+    },
+    "openai/gpt-4.1-mini": {
+     "created": 1744651381,
+     "free": false,
+     "name": "OpenAI: GPT-4.1 Mini",
+     "prompt": 4e-07
+    },
+    "openai/gpt-4.1-mini:batch": {
+     "created": 1744651381,
+     "free": false,
+     "name": "OpenAI: GPT-4.1 Mini (batch)",
+     "prompt": 2e-07
+    },
+    "openai/gpt-4.1-nano": {
+     "created": 1744651369,
+     "free": false,
+     "name": "OpenAI: GPT-4.1 Nano",
+     "prompt": 1e-07
+    },
+    "openai/gpt-4.1-nano:batch": {
+     "created": 1744651369,
+     "free": false,
+     "name": "OpenAI: GPT-4.1 Nano (batch)",
+     "prompt": 5e-08
+    },
+    "openai/gpt-4.1:batch": {
+     "created": 1744651385,
+     "free": false,
+     "name": "OpenAI: GPT-4.1 (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-4o": {
+     "created": 1715558400,
+     "free": false,
+     "name": "OpenAI: GPT-4o",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-4o-2024-05-13": {
+     "created": 1715558400,
+     "free": false,
+     "name": "OpenAI: GPT-4o (2024-05-13)",
+     "prompt": 5e-06
+    },
+    "openai/gpt-4o-2024-08-06": {
+     "created": 1722902400,
+     "free": false,
+     "name": "OpenAI: GPT-4o (2024-08-06)",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-4o-2024-11-20": {
+     "created": 1732127594,
+     "free": false,
+     "name": "OpenAI: GPT-4o (2024-11-20)",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-4o-mini": {
+     "created": 1721260800,
+     "free": false,
+     "name": "OpenAI: GPT-4o-mini",
+     "prompt": 1.5e-07
+    },
+    "openai/gpt-4o-mini-2024-07-18": {
+     "created": 1721260800,
+     "free": false,
+     "name": "OpenAI: GPT-4o-mini (2024-07-18)",
+     "prompt": 1.5e-07
+    },
+    "openai/gpt-4o-mini:batch": {
+     "created": 1721260800,
+     "free": false,
+     "name": "OpenAI: GPT-4o-mini (batch)",
+     "prompt": 7.5e-08
+    },
+    "openai/gpt-4o:batch": {
+     "created": 1715558400,
+     "free": false,
+     "name": "OpenAI: GPT-4o (batch)",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5": {
+     "created": 1754587413,
+     "free": false,
+     "name": "OpenAI: GPT-5",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5-image": {
+     "created": 1760447986,
+     "free": false,
+     "name": "OpenAI: GPT-5 Image",
+     "prompt": 1e-05
+    },
+    "openai/gpt-5-image-mini": {
+     "created": 1760624583,
+     "free": false,
+     "name": "OpenAI: GPT-5 Image Mini",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-5-mini": {
+     "created": 1754587407,
+     "free": false,
+     "name": "OpenAI: GPT-5 Mini",
+     "prompt": 2.5e-07
+    },
+    "openai/gpt-5-mini:batch": {
+     "created": 1754587407,
+     "free": false,
+     "name": "OpenAI: GPT-5 Mini (batch)",
+     "prompt": 1.25e-07
+    },
+    "openai/gpt-5-nano": {
+     "created": 1754587402,
+     "free": false,
+     "name": "OpenAI: GPT-5 Nano",
+     "prompt": 5e-08
+    },
+    "openai/gpt-5-nano:batch": {
+     "created": 1754587402,
+     "free": false,
+     "name": "OpenAI: GPT-5 Nano (batch)",
+     "prompt": 2.5e-08
+    },
+    "openai/gpt-5-pro": {
+     "created": 1759776663,
+     "free": false,
+     "name": "OpenAI: GPT-5 Pro",
+     "prompt": 1.5e-05
+    },
+    "openai/gpt-5-pro:batch": {
+     "created": 1759776663,
+     "free": false,
+     "name": "OpenAI: GPT-5 Pro (batch)",
+     "prompt": 7.5e-06
+    },
+    "openai/gpt-5.1": {
+     "created": 1763060305,
+     "free": false,
+     "name": "OpenAI: GPT-5.1",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5.1-codex": {
+     "created": 1763060298,
+     "free": false,
+     "name": "OpenAI: GPT-5.1-Codex",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5.1-codex-max": {
+     "created": 1764878934,
+     "free": false,
+     "name": "OpenAI: GPT-5.1-Codex-Max",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5.1-codex-mini": {
+     "created": 1763057820,
+     "free": false,
+     "name": "OpenAI: GPT-5.1-Codex-Mini",
+     "prompt": 2.5e-07
+    },
+    "openai/gpt-5.1:batch": {
+     "created": 1763060305,
+     "free": false,
+     "name": "OpenAI: GPT-5.1 (batch)",
+     "prompt": 6.25e-07
+    },
+    "openai/gpt-5.2": {
+     "created": 1765389775,
+     "free": false,
+     "name": "OpenAI: GPT-5.2",
+     "prompt": 1.75e-06
+    },
+    "openai/gpt-5.2-chat": {
+     "created": 1765389783,
+     "free": false,
+     "name": "OpenAI: GPT-5.2 Chat",
+     "prompt": 1.75e-06
+    },
+    "openai/gpt-5.2-codex": {
+     "created": 1768409315,
+     "free": false,
+     "name": "OpenAI: GPT-5.2-Codex",
+     "prompt": 1.75e-06
+    },
+    "openai/gpt-5.2-pro": {
+     "created": 1765389780,
+     "free": false,
+     "name": "OpenAI: GPT-5.2 Pro",
+     "prompt": 2.1e-05
+    },
+    "openai/gpt-5.2-pro:batch": {
+     "created": 1765389780,
+     "free": false,
+     "name": "OpenAI: GPT-5.2 Pro (batch)",
+     "prompt": 1.05e-05
+    },
+    "openai/gpt-5.2:batch": {
+     "created": 1765389775,
+     "free": false,
+     "name": "OpenAI: GPT-5.2 (batch)",
+     "prompt": 8.75e-07
+    },
+    "openai/gpt-5.3-codex": {
+     "created": 1771959164,
+     "free": false,
+     "name": "OpenAI: GPT-5.3-Codex",
+     "prompt": 1.75e-06
+    },
+    "openai/gpt-5.4": {
+     "created": 1772734352,
+     "free": false,
+     "name": "OpenAI: GPT-5.4",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-5.4-image-2": {
+     "created": 1776797528,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Image 2",
+     "prompt": 8e-06
+    },
+    "openai/gpt-5.4-mini": {
+     "created": 1773748178,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Mini",
+     "prompt": 7.5e-07
+    },
+    "openai/gpt-5.4-mini:batch": {
+     "created": 1773748178,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Mini (batch)",
+     "prompt": 3.75e-07
+    },
+    "openai/gpt-5.4-nano": {
+     "created": 1773748187,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Nano",
+     "prompt": 2e-07
+    },
+    "openai/gpt-5.4-nano:batch": {
+     "created": 1773748187,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Nano (batch)",
+     "prompt": 1e-07
+    },
+    "openai/gpt-5.4-pro": {
+     "created": 1772734366,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Pro",
+     "prompt": 3e-05
+    },
+    "openai/gpt-5.4-pro:batch": {
+     "created": 1772734366,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 Pro (batch)",
+     "prompt": 1.5e-05
+    },
+    "openai/gpt-5.4:batch": {
+     "created": 1772734352,
+     "free": false,
+     "name": "OpenAI: GPT-5.4 (batch)",
+     "prompt": 1.25e-06
+    },
+    "openai/gpt-5.5": {
+     "created": 1777051893,
+     "free": false,
+     "name": "OpenAI: GPT-5.5",
+     "prompt": 5e-06
+    },
+    "openai/gpt-5.5-pro": {
+     "created": 1777051896,
+     "free": false,
+     "name": "OpenAI: GPT-5.5 Pro",
+     "prompt": 3e-05
+    },
+    "openai/gpt-5.5-pro:batch": {
+     "created": 1777051896,
+     "free": false,
+     "name": "OpenAI: GPT-5.5 Pro (batch)",
+     "prompt": 1.5e-05
+    },
+    "openai/gpt-5.5:batch": {
+     "created": 1777051893,
+     "free": false,
+     "name": "OpenAI: GPT-5.5 (batch)",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-5.6-luna": {
+     "created": 1783590864,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Luna",
+     "prompt": 2e-07
+    },
+    "openai/gpt-5.6-luna-pro": {
+     "created": 1783590867,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Luna Pro",
+     "prompt": 2e-07
+    },
+    "openai/gpt-5.6-luna-pro:batch": {
+     "created": 1783590867,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Luna Pro (batch)",
+     "prompt": 1e-07
+    },
+    "openai/gpt-5.6-luna:batch": {
+     "created": 1783590864,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Luna (batch)",
+     "prompt": 1e-07
+    },
+    "openai/gpt-5.6-sol": {
+     "created": 1783590850,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Sol",
+     "prompt": 2e-06
+    },
+    "openai/gpt-5.6-sol-pro": {
+     "created": 1783590854,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Sol Pro",
+     "prompt": 2e-06
+    },
+    "openai/gpt-5.6-sol-pro:batch": {
+     "created": 1783590854,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Sol Pro (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-5.6-sol:batch": {
+     "created": 1783590850,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Sol (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-5.6-terra": {
+     "created": 1783590857,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Terra",
+     "prompt": 2e-06
+    },
+    "openai/gpt-5.6-terra-pro": {
+     "created": 1783590861,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Terra Pro",
+     "prompt": 2e-06
+    },
+    "openai/gpt-5.6-terra-pro:batch": {
+     "created": 1783590861,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Terra Pro (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-5.6-terra:batch": {
+     "created": 1783590857,
+     "free": false,
+     "name": "OpenAI: GPT-5.6 Terra (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-5:batch": {
+     "created": 1754587413,
+     "free": false,
+     "name": "OpenAI: GPT-5 (batch)",
+     "prompt": 6.25e-07
+    },
+    "openai/gpt-6-astra": {
+     "created": 1788552838,
+     "free": false,
+     "name": "OpenAI: GPT-6 Astra",
+     "prompt": 1e-05
+    },
+    "openai/gpt-6-astra-pro": {
+     "created": 1788552835,
+     "free": false,
+     "name": "OpenAI: GPT-6 Astra Pro",
+     "prompt": 1e-05
+    },
+    "openai/gpt-6-astra-pro:batch": {
+     "created": 1788552835,
+     "free": false,
+     "name": "OpenAI: GPT-6 Astra Pro (batch)",
+     "prompt": 5e-06
+    },
+    "openai/gpt-6-astra:batch": {
+     "created": 1788552838,
+     "free": false,
+     "name": "OpenAI: GPT-6 Astra (batch)",
+     "prompt": 5e-06
+    },
+    "openai/gpt-6-luna": {
+     "created": 1790100786,
+     "free": false,
+     "name": "OpenAI: GPT-6 Luna",
+     "prompt": 1e-07
+    },
+    "openai/gpt-6-luna-pro": {
+     "created": 1790100791,
+     "free": false,
+     "name": "OpenAI: GPT-6 Luna Pro",
+     "prompt": 1e-07
+    },
+    "openai/gpt-6-luna-pro:batch": {
+     "created": 1790100791,
+     "free": false,
+     "name": "OpenAI: GPT-6 Luna Pro (batch)",
+     "prompt": 5e-08
+    },
+    "openai/gpt-6-luna:batch": {
+     "created": 1790100786,
+     "free": false,
+     "name": "OpenAI: GPT-6 Luna (batch)",
+     "prompt": 5e-08
+    },
+    "openai/gpt-6-sol": {
+     "created": 1790100775,
+     "free": false,
+     "name": "OpenAI: GPT-6 Sol",
+     "prompt": 2e-06
+    },
+    "openai/gpt-6-sol-pro": {
+     "created": 1790100781,
+     "free": false,
+     "name": "OpenAI: GPT-6 Sol Pro",
+     "prompt": 2e-06
+    },
+    "openai/gpt-6-sol-pro:batch": {
+     "created": 1790100781,
+     "free": false,
+     "name": "OpenAI: GPT-6 Sol Pro (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-6-sol:batch": {
+     "created": 1790100775,
+     "free": false,
+     "name": "OpenAI: GPT-6 Sol (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-6.1-sol": {
+     "created": 1790702882,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Sol",
+     "prompt": 2e-06
+    },
+    "openai/gpt-6.1-sol-pro": {
+     "created": 1790702886,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Sol Pro",
+     "prompt": 2e-06
+    },
+    "openai/gpt-6.1-sol-pro:batch": {
+     "created": 1790702886,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Sol Pro (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-6.1-sol:batch": {
+     "created": 1790702882,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Sol (batch)",
+     "prompt": 1e-06
+    },
+    "openai/gpt-audio": {
+     "created": 1768862569,
+     "free": false,
+     "name": "OpenAI: GPT Audio",
+     "prompt": 2.5e-06
+    },
+    "openai/gpt-audio-mini": {
+     "created": 1768859419,
+     "free": false,
+     "name": "OpenAI: GPT Audio Mini",
+     "prompt": 6e-07
+    },
+    "openai/gpt-chat-latest": {
+     "created": 1778000212,
+     "free": false,
+     "name": "OpenAI: GPT Chat Latest",
+     "prompt": 5e-06
+    },
+    "openai/gpt-oss-120b": {
+     "created": 1754414231,
+     "free": false,
+     "name": "OpenAI: gpt-oss-120b",
+     "prompt": 3.7e-08
+    },
+    "openai/gpt-oss-120b:batch": {
+     "created": 1754414231,
+     "free": false,
+     "name": "OpenAI: gpt-oss-120b (batch)",
+     "prompt": 2.96e-08
+    },
+    "openai/gpt-oss-20b": {
+     "created": 1754414229,
+     "free": false,
+     "name": "OpenAI: gpt-oss-20b",
+     "prompt": 1.8e-08
+    },
+    "openai/gpt-oss-20b:batch": {
+     "created": 1754414229,
+     "free": false,
+     "name": "OpenAI: gpt-oss-20b (batch)",
+     "prompt": 2.4e-08
+    },
+    "openai/gpt-oss-safeguard-20b": {
+     "created": 1761752836,
+     "free": false,
+     "name": "OpenAI: gpt-oss-safeguard-20b",
+     "prompt": 7.5e-08
+    },
+    "openai/o1": {
+     "created": 1734459999,
+     "free": false,
+     "name": "OpenAI: o1",
+     "prompt": 1.5e-05
+    },
+    "openai/o1-pro": {
+     "created": 1742423211,
+     "free": false,
+     "name": "OpenAI: o1-pro",
+     "prompt": 0.00015
+    },
+    "openai/o3": {
+     "created": 1744823457,
+     "free": false,
+     "name": "OpenAI: o3",
+     "prompt": 2e-06
+    },
+    "openai/o3-mini": {
+     "created": 1738351721,
+     "free": false,
+     "name": "OpenAI: o3 Mini",
+     "prompt": 1.1e-06
+    },
+    "openai/o3-mini-high": {
+     "created": 1739372611,
+     "free": false,
+     "name": "OpenAI: o3 Mini High",
+     "prompt": 1.1e-06
+    },
+    "openai/o3-mini:batch": {
+     "created": 1738351721,
+     "free": false,
+     "name": "OpenAI: o3 Mini (batch)",
+     "prompt": 5.5e-07
+    },
+    "openai/o3-pro": {
+     "created": 1749598352,
+     "free": false,
+     "name": "OpenAI: o3 Pro",
+     "prompt": 2e-05
+    },
+    "openai/o3:batch": {
+     "created": 1744823457,
+     "free": false,
+     "name": "OpenAI: o3 (batch)",
+     "prompt": 1e-06
+    },
+    "openai/o4-mini": {
+     "created": 1744820942,
+     "free": false,
+     "name": "OpenAI: o4 Mini",
+     "prompt": 1.1e-06
+    },
+    "openai/o4-mini-high": {
+     "created": 1744824212,
+     "free": false,
+     "name": "OpenAI: o4 Mini High",
+     "prompt": 1.1e-06
+    },
+    "openai/o4-mini:batch": {
+     "created": 1744820942,
+     "free": false,
+     "name": "OpenAI: o4 Mini (batch)",
+     "prompt": 5.5e-07
+    },
+    "openrouter/auto": {
+     "created": 1699401600,
+     "free": false,
+     "name": "Auto Router",
+     "prompt": null
+    },
+    "openrouter/auto-beta": {
+     "created": 1784311165,
+     "free": false,
+     "name": "Auto Router (Beta)",
+     "prompt": null
+    },
+    "openrouter/bodybuilder": {
+     "created": 1764903653,
+     "free": false,
+     "name": "Body Builder (beta)",
+     "prompt": null
+    },
+    "openrouter/free": {
+     "created": 1769917427,
+     "free": true,
+     "name": "Free Models Router",
+     "prompt": 0.0
+    },
+    "openrouter/fusion": {
+     "created": 1781371647,
+     "free": false,
+     "name": "OpenRouter: Fusion",
+     "prompt": null
+    },
+    "openrouter/pareto-code": {
+     "created": 1776747900,
+     "free": false,
+     "name": "Pareto Code Router",
+     "prompt": null
+    },
+    "perceptron/perceptron-mk1": {
+     "created": 1778597029,
+     "free": false,
+     "name": "Perceptron: Perceptron Mk1",
+     "prompt": 1.5e-07
+    },
+    "perceptron/perceptron-mk1.5": {
+     "created": 1790352661,
+     "free": false,
+     "name": "Perceptron: Perceptron Mk1.5",
+     "prompt": 1.5e-07
+    },
+    "perplexity/sonar": {
+     "created": 1738013808,
+     "free": false,
+     "name": "Perplexity: Sonar",
+     "prompt": 1e-06
+    },
+    "perplexity/sonar-deep-research": {
+     "created": 1741311246,
+     "free": false,
+     "name": "Perplexity: Sonar Deep Research",
+     "prompt": 2e-06
+    },
+    "perplexity/sonar-pro": {
+     "created": 1741312423,
+     "free": false,
+     "name": "Perplexity: Sonar Pro",
+     "prompt": 3e-06
+    },
+    "perplexity/sonar-pro-search": {
+     "created": 1761854366,
+     "free": false,
+     "name": "Perplexity: Sonar Pro Search",
+     "prompt": 3e-06
+    },
+    "perplexity/sonar-reasoning-pro": {
+     "created": 1741313308,
+     "free": false,
+     "name": "Perplexity: Sonar Reasoning Pro",
+     "prompt": 2e-06
+    },
+    "poolside/laguna-s-2.1": {
+     "created": 1784652683,
+     "free": false,
+     "name": "Poolside: Laguna S 2.1",
+     "prompt": 9e-08
+    },
+    "poolside/laguna-s-2.1:free": {
+     "created": 1784652683,
+     "free": true,
+     "name": "Poolside: Laguna S 2.1 (free)",
+     "prompt": 0.0
+    },
+    "poolside/laguna-xs-2.1": {
+     "created": 1783002429,
+     "free": false,
+     "name": "Poolside: Laguna XS 2.1",
+     "prompt": 6e-08
+    },
+    "poolside/laguna-xs-2.1:free": {
+     "created": 1783002429,
+     "free": true,
+     "name": "Poolside: Laguna XS 2.1 (free)",
+     "prompt": 0.0
+    },
+    "prism-ml/ternary-bonsai-2-27b": {
+     "created": 1789754046,
+     "free": false,
+     "name": "PrismML: Ternary Bonsai 2 27B",
+     "prompt": 7.5e-08
+    },
+    "qwen/qwen-2.5-72b-instruct": {
+     "created": 1726704000,
+     "free": false,
+     "name": "Qwen2.5 72B Instruct",
+     "prompt": 3.6e-07
+    },
+    "qwen/qwen-2.5-7b-instruct": {
+     "created": 1729036800,
+     "free": false,
+     "name": "Qwen: Qwen2.5 7B Instruct",
+     "prompt": 1e-07
+    },
+    "qwen/qwen-2.5-coder-32b-instruct": {
+     "created": 1731368400,
+     "free": false,
+     "name": "Qwen2.5 Coder 32B Instruct",
+     "prompt": 6.6e-07
+    },
+    "qwen/qwen-plus": {
+     "created": 1738409840,
+     "free": false,
+     "name": "Qwen: Qwen-Plus",
+     "prompt": 2.6e-07
+    },
+    "qwen/qwen2.5-vl-72b-instruct": {
+     "created": 1738410311,
+     "free": false,
+     "name": "Qwen: Qwen2.5 VL 72B Instruct",
+     "prompt": 8e-07
+    },
+    "qwen/qwen3-14b": {
+     "created": 1745876478,
+     "free": false,
+     "name": "Qwen: Qwen3 14B",
+     "prompt": 1.2e-07
+    },
+    "qwen/qwen3-235b-a22b-2507": {
+     "created": 1753119555,
+     "free": false,
+     "name": "Qwen: Qwen3 235B A22B Instruct 2507",
+     "prompt": 9e-08
+    },
+    "qwen/qwen3-235b-a22b-thinking-2507": {
+     "created": 1753449557,
+     "free": false,
+     "name": "Qwen: Qwen3 235B A22B Thinking 2507",
+     "prompt": 4.5e-07
+    },
+    "qwen/qwen3-30b-a3b": {
+     "created": 1745878604,
+     "free": false,
+     "name": "Qwen: Qwen3 30B A3B",
+     "prompt": 1.2e-07
+    },
+    "qwen/qwen3-30b-a3b-instruct-2507": {
+     "created": 1753806965,
+     "free": false,
+     "name": "Qwen: Qwen3 30B A3B Instruct 2507",
+     "prompt": 1e-07
+    },
+    "qwen/qwen3-32b": {
+     "created": 1745875945,
+     "free": false,
+     "name": "Qwen: Qwen3 32B",
+     "prompt": 8e-08
+    },
+    "qwen/qwen3-coder": {
+     "created": 1753230546,
+     "free": false,
+     "name": "Qwen: Qwen3 Coder 480B A35B",
+     "prompt": 3e-07
+    },
+    "qwen/qwen3-coder-30b-a3b-instruct": {
+     "created": 1753972379,
+     "free": false,
+     "name": "Qwen: Qwen3 Coder 30B A3B Instruct",
+     "prompt": 7e-08
+    },
+    "qwen/qwen3-coder-flash": {
+     "created": 1758115536,
+     "free": false,
+     "name": "Qwen: Qwen3 Coder Flash",
+     "prompt": 1.95e-07
+    },
+    "qwen/qwen3-coder-next": {
+     "created": 1770164101,
+     "free": false,
+     "name": "Qwen: Qwen3 Coder Next",
+     "prompt": 1.2e-07
+    },
+    "qwen/qwen3-next-80b-a3b-instruct": {
+     "created": 1757612213,
+     "free": false,
+     "name": "Qwen: Qwen3 Next 80B A3B Instruct",
+     "prompt": 1e-07
+    },
+    "qwen/qwen3-next-80b-a3b-thinking": {
+     "created": 1757612284,
+     "free": false,
+     "name": "Qwen: Qwen3 Next 80B A3B Thinking",
+     "prompt": 1.5e-07
+    },
+    "qwen/qwen3-vl-235b-a22b-instruct": {
+     "created": 1758668687,
+     "free": false,
+     "name": "Qwen: Qwen3 VL 235B A22B Instruct",
+     "prompt": 2.1e-07
+    },
+    "qwen/qwen3-vl-30b-a3b-instruct": {
+     "created": 1759794476,
+     "free": false,
+     "name": "Qwen: Qwen3 VL 30B A3B Instruct",
+     "prompt": 1.5e-07
+    },
+    "qwen/qwen3-vl-30b-a3b-thinking": {
+     "created": 1759794479,
+     "free": false,
+     "name": "Qwen: Qwen3 VL 30B A3B Thinking",
+     "prompt": 2.9e-07
+    },
+    "qwen/qwen3-vl-8b-instruct": {
+     "created": 1760463308,
+     "free": false,
+     "name": "Qwen: Qwen3 VL 8B Instruct",
+     "prompt": 2.5e-07
+    },
+    "qwen/qwen3.5-122b-a10b": {
+     "created": 1772053789,
+     "free": false,
+     "name": "Qwen: Qwen3.5-122B-A10B",
+     "prompt": 2.6e-07
+    },
+    "qwen/qwen3.5-27b": {
+     "created": 1772053810,
+     "free": false,
+     "name": "Qwen: Qwen3.5-27B",
+     "prompt": 2.6e-07
+    },
+    "qwen/qwen3.5-35b-a3b": {
+     "created": 1772053822,
+     "free": false,
+     "name": "Qwen: Qwen3.5-35B-A3B",
+     "prompt": 1.5e-07
+    },
+    "qwen/qwen3.5-397b-a17b": {
+     "created": 1771223018,
+     "free": false,
+     "name": "Qwen: Qwen3.5 397B A17B",
+     "prompt": 5e-07
+    },
+    "qwen/qwen3.5-9b": {
+     "created": 1773152396,
+     "free": false,
+     "name": "Qwen: Qwen3.5-9B",
+     "prompt": 1e-07
+    },
+    "qwen/qwen3.5-flash-02-23": {
+     "created": 1772053776,
+     "free": false,
+     "name": "Qwen: Qwen3.5-Flash",
+     "prompt": 6.5e-08
+    },
+    "qwen/qwen3.5-plus-02-15": {
+     "created": 1771229416,
+     "free": false,
+     "name": "Qwen: Qwen3.5 Plus 2026-02-15",
+     "prompt": 2.6e-07
+    },
+    "qwen/qwen3.5-plus-20260420": {
+     "created": 1777261368,
+     "free": false,
+     "name": "Qwen: Qwen3.5 Plus 2026-04-20",
+     "prompt": 3e-07
+    },
+    "qwen/qwen3.6-27b": {
+     "created": 1777255064,
+     "free": false,
+     "name": "Qwen: Qwen3.6 27B",
+     "prompt": 3.2e-07
+    },
+    "qwen/qwen3.6-35b-a3b": {
+     "created": 1777260255,
+     "free": false,
+     "name": "Qwen: Qwen3.6 35B A3B",
+     "prompt": 1e-07
+    },
+    "qwen/qwen3.6-flash": {
+     "created": 1777261362,
+     "free": false,
+     "name": "Qwen: Qwen3.6 Flash",
+     "prompt": 1.875e-07
+    },
+    "qwen/qwen3.6-plus": {
+     "created": 1775133557,
+     "free": false,
+     "name": "Qwen: Qwen3.6 Plus",
+     "prompt": 3.25e-07
+    },
+    "qwen/qwen3.7-flash": {
+     "created": 1785190561,
+     "free": false,
+     "name": "Qwen: Qwen3.7 Flash",
+     "prompt": 3e-08
+    },
+    "qwen/qwen3.7-max": {
+     "created": 1779376861,
+     "free": false,
+     "name": "Qwen: Qwen3.7 Max",
+     "prompt": 1.475e-06
+    },
+    "qwen/qwen3.7-plus": {
+     "created": 1780491783,
+     "free": false,
+     "name": "Qwen: Qwen3.7 Plus",
+     "prompt": 3.2e-07
+    },
+    "qwen/qwen3.8-2.4t-a95b": {
+     "created": 1786551702,
+     "free": false,
+     "name": "Qwen: Qwen3.8 2.4T A95B",
+     "prompt": 2e-06
+    },
+    "qwen/qwen3.8-27b": {
+     "created": 1786722910,
+     "free": false,
+     "name": "Qwen: Qwen3.8 27B",
+     "prompt": 4e-08
+    },
+    "qwen/qwen3.8-flash": {
+     "created": 1787773060,
+     "free": false,
+     "name": "Qwen: Qwen3.8 Flash",
+     "prompt": 1.5e-07
+    },
+    "qwen/qwen3.8-max-0902": {
+     "created": 1788469704,
+     "free": false,
+     "name": "Qwen: Qwen3.8 Max (0902)",
+     "prompt": 2e-06
+    },
+    "qwen/qwen3.8-max-prime": {
+     "created": 1790191228,
+     "free": false,
+     "name": "Qwen: Qwen3.8 Max Prime",
+     "prompt": 4e-06
+    },
+    "qwen/qwen3.8-omni-flash": {
+     "created": 1789959954,
+     "free": false,
+     "name": "Qwen: Qwen3.8 Omni Flash",
+     "prompt": 1.5e-07
+    },
+    "rekaai/reka-edge": {
+     "created": 1774026965,
+     "free": false,
+     "name": "Reka Edge",
+     "prompt": 1e-07
+    },
+    "rekaai/reka-flash-3": {
+     "created": 1741812813,
+     "free": false,
+     "name": "Reka Flash 3",
+     "prompt": 1e-07
+    },
+    "relace/relace-apply-3": {
+     "created": 1758891572,
+     "free": false,
+     "name": "Relace: Relace Apply 3",
+     "prompt": 8.5e-07
+    },
+    "relace/relace-search": {
+     "created": 1765213560,
+     "free": false,
+     "name": "Relace: Relace Search",
+     "prompt": 1e-06
+    },
+    "sakana/fugu-max": {
+     "created": 1789104771,
+     "free": false,
+     "name": "Sakana: Fugu Max",
+     "prompt": 2e-06
+    },
+    "sakana/fugu-ultra": {
+     "created": 1782276303,
+     "free": false,
+     "name": "Sakana: Fugu Ultra",
+     "prompt": 5e-06
+    },
+    "sakana/fugu-ultra-v2": {
+     "created": 1789105383,
+     "free": false,
+     "name": "Sakana: Fugu Ultra v2",
+     "prompt": 5e-06
+    },
+    "sakana/sakana-namazu": {
+     "created": 1786410129,
+     "free": false,
+     "name": "Sakana: Sakana Namazu",
+     "prompt": 9.5e-07
+    },
+    "sao10k/l3-lunaris-8b": {
+     "created": 1723507200,
+     "free": false,
+     "name": "Sao10K: Llama 3 8B Lunaris",
+     "prompt": 4e-08
+    },
+    "sao10k/l3.1-euryale-70b": {
+     "created": 1724803200,
+     "free": false,
+     "name": "Sao10K: Llama 3.1 Euryale 70B v2.2",
+     "prompt": 8.5e-07
+    },
+    "sao10k/l3.3-euryale-70b": {
+     "created": 1734535928,
+     "free": false,
+     "name": "Sao10K: Llama 3.3 Euryale 70B",
+     "prompt": 6.5e-07
+    },
+    "scaledown/extract": {
+     "created": 1791893351,
+     "free": false,
+     "name": "ScaleDown: Extract",
+     "prompt": 4e-08
+    },
+    "scaledown/summarize": {
+     "created": 1791893360,
+     "free": false,
+     "name": "ScaleDown: Summarize",
+     "prompt": 4e-08
+    },
+    "stepfun/step-3.5-flash": {
+     "created": 1769728337,
+     "free": false,
+     "name": "StepFun: Step 3.5 Flash",
+     "prompt": 1e-07
+    },
+    "stepfun/step-3.7-flash": {
+     "created": 1779985069,
+     "free": false,
+     "name": "StepFun: Step 3.7 Flash",
+     "prompt": 2e-07
+    },
+    "stepfun/step-5-preview": {
+     "created": 1791462849,
+     "free": false,
+     "name": "StepFun: Step 5 Preview",
+     "prompt": 1e-06
+    },
+    "tencent/hunyuan-a13b-instruct": {
+     "created": 1751987664,
+     "free": false,
+     "name": "Tencent: Hunyuan A13B Instruct",
+     "prompt": 1.4e-07
+    },
+    "tencent/hy-mt2-1.8b": {
+     "created": 1787231581,
+     "free": false,
+     "name": "Tencent: Hy-MT2-1.8B",
+     "prompt": 4.4e-08
+    },
+    "tencent/hy-mt2-30b-a3b": {
+     "created": 1787231561,
+     "free": false,
+     "name": "Tencent: Hy-MT2-30B-A3B",
+     "prompt": 7.4e-08
+    },
+    "tencent/hy-mt2-7b": {
+     "created": 1787148797,
+     "free": false,
+     "name": "Tencent: Hy-MT2-7B",
+     "prompt": 7.4e-08
+    },
+    "tencent/hy3": {
+     "created": 1783344048,
+     "free": false,
+     "name": "Tencent: Hy3",
+     "prompt": 1.32e-07
+    },
+    "tencent/hy3-preview": {
+     "created": 1776878150,
+     "free": false,
+     "name": "Tencent: Hy3 preview",
+     "prompt": 1.8e-07
+    },
+    "tencent/hy4-preview": {
+     "created": 1787897375,
+     "free": false,
+     "name": "Tencent: Hy4 preview",
+     "prompt": 8.34e-07
+    },
+    "thedrummer/cydonia-24b-v4.1": {
+     "created": 1758931878,
+     "free": false,
+     "name": "TheDrummer: Cydonia 24B V4.1",
+     "prompt": 3e-07
+    },
+    "thedrummer/skyfall-36b-v2": {
+     "created": 1741636566,
+     "free": false,
+     "name": "TheDrummer: Skyfall 36B V2",
+     "prompt": 5.5e-07
+    },
+    "thedrummer/unslopnemo-12b": {
+     "created": 1731103448,
+     "free": false,
+     "name": "TheDrummer: UnslopNemo 12B",
+     "prompt": 4e-07
+    },
+    "thinkingmachines/inkling": {
+     "created": 1784325956,
+     "free": false,
+     "name": "Thinking Machines: Inkling",
+     "prompt": 1e-06
+    },
+    "thinkingmachines/inkling-small": {
+     "created": 1785443117,
+     "free": false,
+     "name": "Thinking Machines: Inkling Small",
+     "prompt": 4.5e-07
+    },
+    "thinkingmachines/inkling-small:free": {
+     "created": 1785443117,
+     "free": true,
+     "name": "Thinking Machines: Inkling Small (free)",
+     "prompt": 0.0
+    },
+    "thinkingmachines/inkling:free": {
+     "created": 1784325956,
+     "free": true,
+     "name": "Thinking Machines: Inkling (free)",
+     "prompt": 0.0
+    },
+    "typesafe/jev-router": {
+     "created": 1790363560,
+     "free": false,
+     "name": "TypeSafe: Jev Router",
+     "prompt": null
+    },
+    "unbiased/pareto-26.10-preview": {
+     "created": 1790863623,
+     "free": false,
+     "name": "Pareto 26.10 Preview",
+     "prompt": 8e-07
+    },
+    "unbiased/pareto-26.9": {
+     "created": 1791930537,
+     "free": false,
+     "name": "Pareto 26.9",
+     "prompt": 2.5e-06
+    },
+    "undi95/remm-slerp-l2-13b": {
+     "created": 1689984000,
+     "free": false,
+     "name": "ReMM SLERP 13B",
+     "prompt": 3.5e-07
+    },
+    "upstage/solar-mini4": {
+     "created": 1790160358,
+     "free": false,
+     "name": "Upstage: Solar Mini 4",
+     "prompt": 5e-08
+    },
+    "upstage/solar-pro-3": {
+     "created": 1769481200,
+     "free": false,
+     "name": "Upstage: Solar Pro 3",
+     "prompt": 1.5e-07
+    },
+    "upstage/solar-pro4": {
+     "created": 1786371636,
+     "free": false,
+     "name": "Upstage: Solar Pro 4",
+     "prompt": 9e-08
+    },
+    "writer/palmyra-x5": {
+     "created": 1769003823,
+     "free": false,
+     "name": "Writer: Palmyra X5",
+     "prompt": 6e-07
+    },
+    "x-ai/grok-4.20": {
+     "created": 1774979019,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.20",
+     "prompt": 1.25e-06
+    },
+    "x-ai/grok-4.20-multi-agent": {
+     "created": 1774979158,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.20 Multi-Agent",
+     "prompt": 1.25e-06
+    },
+    "x-ai/grok-4.3": {
+     "created": 1777591821,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.3",
+     "prompt": 1.25e-06
+    },
+    "x-ai/grok-4.3:batch": {
+     "created": 1777591821,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.3 (batch)",
+     "prompt": 1e-06
+    },
+    "x-ai/grok-4.5": {
+     "created": 1783523154,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.5",
+     "prompt": 2e-06
+    },
+    "x-ai/grok-4.6": {
+     "created": 1786548957,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.6",
+     "prompt": 2e-06
+    },
+    "x-ai/grok-4.7": {
+     "created": 1790007541,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.7",
+     "prompt": 2e-06
+    },
+    "x-ai/grok-build-0.1": {
+     "created": 1779298123,
+     "free": false,
+     "name": "SpaceXAI: Grok Build 0.1",
+     "prompt": 1e-06
+    },
+    "xiaomi/mimo-v2.5": {
+     "created": 1776874269,
+     "free": false,
+     "name": "Xiaomi: MiMo-V2.5",
+     "prompt": 1.4e-07
+    },
+    "xiaomi/mimo-v2.5-pro": {
+     "created": 1776874273,
+     "free": false,
+     "name": "Xiaomi: MiMo-V2.5-Pro",
+     "prompt": 4.35e-07
+    },
+    "xiaomi/mimo-v2.6-flash": {
+     "created": 1790021264,
+     "free": false,
+     "name": "Xiaomi: MiMo-V2.6-Flash",
+     "prompt": 1.4e-07
+    },
+    "xiaomi/mimo-v2.6-pro": {
+     "created": 1790021259,
+     "free": false,
+     "name": "Xiaomi: MiMo-V2.6-Pro",
+     "prompt": 4.35e-07
+    },
+    "xiaomi/mimo-v2.6-pro-ultraspeed": {
+     "created": 1790021267,
+     "free": false,
+     "name": "Xiaomi: MiMo-V2.6-Pro-UltraSpeed",
+     "prompt": 4.35e-06
+    },
+    "z-ai/glm-4.5": {
+     "created": 1753471347,
+     "free": false,
+     "name": "Z.ai: GLM 4.5",
+     "prompt": 6e-07
+    },
+    "z-ai/glm-4.5-air": {
+     "created": 1753471258,
+     "free": false,
+     "name": "Z.ai: GLM 4.5 Air",
+     "prompt": 1.3e-07
+    },
+    "z-ai/glm-4.5v": {
+     "created": 1754922288,
+     "free": false,
+     "name": "Z.ai: GLM 4.5V",
+     "prompt": 6e-07
+    },
+    "z-ai/glm-4.6": {
+     "created": 1759235576,
+     "free": false,
+     "name": "Z.ai: GLM 4.6",
+     "prompt": 5e-07
+    },
+    "z-ai/glm-4.6v": {
+     "created": 1765207462,
+     "free": false,
+     "name": "Z.ai: GLM 4.6V",
+     "prompt": 3e-07
+    },
+    "z-ai/glm-4.7": {
+     "created": 1766378014,
+     "free": false,
+     "name": "Z.ai: GLM 4.7",
+     "prompt": 6e-07
+    },
+    "z-ai/glm-4.7-flash": {
+     "created": 1768833913,
+     "free": false,
+     "name": "Z.ai: GLM 4.7 Flash",
+     "prompt": 6.05e-08
+    },
+    "z-ai/glm-5": {
+     "created": 1770829182,
+     "free": false,
+     "name": "Z.ai: GLM 5",
+     "prompt": 6e-07
+    },
+    "z-ai/glm-5-turbo": {
+     "created": 1773583573,
+     "free": false,
+     "name": "Z.ai: GLM 5 Turbo",
+     "prompt": 1.2e-06
+    },
+    "z-ai/glm-5.1": {
+     "created": 1775578025,
+     "free": false,
+     "name": "Z.ai: GLM 5.1",
+     "prompt": 1.33e-06
+    },
+    "z-ai/glm-5.2": {
+     "created": 1781631930,
+     "free": false,
+     "name": "Z.ai: GLM 5.2",
+     "prompt": 5e-08
+    },
+    "z-ai/glm-5.3": {
+     "created": 1787086655,
+     "free": false,
+     "name": "Z.ai: GLM 5.3",
+     "prompt": 7.9e-08
+    },
+    "z-ai/glm-5.3-flash": {
+     "created": 1787752741,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 Flash",
+     "prompt": 1.5e-07
+    },
+    "z-ai/glm-5.3-flash:batch": {
+     "created": 1787752741,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 Flash (batch)",
+     "prompt": 6e-08
+    },
+    "z-ai/glm-5.3-flashx": {
+     "created": 1789744020,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 FlashX",
+     "prompt": 3.7e-07
+    },
+    "z-ai/glm-5.3-prime": {
+     "created": 1790199651,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 Prime",
+     "prompt": 2.8e-06
+    },
+    "z-ai/glm-5.3:batch": {
+     "created": 1787086655,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 (batch)",
+     "prompt": 4.5e-07
+    },
+    "z-ai/glm-5v-turbo": {
+     "created": 1775061458,
+     "free": false,
+     "name": "Z.ai: GLM 5V Turbo",
+     "prompt": 1.2e-06
+    },
+    "~anthropic/claude-fable-latest": {
+     "created": 1781029944,
+     "free": false,
+     "name": "Anthropic: Claude Fable Latest",
+     "prompt": 1e-05
+    },
+    "~anthropic/claude-haiku-latest": {
+     "created": 1777318492,
+     "free": false,
+     "name": "Anthropic: Claude Haiku Latest",
+     "prompt": 1e-07
+    },
+    "~anthropic/claude-opus-latest": {
+     "created": 1776795361,
+     "free": false,
+     "name": "Anthropic: Claude Opus Latest",
+     "prompt": 4e-06
+    },
+    "~anthropic/claude-sonnet-latest": {
+     "created": 1777318368,
+     "free": false,
+     "name": "Anthropic: Claude Sonnet Latest",
+     "prompt": 2e-06
+    },
+    "~deepseek/deepseek-flash-latest": {
+     "created": 1789399150,
+     "free": false,
+     "name": "DeepSeek: DeepSeek Flash Latest",
+     "prompt": 2.529e-08
+    },
+    "~deepseek/deepseek-pro-latest": {
+     "created": 1789399174,
+     "free": false,
+     "name": "DeepSeek: DeepSeek Pro Latest",
+     "prompt": 2.25e-07
+    },
+    "~deepseek/deepseek-v4-flash-latest": {
+     "created": 1785606009,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Flash Latest",
+     "prompt": 1.44e-08
+    },
+    "~google/gemini-flash-latest": {
+     "created": 1777318398,
+     "free": false,
+     "name": "Google: Gemini Flash Latest",
+     "prompt": 7.5e-07
+    },
+    "~google/gemini-pro-latest": {
+     "created": 1777318451,
+     "free": false,
+     "name": "Google: Gemini Pro Latest",
+     "prompt": 2e-06
+    },
+    "~moonshotai/kimi-latest": {
+     "created": 1777318428,
+     "free": false,
+     "name": "MoonshotAI: Kimi Latest",
+     "prompt": 7e-07
+    },
+    "~openai/gpt-astra-latest": {
+     "created": 1789130932,
+     "free": false,
+     "name": "OpenAI: GPT Astra Latest",
+     "prompt": 1e-05
+    },
+    "~openai/gpt-luna-latest": {
+     "created": 1789130922,
+     "free": false,
+     "name": "OpenAI: GPT Luna Latest",
+     "prompt": 1e-07
+    },
+    "~openai/gpt-mini-latest": {
+     "created": 1777318471,
+     "free": false,
+     "name": "OpenAI: GPT Mini Latest",
+     "prompt": 7.5e-07
+    },
+    "~openai/gpt-sol-latest": {
+     "created": 1789130928,
+     "free": false,
+     "name": "OpenAI: GPT Sol Latest",
+     "prompt": 2e-06
+    },
+    "~openai/gpt-terra-latest": {
+     "created": 1789130925,
+     "free": false,
+     "name": "OpenAI: GPT Terra Latest",
+     "prompt": 2e-06
+    },
+    "~unbiased/pareto-latest": {
+     "created": 1791933050,
+     "free": false,
+     "name": "Pareto Latest",
+     "prompt": 2.5e-06
+    },
+    "~x-ai/grok-latest": {
+     "created": 1783519360,
+     "free": false,
+     "name": "xAI: Grok Latest",
+     "prompt": 2e-06
+    },
+    "~z-ai/glm-flash-latest": {
+     "created": 1787817633,
+     "free": false,
+     "name": "Z.ai: GLM Flash Latest",
+     "prompt": 3.6e-08
+    },
+    "~z-ai/glm-latest": {
+     "created": 1787151053,
+     "free": false,
+     "name": "Z.ai: GLM Latest",
+     "prompt": 6.3e-08
+    }
+   },
+   "taken": "20261014T053852"
+  }
+ },
+ "versions": {
+  "claude-code-changelog": "2.1.299"
+ }
+}
