@@ -44,6 +44,7 @@ class Event:
     corroborated_by: list[str] = field(default_factory=list)
     points: int = 0
     also_reported_by: list[str] = field(default_factory=list)      # other sources that carried the same story
+    checked: datetime | None = None                                # when the vendor page was last fetched for this event (confirm_page sources)
 
     def __post_init__(self):
         """Nothing link-looking may leave an Event: model names like "Z.AI: GLM 4.6" read as domains to the studio."""
@@ -68,8 +69,9 @@ class SourceReport:
 def event_to_dict(event: Event) -> dict:
     data = {k: getattr(event, k) for k in ("kind", "vendor", "topic", "title", "url", "source", "source_name", "trust",
                                            "detail", "figures", "item_id", "score", "corroborated_by", "points", "also_reported_by")}
-    return {**data, "when": event.when.isoformat()}
+    return {**data, "when": event.when.isoformat(), "checked": event.checked.isoformat() if event.checked else None}
 
 
 def event_from_dict(data: dict) -> Event:
-    return Event(**{**data, "when": datetime.fromisoformat(data["when"])})
+    checked = data.get("checked")
+    return Event(**{**data, "when": datetime.fromisoformat(data["when"]), "checked": datetime.fromisoformat(checked) if checked else None})

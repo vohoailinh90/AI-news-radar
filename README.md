@@ -58,7 +58,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - Anthropic không có feed chính thức, nên tin được đọc qua một feed mirror của cộng đồng. Vì thế mirror **không** được tin: chỉ nhận mục có link
   trỏ về anthropic.com (`allowed_hosts`), và với mỗi tin radar **tự tải trang đó** rồi so tiêu đề (`og:title` hoặc `<title>`, so bằng, không so tiền tố).
   Khớp thì mới là nguồn chính thức; không khớp, không tải được, hay vượt giới hạn 15 trang mỗi lượt thì tin bị hạ xuống "cộng đồng, chưa xác nhận"
-  và run report ghi lý do; bộ nhớ đệm giữ **tiêu đề của trang** chứ không giữ kết luận của một tiêu đề, nên mỗi tiêu đề được xét riêng; tin đang chờ bị hạ như vậy được **kiểm tra lại** ở mỗi lượt quét sau (cùng giới hạn 15 trang) và được trả về chính thức
+  và run report ghi lý do; bộ nhớ đệm giữ **tiêu đề của trang** chứ không giữ kết luận của một tiêu đề, nên mỗi tiêu đề được xét riêng; tin đang chờ bị hạ như vậy được **kiểm tra lại** ở mỗi lượt quét sau (cùng giới hạn 15 trang, lấy tin **lâu nhất chưa được thử** trước — thời điểm thử lần cuối được lưu cùng tin đang chờ — nên 15 trang hỏng liên tục không thể chiếm hết lượt của các tin phía sau) và được trả về chính thức
   khi trang đã tải được và khớp. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`. Vì chỉ **tiêu đề** được xác nhận, nguồn
   bật `confirm_page` chỉ được nhận diện trên tiêu đề, không bao giờ trên phần tóm tắt do mirror cung cấp.
 - Luật phát hiện khớp **cụm hành động** (reset, tăng gấp đôi, miễn phí đến, giảm 30%…), không khớp danh từ trơn như "limit" hay "free".
@@ -84,7 +84,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 497 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 506 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -117,7 +117,8 @@ và có đủ vi/ja/en.
   mới áp giới hạn ô theo thứ hạng của thành viên tốt nhất; nhóm không có chỗ thì chờ cùng các bản tin đã gộp, nên không bao giờ có chuyện bản
   cộng đồng được đăng trước còn bản chính thức chờ số sau. `tests/test_select_properties.py` kiểm điều này trên 300 bộ sự kiện ngẫu nhiên.
 - Tin chính thức chỉ gộp với bản tin cộng đồng khi cùng nằm trong cửa sổ 48 giờ (`corroboration_window_hours`); một lần lặp lại
-  sau nhiều ngày là tin riêng, chưa xác nhận.
+  sau nhiều ngày là tin riêng, chưa xác nhận. Khi một chuỗi bị cắt, mỗi tin được xét lại nguồn chính thức xác nhận nó **theo nhóm mà nó được
+  đăng**: nguồn chính thức cũ hơn cửa sổ tính từ tin mới nhất của nhóm không còn "xác nhận" tin đó (`rank.corroborators`).
 - Mọi chuỗi nhắc lại một tin chưa xác nhận (tiêu đề bìa, caption, slide số liệu, danh sách, dòng "tiêu đề gốc") đều mang nhãn; một test
   duyệt từng chuỗi của bài để chắc điều đó.
 - Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau

@@ -50,6 +50,17 @@ def same_story(a: Event, b: Event) -> bool:
     return True
 
 
+def corroborators(event: Event, events: list[Event], window: timedelta, newest: datetime | None = None) -> list[str]:
+    """The primary sources that confirm a community `event`: same story, within `window` of it. When `newest` (the latest report of
+    the story the event is exported in) is given, a source older than `window` before it no longer counts: it belongs to an earlier
+    telling of the story, and its confirmation must not carry over to a recurrence."""
+    if event.trust == PRIMARY:
+        return []
+    return sorted(o.source_name for o in events
+                  if o is not event and o.trust == PRIMARY and same_story(event, o) and abs(o.when - event.when) <= window
+                  and (newest is None or newest - o.when <= window))
+
+
 def score_events(events: list[Event], rules: dict, now: datetime, points: dict[str, int] | None = None) -> list[Event]:
     cfg, points = rules["scoring"], points or {}
     kind_weight = {name: spec["weight"] for name, spec in rules["topics"].items()}
@@ -73,5 +84,5 @@ def score_events(events: list[Event], rules: dict, now: datetime, points: dict[s
         distinct = {o.source for o in peers}
         if distinct:
             event.score = round(event.score + cfg["corroboration_bonus"] * len(distinct), 3)
-            event.corroborated_by = sorted(o.source_name for o in peers if o.trust == PRIMARY and event.trust != PRIMARY)
+            event.corroborated_by = corroborators(event, events, window)
     return sorted(events, key=lambda e: (-e.score, e.title))

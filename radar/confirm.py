@@ -53,42 +53,44 @@ def confirms(page: str, headline: str) -> bool:
 def _page_titles(url: str, fetch, cache: dict):
     """What the page at `url` says about itself (squashed titles), or None when it cannot be read. Fetched once per URL per
     scan, at most MAX_CONFIRMATIONS URLs. The cache keeps the page's titles, never one headline's verdict: every event
-    is judged against them separately."""
+    is judged against them separately. A URL the cap kept us from fetching is not recorded: it was not tried."""
     if url not in cache:
         if len(cache) >= MAX_CONFIRMATIONS:
-            cache[url] = None                           # over the cap: unconfirmed, never silently trusted
-        else:
-            try:
-                cache[url] = set(page_titles(fetch(url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace")))
-            except FetchError:
-                cache[url] = None
+            return None                                 # over the cap: unconfirmed, never silently trusted
+        try:
+            cache[url] = set(page_titles(fetch(url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace")))
+        except FetchError:
+            cache[url] = None
     return cache[url]
 
 
-def _checks_out(event: Event, fetch, cache: dict) -> bool:
+def _checks_out(event: Event, fetch, cache: dict, now=None) -> bool:
     titles = _page_titles(event.url, fetch, cache)
+    if now is not None and event.url in cache:
+        event.checked = now                             # a page was fetched for this event this scan: the next scan tries someone else first
     return titles is not None and squash(event.title) in titles
 
 
-def confirm_events(events: list[Event], flagged: set[str], fetch, cache: dict | None = None) -> list[str]:
+def confirm_events(events: list[Event], flagged: set[str], fetch, cache: dict | None = None, now=None) -> list[str]:
     """Demote to community every flagged-source event the vendor's page does not confirm. Returns notes for the run report."""
     notes, cache = [], {} if cache is None else cache
     for event in events:
         if event.source not in flagged or event.trust != PRIMARY or not event.url.startswith("https://"):
             continue
-        if not _checks_out(event, fetch, cache):
+        if not _checks_out(event, fetch, cache, now):
             event.trust = COMMUNITY
             notes.append(f"{event.source}: the page for '{event.title[:60]}' did not confirm the headline; reported as unconfirmed")
     return notes
 
 
-def reconfirm_events(events: list[Event], original: dict[str, str], fetch, cache: dict | None = None) -> None:
+def reconfirm_events(events: list[Event], original: dict[str, str], fetch, cache: dict | None = None, now=None) -> None:
     """Events kept pending after a failed confirmation get another chance each scan: a page that is reachable now and
-    carries the headline restores the source's own trust. Events that were never demoted are not fetched again."""
+    carries the headline restores the source's own trust. Events that were never demoted are not fetched again.
+
+    A scan fetches at most MAX_CONFIRMATIONS pages, so the events are taken least recently checked first (never checked, then
+    oldest check, ties in pending order): pages that keep failing cannot use up every scan's budget ahead of the rest."""
     cache = {} if cache is None else cache
-    for event in events:
-        trust = original.get(event.source)
-        if trust is None or event.trust == trust or not event.url.startswith("https://"):
-            continue
-        if _checks_out(event, fetch, cache):
-            event.trust = trust
+    waiting = [e for e in events if original.get(e.source) not in (None, e.trust) and e.url.startswith("https://")]
+    for event in sorted(waiting, key=lambda e: e.checked.timestamp() if e.checked else float("-inf")):
+        if _checks_out(event, fetch, cache, now):
+            event.trust = original[event.source]

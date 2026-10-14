@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 
 from .models import COMMUNITY, PRIMARY, Event
-from .rank import same_story
+from .rank import corroborators, same_story
 from .templates import KIND_EMOJI, POSITIONING, TEXT
 from .textsafe import defang, has_link
 
@@ -120,6 +120,9 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
     picked: list[Event] = []
     absorbed: set[str] = set()
     for members in story_groups(eligible, window):
+        newest = max(m.when for m in members)
+        for m in members:                                 # ranking judged corroboration over the whole feed; a story that was cut out of a
+            m.corroborated_by = corroborators(m, events, window, newest)      # longer chain keeps only the evidence that is still inside it
         canonical = next((m for m in members if m.trust == PRIMARY), members[0])
         for other in (m for m in members if m is not canonical):
             canonical.also_reported_by = list(dict.fromkeys(canonical.also_reported_by + other.also_reported_by + [other.source_name]))

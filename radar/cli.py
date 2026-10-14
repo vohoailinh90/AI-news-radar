@@ -73,9 +73,9 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
     fresh, carried = merge_pending(fresh, load_pending(root), now - timedelta(days=rules["export"]["carry_days"]))
     original = {s.id: s.trust for s in sources if s.opt("confirm_page")}
     pages: dict = {}                                                      # one fetch per page per scan, shared by both steps
-    for note in confirm_mod.confirm_events(fresh, set(original), fetcher, pages):      # before ranking: trust decides the score
+    for note in confirm_mod.confirm_events(fresh, set(original), fetcher, pages, now):      # before ranking: trust decides the score
         reports.append(SourceReport("confirm", False, 0, note))
-    confirm_mod.reconfirm_events(carried, original, fetcher, pages)       # a demoted event that waits is not demoted for good
+    confirm_mod.reconfirm_events(carried, original, fetcher, pages, now)       # a demoted event that waits is not demoted for good
     ranked = rank.score_events(fresh + carried, rules, now, {i.id: i.points for i in items})
     if any(r.ok for r in reports):                    # all sources down: keep the old state, do not lose a baseline
         # Pending events first, "seen" marks second: a crash between the two re-detects (and de-duplicates against
