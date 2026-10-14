@@ -54,13 +54,55 @@ def vendor_name(event: Event, rules: dict) -> str:
     return rules["vendor_names"].get(event.vendor, rules["vendor_names"]["other"])
 
 
+def story_groups(events: list[Event], window: timedelta) -> list[list[Event]]:
+    """Partition events into stories. A story is a connected set of events (rank.same_story, within `window` of each other
+    pairwise-linked) whose members ALL lie within `window` of its newest member: a chain of links that each hold must not
+    stretch one story across more than the window, or stale evidence would confirm a fresh recurrence. A chain that is too
+    long is cut into slices anchored on the newest event, and each slice is regrouped on its own. Members keep input
+    (rank) order; groups are ordered by their best-ranked member."""
+    def linked(a, b):
+        return same_story(a, b) and abs(a.when - b.when) <= window
+
+    def components(members):
+        parent = {id(m): id(m) for m in members}
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        for index, a in enumerate(members):
+            for b in members[index + 1:]:
+                if linked(a, b):
+                    parent[find(id(b))] = find(id(a))
+        found: dict[int, list[Event]] = {}
+        for m in members:
+            found.setdefault(find(id(m)), []).append(m)
+        return list(found.values())
+
+    groups: list[list[Event]] = []
+    for component in components(events):
+        if max(m.when for m in component) - min(m.when for m in component) <= window:
+            groups.append(component)
+            continue
+        remaining = sorted(component, key=lambda m: m.when, reverse=True)
+        while remaining:
+            anchor = remaining[0].when
+            sliced = [m for m in remaining if anchor - m.when <= window]
+            remaining = [m for m in remaining if anchor - m.when > window]
+            ranked = [m for m in component if any(m is s for s in sliced)]
+            groups.extend(components(ranked))
+    position = {id(e): n for n, e in enumerate(events)}
+    return sorted(groups, key=lambda g: position[id(g[0])])
+
+
 def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event], set[str]]:
     """The stories of an issue, best first, plus the ids of reports folded into them.
 
-    Events that rank.same_story() says are one piece of news form a group, and the groups are the CONNECTED COMPONENTS of
-    that relation: if A matches B and B matches C, all three are one story even when A and C do not match each other, and
-    the answer does not depend on the order the events arrive in. Each group yields one canonical event (the first
-    primary-source one, else the best ranked), the others are absorbed and their sources kept as evidence
+    Events that story_groups() puts together are one story: connected through rank.same_story, never stretched past
+    the corroboration window, and independent of the order the events arrive in. Each group yields one canonical event (the
+    first primary-source one, else the best ranked), the others are absorbed and their sources kept as evidence
     (`also_reported_by`).
 
     Only then are the slot limits applied, in the rank order of each group's best member: one source and kind may fill at
@@ -75,27 +117,9 @@ def select_with_absorbed(events: list[Event], rules: dict) -> tuple[list[Event],
             seen.add(event.item_id)
             eligible.append(event)
 
-    parent = list(range(len(eligible)))
-
-    def find(i):
-        while parent[i] != i:
-            parent[i] = parent[parent[i]]
-            i = parent[i]
-        return i
-
-    for i, a in enumerate(eligible):
-        for j in range(i + 1, len(eligible)):
-            b = eligible[j]
-            if same_story(a, b) and abs(a.when - b.when) <= window:
-                parent[find(j)] = find(i)
-    groups: dict[int, list[int]] = {}
-    for i in range(len(eligible)):
-        groups.setdefault(find(i), []).append(i)
-
     picked: list[Event] = []
     absorbed: set[str] = set()
-    for indexes in sorted(groups.values(), key=lambda members: members[0]):      # a group ranks as its best member does
-        members = [eligible[i] for i in indexes]
+    for members in story_groups(eligible, window):
         canonical = next((m for m in members if m.trust == PRIMARY), members[0])
         for other in (m for m in members if m is not canonical):
             canonical.also_reported_by = list(dict.fromkeys(canonical.also_reported_by + other.also_reported_by + [other.source_name]))

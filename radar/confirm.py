@@ -50,17 +50,24 @@ def confirms(page: str, headline: str) -> bool:
     return wanted in page_titles(page)          # equality only: a shorter, invented headline is not confirmed by a longer real one
 
 
-def _checks_out(event: Event, fetch, cache: dict) -> bool:
-    """Does the vendor's page carry this event's headline? One fetch per URL per scan, at most MAX_CONFIRMATIONS of them."""
-    if event.url not in cache:
+def _page_titles(url: str, fetch, cache: dict):
+    """What the page at `url` says about itself (squashed titles), or None when it cannot be read. Fetched once per URL per
+    scan, at most MAX_CONFIRMATIONS URLs. The cache keeps the page's titles, never one headline's verdict: every event
+    is judged against them separately."""
+    if url not in cache:
         if len(cache) >= MAX_CONFIRMATIONS:
-            cache[event.url] = False                    # over the cap: unconfirmed, never silently trusted
+            cache[url] = None                           # over the cap: unconfirmed, never silently trusted
         else:
             try:
-                cache[event.url] = confirms(fetch(event.url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace"), event.title)
+                cache[url] = set(page_titles(fetch(url, max_bytes=MAX_PAGE_BYTES).decode("utf-8", "replace")))
             except FetchError:
-                cache[event.url] = False
-    return cache[event.url]
+                cache[url] = None
+    return cache[url]
+
+
+def _checks_out(event: Event, fetch, cache: dict) -> bool:
+    titles = _page_titles(event.url, fetch, cache)
+    return titles is not None and squash(event.title) in titles
 
 
 def confirm_events(events: list[Event], flagged: set[str], fetch, cache: dict | None = None) -> list[str]:
