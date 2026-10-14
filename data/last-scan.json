@@ -1,0 +1,145 @@
+{
+ "generated": "2026-10-14T05:38:52.006271+00:00",
+ "events": [
+  {
+   "kind": "new-feature",
+   "vendor": "anthropic",
+   "topic": "feature",
+   "title": "Claude Code changelog 2.1.299: Added a \"safe mode\" line to the agents view peek panel for background sessions started with --safe-mode",
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "source": "claude-code-changelog",
+   "source_name": "Claude Code changelog",
+   "trust": "primary",
+   "detail": "",
+   "figures": {
+    "version": "2.1.299"
+   },
+   "item_id": "claude-code-changelog:2.1.299#f401cf0b5d4f",
+   "score": 12.0,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-10-14T05:38:52.006271+00:00",
+   "checked": null
+  },
+  {
+   "kind": "trending",
+   "vendor": "other",
+   "topic": "news",
+   "title": "AI coding agents generate more code, but not more software",
+   "url": "https://arstechnica.com/ai/2026/10/ai-coding-agents-generate-more-code-but-not-more-software/",
+   "source": "hn-ai",
+   "source_name": "Hacker News",
+   "trust": "community",
+   "detail": "",
+   "figures": {},
+   "item_id": "hn-ai:50059523",
+   "score": 9.594,
+   "corroborated_by": [],
+   "points": 361,
+   "also_reported_by": [],
+   "when": "2026-10-12T17:14:01+00:00",
+   "checked": null
+  },
+  {
+   "kind": "announcement",
+   "vendor": "other",
+   "topic": "news",
+   "title": "Introducing Falcon ASR",
+   "url": "https://huggingface.co/blog/tiiuae/falcon-asr",
+   "source": "huggingface-blog",
+   "source_name": "Hugging Face blog",
+   "trust": "primary",
+   "detail": "",
+   "figures": {},
+   "item_id": "huggingface-blog:https://huggingface.co/blog/tiiuae/falcon-asr",
+   "score": 7.183,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-10-07T13:21:03+00:00",
+   "checked": null
+  },
+  {
+   "kind": "announcement",
+   "vendor": "google",
+   "topic": "news",
+   "title": "Introducing SynthID Bio",
+   "url": "https://deepmind.google/blog/introducing-synthid-bio/",
+   "source": "deepmind-blog",
+   "source_name": "Google DeepMind blog",
+   "trust": "primary",
+   "detail": "",
+   "figures": {},
+   "item_id": "deepmind-blog:https://deepmind.google/blog/introducing-synthid-bio/",
+   "score": 7.007,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-09-30T15:03:07+00:00",
+   "checked": null
+  }
+ ],
+ "sources": [
+  {
+   "id": "claude-code-changelog",
+   "ok": true,
+   "items": 1,
+   "note": ""
+  },
+  {
+   "id": "anthropic-news",
+   "ok": true,
+   "items": 6,
+   "note": ""
+  },
+  {
+   "id": "codex-releases",
+   "ok": true,
+   "items": 10,
+   "note": ""
+  },
+  {
+   "id": "gemini-cli-releases",
+   "ok": true,
+   "items": 10,
+   "note": ""
+  },
+  {
+   "id": "openai-news",
+   "ok": true,
+   "items": 23,
+   "note": ""
+  },
+  {
+   "id": "deepmind-blog",
+   "ok": true,
+   "items": 7,
+   "note": ""
+  },
+  {
+   "id": "huggingface-blog",
+   "ok": true,
+   "items": 7,
+   "note": ""
+  },
+  {
+   "id": "openrouter-models",
+   "ok": true,
+   "items": 0,
+   "note": ""
+  },
+  {
+   "id": "aider-polyglot",
+   "ok": true,
+   "items": 0,
+   "note": "newest entry 2025-10-03 — STALE (376 days old)"
+  },
+  {
+   "id": "hn-ai",
+   "ok": true,
+   "items": 11,
+   "note": ""
+  }
+ ]
+}

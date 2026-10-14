@@ -1,0 +1,19 @@
+tool: ai-news-2026-10-14
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://deepmind.google/models/gemini/
+  s2: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+  s3: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+  s4: https://github.com/openai/codex/issues/48195
+  s5: https://www.anthropic.com/news/anthropic-cyber-mission
+utm:
+  medium: social
+  campaign: ai-news-2026-10-14
+schedule: []
