@@ -5,8 +5,13 @@ on:
     - cron: "17 22 * * *"      # 22:17 UTC = 05:17 in Vietnam, 07:17 in Japan: the issue is ready for the morning
   workflow_dispatch:
 
+# The default branch is protected, so the scan never pushes to it: scripts/publish_scan.py keeps the branch
+# `scan-data` and one pull request open from it. Merging that pull request is what publishes the issue.
 permissions:
-  contents: write              # commits data/ and out/ back to the branch
+  contents: write              # pushes the scan-data branch
+  pull-requests: write         # opens the pull request (also needs Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests")
+  checks: read                 # looks up whether the required check already ran on the branch tip, so a refused dispatch is retried
+  actions: write               # dispatches ci.yml on that branch: commits made with this token do not trigger it, and a required check must report
 
 concurrency:
   group: scan
@@ -15,12 +20,19 @@ concurrency:
 jobs:
   scan:
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Start from the waiting scan
+        # a scan whose pull request is still open is the baseline for today's, or yesterday's news would be found again
+        run: python scripts/publish_scan.py prepare
       - name: Scan and export
         # exit 3 = nothing worth posting today (not a failure); 2 = every source failed (a failure)
         run: |
@@ -29,12 +41,5 @@ jobs:
           code=$?
           if [ "$code" -eq 3 ]; then echo "nothing worth posting today"; exit 0; fi
           exit $code
-      - name: Commit state and the new issue
-        run: |
-          git config user.name "ai-news-radar"
-          git config user.email "ai-news-radar@users.noreply.github.com"
-          git add data out
-          if ! git diff --cached --quiet; then
-            git commit -m "scan $(date -u +%F)"
-            git push
-          fi
+      - name: Commit, push and open the pull request
+        run: python scripts/publish_scan.py publish

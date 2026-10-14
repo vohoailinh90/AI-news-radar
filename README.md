@@ -17,7 +17,7 @@ Không có model nào trong vòng lặp này: mọi bước đều là script c�
 pip install -r requirements.txt
 python radar.py scan                      # lấy tin từ mọi nguồn, lưu data/last-scan.json
 python radar.py export                    # tạo out/ai-news-YYYY-MM-DD/ (cây thư mục giống studio)
-python radar.py run                       # scan + export (GitHub Action chạy lệnh này mỗi ngày)
+python radar.py run                       # scan + export (GitHub Action chạy lệnh này mỗi ngày, xem "Action hằng ngày")
 python radar.py export --studio ../tool-marketing-studio     # ghi thẳng vào bản clone của studio
 python radar.py verify --studio ../tool-marketing-studio --slug ai-news-2026-10-13   # chạy `studio.py check` của chính studio
 ```
@@ -28,6 +28,32 @@ Mã thoát: `0` xong · `2` mọi nguồn đều lỗi / tham số sai · `3` h�
 (hoặc dùng `--studio`), rồi trong studio: `python studio.py check ai-news-<ngày>` → render → đọc từng ảnh → duyệt → đăng.
 Mỗi ngày là một cặp tool + campaign riêng (`ai-news-<ngày>`) vì studio buộc mọi con số trong bài phải nằm trong brief
 của đúng tool đó. Xong đợt đăng thì xoá thư mục cũ nếu muốn gọn.
+
+## Action hằng ngày: qua pull request, không push vào `main`
+
+`main` có thể được bảo vệ (bắt buộc PR, bắt buộc check `tests`, bắt buộc cập nhật với `main`, không cho bypass), nên Action
+(`.github/workflows/scan.yml`, 22:17 UTC) **không push vào `main`**. Nó dùng `scripts/publish_scan.py`:
+
+1. `prepare`: dựng nhánh `scan-data` từ `main`; nếu nhánh đang chứa một lượt quét chưa được merge (PR của nó còn mở, hoặc chưa từng mở được)
+   thì mang **những thay đổi riêng của nhánh** sang (`git merge --squash`) — lượt quét hôm nay tiếp nối trạng thái hôm qua, không báo lại tin cũ,
+   và file bạn xoá hay thêm trên `main` trong lúc đó không bị hoàn nguyên hay xoá mất. Xung đột với `main` (ví dụ bạn sửa tay `data/state.json`)
+   thì dừng và báo lỗi thay vì đoán: sửa trên nhánh, hoặc xoá nhánh để bắt đầu lại.
+2. `python radar.py run` như trước.
+3. `publish`: commit `data/` và `out/`, push nhánh (ghi đè có kiểm soát — nhánh được dựng lại trên `main` mỗi ngày nên **đừng commit vào nó**),
+   mở PR "Daily scan data" nếu chưa có PR mở, rồi kích hoạt `ci.yml` trên nhánh nếu đầu nhánh chưa có lượt chạy của check `tests`
+   (commit và PR tạo bằng token của workflow **không** tự chạy CI, nên check bắt buộc sẽ không bao giờ báo nếu thiếu bước này; bị từ chối thì lần chạy sau thử lại).
+   Không có gì mới so với `main` thì không push, không mở PR.
+
+**Bạn làm gì:** merge PR để số báo vào `main` (merge thường hay squash đều được; sau khi merge, lượt quét kế tiếp bắt đầu lại từ `main`).
+Đóng PR mà không merge = bỏ những gì nhánh đang giữ. Muốn bắt đầu lại hoàn toàn: xoá nhánh `scan-data`.
+**Hạn chế:** nhánh chứa `main` đúng lúc được push. Nếu `main` có commit mới trước khi bạn merge, PR sẽ "out-of-date" cho tới lượt quét kế tiếp
+(nhánh dựng lại trên `main` mới) — chạy *Run workflow* để cập nhật ngay. Bấm "Update branch" cũng được nhưng commit đó bị lượt dựng lại kế tiếp bỏ đi.
+Nếu bạn merge đúng lúc Action đang chạy, lượt đó có thể lỗi (đẩy bị từ chối vì nhánh đã đổi) — không mất gì, lần sau bắt đầu lại từ `main`.
+Nhánh chỉ khác `main` ở `data/` và `out/` — không bao giờ mang theo thay đổi workflow, vì token của workflow không được phép push file trong `.github/workflows/`.
+
+**Cài đặt một lần (chưa kiểm chứng được từ môi trường build):** *Settings → Actions → General → Workflow permissions → tick "Allow GitHub Actions to create and approve pull requests"*.
+Thiếu cài đặt này, bước `publish` báo lỗi rõ ràng (dữ liệu vẫn an toàn trên nhánh `scan-data`; lần chạy sau mở PR và kích hoạt CI). Chạy thử bằng *Actions → Daily scan → Run workflow*.
+Muốn bảo vệ `main`: thêm check `tests` làm bắt buộc rồi mới tick "Require branches to be up to date" (không có check bắt buộc thì ô đó không có tác dụng).
 
 ## Nguồn tin — cái nào đã chạy thật, cái nào chưa
 
@@ -76,7 +102,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - Tin đủ điểm nhưng chưa vào số hôm nay (vượt `max_stories`, hoặc lệnh export bị từ chối) được giữ trong `data/last-scan.json`
   tối đa `carry_days` ngày và chấm điểm lại (tin cũ nhạt dần) — không bị mất. Ngày của số báo tính theo giờ Việt Nam (`timezone_offset_hours`).
 - Lần quét đầu tiên là **baseline** cho OpenRouter và leaderboard (chưa có gì để so sánh nên không phát tin);
-  changelog chỉ báo bản mới nhất. Trạng thái nằm ở `data/state.json` (Action tự commit). File hỏng sẽ dừng lượt chạy
+  changelog chỉ báo bản mới nhất. Trạng thái nằm ở `data/state.json` (Action commit vào nhánh `scan-data`, xem bên dưới). File hỏng sẽ dừng lượt chạy
   thay vì âm thầm reset và báo lại tin cũ — kể cả khi file là JSON hợp lệ nhưng sai hình dạng (`[]`, `null`…). Mỗi lượt quét ghi
   `last-scan.json` (nguyên tử) **trước** rồi mới ghi `state.json`, nên bị ngắt giữa chừng thì tin được phát hiện lại thay vì bị đánh dấu "đã thấy" mà chưa lưu ở đâu.
 
@@ -84,11 +110,11 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 506 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 537 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
-Mẫu thư mục: `radar/` (code), `config/`, `tests/`, `data/` (trạng thái), `out/` (bundle xuất ra).
+Mẫu thư mục: `radar/` (code), `config/`, `tests/`, `scripts/` (giao bài quét qua PR), `data/` (trạng thái), `out/` (bundle xuất ra).
 Giao diện/CLI của repo này bằng tiếng Anh vì nó là công cụ phát triển; chữ trong bài đăng nằm ở `radar/templates.py`
 và có đủ vi/ja/en.
 

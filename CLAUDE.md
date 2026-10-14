@@ -17,9 +17,12 @@ Read `README.md` first; it is the contract.
 - **No link-looking text in posts** (`radar/textsafe.py`). Links go in `campaign.yaml` `links:` and `{link}` in the first comment.
 - **Numbers come from `Event.figures`**, so the brief and all three languages state identical figures.
 - A dead source is reported, never fatal; if every source fails, `data/state.json` is left untouched.
+- The daily Action never pushes to the default branch: `scripts/publish_scan.py` keeps the branch `scan-data` and one pull request open
+  from it (`README.md`, "Action hằng ngày"). The branch is rebuilt on the default branch and touches only `data/` and `out/`, because the
+  workflow token may not push changes to `.github/workflows/`. Keep `ci.yml` dispatchable and its job named `tests`.
 - This repo does not modify `tool-marketing-studio`. `verify` runs the studio's own `check` on a throwaway copy.
 
 ## Commands
 
-`python radar.py scan|export|run|verify`, `python -m pytest -q`. A computable check belongs in a test, not in a review.
+`python radar.py scan|export|run|verify`, `python -m pytest -q`, `python scripts/publish_scan.py prepare|publish` (the Action only). A computable check belongs in a test, not in a review.
 When you ship a fix, add the test that would have caught it, and break the behavior once to prove the test notices.

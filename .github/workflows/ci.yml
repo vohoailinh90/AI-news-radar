@@ -4,14 +4,14 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:           # the scan workflow starts this on the scan-data branch: commits made with its token do not trigger CI
 
 permissions:
   contents: read
 
 jobs:
   tests:
-    # Private repository: GitHub-hosted minutes are billed. Set the repository variable CI_RUNNER
-    # (e.g. to a self-hosted runner) to move every job at once.
+    # Set the repository variable CI_RUNNER (e.g. to a self-hosted runner) to move every job at once.
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
