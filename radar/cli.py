@@ -21,10 +21,11 @@ from . import rank
 from .config import ROOT, ConfigError, load_rules, load_sources
 from .http import FetchError, fetch
 from .models import SourceReport, event_from_dict, event_to_dict
-from .sources import Context, SourceError, changelog, hn, leaderboard, openrouter, rss
+from .sources import Context, SourceError, changelog, hn, leaderboard, openrouter, ranking, rss
 from .store import State, utcnow
 
-COLLECTORS = {"rss": rss, "changelog_md": changelog, "yaml_leaderboard": leaderboard, "openrouter": openrouter, "hn": hn}
+COLLECTORS = {"rss": rss, "changelog_md": changelog, "yaml_leaderboard": leaderboard, "openrouter": openrouter, "hn": hn,
+              "ranking_board": ranking}
 
 
 def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
@@ -51,7 +52,7 @@ def scan(root: Path, fetcher=None, now=None) -> tuple[list, list[SourceReport]]:
             note = str(exc)[:200] if isinstance(exc, (FetchError, SourceError)) else f"internal error: {type(exc).__name__}: {exc}"[:200]
             reports.append(SourceReport(source.id, False, 0, note))
             continue
-        note = ""
+        note = ctx.notes.pop(source.id, "")
         if source.kind == "yaml_leaderboard":
             newest = (state.snapshots.get(source.id) or {}).get("newest")
             if newest:

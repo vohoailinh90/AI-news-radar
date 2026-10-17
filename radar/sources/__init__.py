@@ -4,7 +4,7 @@ snapshot and return exact Events."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from typing import Callable
@@ -19,6 +19,7 @@ class Context:
     state: State
     now: datetime
     rules: dict
+    notes: dict = field(default_factory=dict)      # source id -> a line for the run report (a collector may leave one)
 
 
 class SourceError(RuntimeError):

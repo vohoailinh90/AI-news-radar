@@ -66,6 +66,7 @@ Muốn bảo vệ `main`: thêm check `tests` làm bắt buộc rồi mới tick
 | Aider polyglot leaderboard | `yaml_leaderboard` | chính thức | ✅ nhưng **nguồn đã cũ**: mục mới nhất 2025-10-03 — run report ghi `STALE` |
 | OpenRouter (model mới, miễn phí, giảm giá) | `openrouter` | chính thức | ❌ chưa từng gọi thật |
 | Hacker News (Algolia) | `hn` | **cộng đồng** | ❌ chưa từng gọi thật |
+| Terminal-Bench 4.0 (bảng xếp hạng chính thức: điểm và chi phí của từng dòng) | `ranking_board` | chính thức (bảng tự công bố số của nó; radar không chạy lại benchmark) | ✅ 2026-10-17 (radar tự tải trang bằng `fetch` của nó) |
 | Codex / Gemini CLI releases (Atom; phần mô tả bản phát hành được đọc từng dòng như changelog), OpenAI news, DeepMind blog, Hugging Face blog | `rss` | chính thức | ❌ chưa từng gọi thật |
 
 Repo này được dựng trong một môi trường có chính sách mạng chặn các host ❌ ở trên, nên parser của chúng được kiểm thử
@@ -89,6 +90,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
   và run report ghi lý do; bộ nhớ đệm giữ **tiêu đề của trang** chứ không giữ kết luận của một tiêu đề, nên mỗi tiêu đề được xét riêng; tin đang chờ bị hạ như vậy được **kiểm tra lại** ở mỗi lượt quét sau (cùng giới hạn 15 trang, lấy tin **lâu nhất chưa được thử** trước — thời điểm thử lần cuối được lưu cùng tin đang chờ — nên 15 trang hỏng liên tục không thể chiếm hết lượt của các tin phía sau) và được trả về chính thức
   khi trang đã tải được và khớp. Cơ chế này bật bằng `confirm_page: true` trong `config/sources.yaml`. Vì chỉ **tiêu đề** được xác nhận, nguồn
   bật `confirm_page` chỉ được nhận diện trên tiêu đề, không bao giờ trên phần tóm tắt do mirror cung cấp.
+- **Tin bảng xếp hạng** (`ranking-board`, nguồn `ranking_board`): một phép so sánh duy nhất tính từ chính số của bảng: dòng đứng đầu và **lựa chọn đáng giá** (dòng rẻ nhất vẫn đạt ít nhất `value_min_share` = 85% điểm của hạng nhất, với chi phí tối đa `value_max_cost_share` = 50% của hạng nhất; không có dòng nào thoả thì không có tin). Khác các nguồn snapshot khác, **lần quét đầu cũng phát tin** (một bảng xếp hạng tự nó là tin, không có gì để so với "hôm qua"). Sau đó chỉ phát lại khi hạng nhất hoặc lựa chọn đáng giá **đổi** (dấu vân tay chỉ gồm tên hai dòng, nên một lần chạy lại làm điểm nhích một chút không phải tin) và không trong vòng `cooldown_days` = 14 ngày kể từ tin trước. Bảng lâu hơn `max_age_days` = 45 ngày chưa cập nhật bị ghi `STALE` trong báo cáo chạy và không ra tin; bảng không có ngày cập nhật nào dùng được là **lỗi nguồn**, không bao giờ được coi là mới; trang chỉ được đọc khi tiêu đề bảng khớp `expect_title` và chỉ lấy các dòng mang `id` của đúng bảng đó (URL không có phiên bản, nên khi trang đổi bảng mặc định sang phiên bản khác, điểm của bảng kia không bao giờ được đăng dưới tên cũ); dòng có chi phí 0 hay thiếu chi phí không bao giờ được so (bảng thật có dòng ghi "$0.00" nghĩa là chưa báo cáo). Mỗi dòng của bảng là **agent + model + mức cấu hình** cùng nhau, không phải model đơn lẻ, và chi phí là số do chính bảng đo, không phải bảng giá: bài ghi điều này ở slide "Lưu ý" và ở `limitations` của brief. Slide so sánh dùng một con số lớn ("13% chi phí cho 90% điểm"), không dùng `before → after` vì studio vẽ `before` bị gạch ngang như một cú giảm giá, mà hai dòng của bảng là hai thứ khác nhau.
 - Luật phát hiện khớp **cụm hành động** (reset, tăng gấp đôi, miễn phí đến, giảm 30%…), không khớp danh từ trơn như "limit" hay "free".
   Các chủ đề thương mại (giới hạn, miễn phí, giá) chỉ tính khi văn bản nhắc tên một hãng AI; tên model phải kèm phiên bản/tầng
   ("GPT-6", "Claude Opus 9", không phải "Claude Code"). Dòng "Fixed…", "Show HN" bị loại. Luật nằm trong `config/rules.yaml` — sửa ở đó,
@@ -103,7 +105,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 - `config/rules.yaml` — luật phát hiện, trọng số xếp hạng, ngưỡng xuất (`min_score`, `max_stories`, `spotlights`).
 - Tin đủ điểm nhưng chưa vào số hôm nay (vượt `max_stories`, hoặc lệnh export bị từ chối) được giữ trong `data/last-scan.json`
   tối đa `carry_days` ngày và chấm điểm lại (tin cũ nhạt dần) — không bị mất. Ngày của số báo tính theo giờ Việt Nam (`timezone_offset_hours`).
-- Lần quét đầu tiên là **baseline** cho OpenRouter và leaderboard (chưa có gì để so sánh nên không phát tin);
+- Lần quét đầu tiên là **baseline** cho OpenRouter và leaderboard (chưa có gì để so sánh nên không phát tin; ngoại lệ duy nhất là bảng xếp hạng `ranking_board`, xem "Độ tin cậy");
   changelog chỉ báo bản mới nhất. Trạng thái nằm ở `data/state.json` (Action commit vào nhánh `scan-data`, xem bên dưới). File hỏng sẽ dừng lượt chạy
   thay vì âm thầm reset và báo lại tin cũ — kể cả khi file là JSON hợp lệ nhưng sai hình dạng (`[]`, `null`…). Mỗi lượt quét ghi
   `last-scan.json` (nguyên tử) **trước** rồi mới ghi `state.json`, nên bị ngắt giữa chừng thì tin được phát hiện lại thay vì bị đánh dấu "đã thấy" mà chưa lưu ở đâu.
@@ -112,7 +114,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 547 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 575 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -154,3 +156,6 @@ và có đủ vi/ja/en.
 - Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Đã thử trên HTML
   viết tay theo dạng của GitHub, **chưa** thử trên bản thật; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).
 - Chưa có Reddit/X. Chưa có cơ chế tự mở PR vào studio (cần token chéo repo do bạn tạo).
+- **Bảng xếp hạng: mới có một bảng.** Chỉ Terminal-Bench 4.0 được nối. Hai bảng khác bị loại có lý do ghi trong `config/sources.yaml`: Artificial Analysis cấm script/tác tử quét dữ liệu của trang, cấm sao chép và đăng lại, và API miễn phí của họ ghi "internal use only; no redistribution" (đăng số của họ lên Facebook cần giấy phép thương mại); ReviewBench có `robots.txt` ghi `Disallow: /` và không có cột chi phí. Terminal-Bench không có trang điều khoản hay `robots.txt` hạn chế nào, nhưng cũng chưa có điều khoản nào nói rõ cho phép đăng lại: bài luôn ghi tên bảng làm nguồn.
+- Bảng xếp hạng được đọc từ dữ liệu mà trang tự truyền cho giao diện của nó (`self.__next_f.push`), không phải một API công bố, nên một lần trang đổi cấu trúc sẽ làm nguồn lỗi (ghi trong báo cáo chạy, không làm hỏng lượt quét); radar đòi tối thiểu `min_rows` dòng dùng được để phát hiện việc đó. Bảng không cho biết model có phải open-weight hay miễn phí, nên bài chỉ nói về chi phí mỗi lượt chạy theo bảng.
+- Một tin bảng xếp hạng là ảnh chụp lúc đọc, không phải bảng "hiện nay" mãi mãi: nó chỉ được phát lại khi hạng nhất hoặc lựa chọn đáng giá đổi.

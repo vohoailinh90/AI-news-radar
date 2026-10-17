@@ -14,7 +14,7 @@ from radar.store import State
 FIXTURES = ROOT / "tests" / "fixtures"
 NOW = datetime(2026, 10, 13, 22, 0, tzinfo=timezone.utc)
 REAL = {"anthropic-news": "anthropic_news_feed.xml", "claude-code-changelog": "claude_code_changelog_head.md",
-        "aider-polyglot": "aider_polyglot_leaderboard.yml"}
+        "aider-polyglot": "aider_polyglot_leaderboard.yml", "terminal-bench-4": "tbench_leaderboard_head.html"}
 
 
 def fixture(name: str) -> bytes:
