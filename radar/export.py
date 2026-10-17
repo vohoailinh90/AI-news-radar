@@ -16,6 +16,7 @@ from .templates import KIND_EMOJI, POSITIONING, TEXT
 from .textsafe import defang, has_link
 
 LANGS = ("vi", "ja", "en")
+RANKING_FIGURES = ("value_score", "value_cost", "top_model", "top_score", "top_cost", "pct_score", "pct_cost", "unit")
 
 
 class NothingToPost(RuntimeError):
@@ -40,9 +41,25 @@ def headline(event: Event, lang: str) -> str:
     sentence = TEXT[lang]["sentences"].get(event.kind)
     if sentence is None or not event.figures.get("model"):
         return event.title                 # a rule-detected event has no model figure: its own headline is the fact
-    f = {"percent": "", "old_price": "", "new_price": "", "score": "", **event.figures,
+    f = {"percent": "", "old_price": "", "new_price": "", "score": "", **dict.fromkeys(RANKING_FIGURES, ""), **event.figures,
          "model": defang(event.figures.get("model", "")), "benchmark": defang(event.figures.get("benchmark", ""))}
+    f["top_model"] = defang(f["top_model"])
+    f["unit"] = TEXT[lang]["units"].get(f["unit"], f["unit"])        # the figure names the unit; each language says it in its own word
     return sentence.format(**f)
+
+
+NUMERIC = set("0123456789.,%")
+
+
+def clip(text: str, limit: int) -> str:
+    """`text` cut to `limit` characters with an ellipsis, and never inside a figure: a hook that stops at "64." states a
+    number that is not on the board."""
+    if len(text) <= limit:
+        return text
+    cut = limit - 1
+    while cut > 0 and text[cut - 1] in NUMERIC and text[cut] in NUMERIC:
+        cut -= 1
+    return text[:cut].rstrip() + "…"
 
 
 def tagged(event: Event, text: str, t: dict) -> str:
@@ -206,7 +223,10 @@ def _brief(stories, rules, slug, date, n) -> dict:
         "limitations": ["The radar reports what its sources say and does not test any model or price itself",
                         "A story with verified: false is a community report that no official source has confirmed yet; "
                         "write it as reported, never as announced",
-                        "Notable-feature picks from changelogs are chosen by keyword rules and need a human read"],
+                        "Notable-feature picks from changelogs are chosen by keyword rules and need a human read"]
+                       + (["A ranking story compares two rows of one public board as the board published them; the radar does not rerun the benchmark",
+                           "A board's cost is its own measure for a run, not a price list, and a row is an agent, a model and a setting together, "
+                           "not a model alone"] if any(e.kind == "ranking-board" for e in stories) else []),
         "story_to_confirm": [], "commercial_readiness": ["Not applicable: a news issue, nothing is sold"], "pricing_hypotheses": []}
 
 
@@ -233,7 +253,7 @@ def _digest(stories, rules, lang, t, date) -> dict:
     hook = t["hook"].format(n=n, date=date, top=top)
     if len(hook) > 125:
         room = 125 - len(t["hook"].format(n=n, date=date, top=""))
-        hook = t["hook"].format(n=n, date=date, top=top[: max(room - 1, 10)].rstrip() + "…")
+        hook = t["hook"].format(n=n, date=date, top=clip(top, max(room, 11)))
     lines = [f"{KIND_EMOJI.get(e.kind, '•')} {tagged(e, headline(e, lang), t)} — {e.source_name}" for e in stories]
     caption = hook + "\n\n" + "\n".join(lines) + "\n\n" + t["question"] + "\n"
     names = ", ".join(dict.fromkeys(e.source_name for e in stories))
@@ -249,6 +269,12 @@ def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
     if event.kind == "price-drop":
         slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "before": f"${fig['old_price']}", "after": f"${fig['new_price']}",
                        "label": t["per_million"], "caption": tagged(event, t["stat_caption"], t)})
+    elif event.kind == "ranking-board":        # two different rows of one board, not one price that fell: no before/after (it is drawn struck through)
+        slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['pct_cost']}%",
+                       "label": t["ranking_label"].format(pct_score=fig["pct_score"]),
+                       "caption": tagged(event, t["ranking_caption"].format(
+                           model=defang(fig["model"]), value_cost=fig["value_cost"], top_model=defang(fig["top_model"]),
+                           top_cost=fig["top_cost"], unit=t["units"].get(fig["unit"], fig["unit"])), t)})
     elif "score" in fig:
         slides.append({"layout": "stat", "eyebrow": tagged(event, label, t), "value": f"{fig['score']}%", "label": fig.get("benchmark", ""),
                        "caption": tagged(event, t["stat_caption"], t)})
@@ -258,15 +284,20 @@ def _spotlight(slot, index, event, rules, lang, t, date) -> dict:
     facts = [{"emoji": "📎", "title": t["src"], "text": event.source_name},
              {"emoji": "📅", "title": t["when"], "text": event.when.date().isoformat()},
              {"emoji": "🔎", "title": t["trust"], "text": trust_label(event, t)}]
+    if event.kind == "ranking-board":
+        facts.append({"emoji": "ℹ️", "title": t["note"], "text": t["ranking_note"]})
     if event.title != text:
         facts.append({"emoji": "🔤", "title": t["original"], "text": tagged(event, event.title, t)})
     slides.append({"layout": "features", "title": tagged(event, label, t), "items": facts})
     if not event.verified:
         slides.append({"layout": "checklist", "tone": "bad", "title": t["unverified_title"], "items": [tagged(event, text, t)], "note": t["unverified_note"]})
     slides.append({"layout": "cta", "emoji": "🔔", "title": t["cta_title"], "text": t["cta_text"]})
-    hook = tagged(event, t["spot_hook"].format(label=label, headline=text), t)
+    short = t["hooks"].get(event.kind)       # a headline too long for a hook has its own short line (its figures are in the brief)
+    said = (short.format(label=label, model=defang(fig.get("model", "")), pct_score=fig.get("pct_score", ""), pct_cost=fig.get("pct_cost", ""))
+            if short else t["spot_hook"].format(label=label, headline=text))
+    hook = tagged(event, said, t)
     if len(hook) > 125:                       # Facebook folds a post after ~125 characters; the studio warns past it
-        hook = hook[:124].rstrip() + "…"
+        hook = clip(hook, 125)
     caption = hook + f"\n\n{tagged(event, text, t)}\n\n{trust_label(event, t)} · {event.source_name}\n\n{t['question']}\n"
     return _post(slot, "AI News", f"s{index}", slides, caption, t["source_one"], t, rules)
 

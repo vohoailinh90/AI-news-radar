@@ -10,7 +10,8 @@ import yaml
 from .models import TRUSTS
 
 ROOT = Path(__file__).resolve().parent.parent
-KINDS = ("rss", "changelog_md", "yaml_leaderboard", "openrouter", "hn")
+KINDS = ("rss", "changelog_md", "yaml_leaderboard", "openrouter", "hn", "ranking_board")
+RANKING_FORMATS = ("tbench_leaderboard",)
 
 
 class ConfigError(ValueError):
@@ -55,6 +56,8 @@ def load_sources(root: Path = ROOT) -> list[Source]:
             raise ConfigError(f"source {entry['id']}: kind must be one of {', '.join(KINDS)}")
         if entry["trust"] not in TRUSTS:
             raise ConfigError(f"source {entry['id']}: trust must be one of {', '.join(TRUSTS)}")
+        if entry["kind"] == "ranking_board" and entry.get("format") not in RANKING_FORMATS:
+            raise ConfigError(f"source {entry['id']}: ranking_board needs format: one of {', '.join(RANKING_FORMATS)}")
         if entry["id"] in seen:
             raise ConfigError(f"duplicate source id {entry['id']}")
         seen.add(entry["id"])

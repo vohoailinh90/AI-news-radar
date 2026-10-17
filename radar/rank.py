@@ -71,7 +71,7 @@ def score_events(events: list[Event], rules: dict, now: datetime, points: dict[s
         if base is None:                              # snapshot-source kinds are not rule names
             base = {"benchmark-new-leader": 9, "benchmark-entry": 6, "free-model-added": 9, "model-became-free": 10,
                     "model-no-longer-free": 7, "free-model-removed": 6, "price-drop": 9, "model-listed": 7,
-                    "trending": 4}.get(event.kind, 5)
+                    "ranking-board": 8, "trending": 4}.get(event.kind, 5)
         if event.vendor == "other":
             base -= cfg.get("unknown_vendor_penalty", {}).get(event.kind, 0)
         age_hours = max((now - event.when).total_seconds() / 3600, 0)

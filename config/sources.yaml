@@ -109,3 +109,30 @@ sources:
     min_points: 100
     max_age_days: 3
     live_checked: false
+
+  # Ranking boards: a public leaderboard whose own scores and costs make one comparison (radar/sources/ranking.py).
+  # The first scan reports the board instead of recording a baseline; after that only when its top row or its value
+  # pick changes, and not within cooldown_days. A row is an agent + model + setting together, never a model alone.
+  #
+  # Deliberately NOT here (checked 2026-10-17):
+  #  - Artificial Analysis Coding Agent Index: its terms of use forbid scripts and agents that scrape the site, forbid
+  #    copying or republishing its content, and its free API is "internal use only; no redistribution". Posting its numbers
+  #    needs a commercial licence from them.
+  #  - ReviewBench (review-bench.ai): robots.txt says "Disallow: /", and the board has no cost column.
+  - id: terminal-bench-4
+    kind: ranking_board
+    url: https://www.tbench.ai/leaderboard
+    name: Terminal-Bench 4.0
+    vendor: other
+    trust: primary
+    format: tbench_leaderboard
+    benchmark: Terminal-Bench 4.0
+    score_unit: "%"
+    cost_unit: trial
+    value_min_share: 0.85        # the value pick scores at least this share of the top score...
+    value_max_cost_share: 0.5    # ...for at most this share of the top row's cost; otherwise there is no story
+    cooldown_days: 14            # a changed pick is not reported again within this many days of the last story
+    max_age_days: 45             # a board not updated for longer than this is stale: reported in the run, no story
+    min_rows: 10                 # fewer usable rows means the page changed shape
+    max_bytes: 3000000
+    live_checked: "2026-10-17"
