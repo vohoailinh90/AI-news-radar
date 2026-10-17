@@ -126,6 +126,7 @@ sources:
     vendor: other
     trust: primary
     format: tbench_leaderboard
+    expect_title: Terminal-Bench 4.0   # the page's own board title; the URL has no version, so a different default board is refused
     benchmark: Terminal-Bench 4.0
     score_unit: "%"
     cost_unit: trial

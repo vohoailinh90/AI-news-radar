@@ -9,7 +9,10 @@ top row or its value pick CHANGES (the fingerprint names the two rows, never the
 score by a point is not news), and not within `cooldown_days` of the last story.
 
 A board whose newest row is older than `max_age_days` is reported as stale and produces nothing: a ranking is read
-as "now". Every row is an agent + model + setting together, never a model alone, and the label says so."""
+as "now", so a board that carries no usable update date at all is a source error, never assumed fresh. The page is also
+asked WHICH board it shows: the rows are taken only from the board whose title is `expect_title` (the configured URL
+has no version in it, and a default board that becomes another version must not be published under this name).
+Every row is an agent + model + setting together, never a model alone, and the label says so."""
 
 from __future__ import annotations
 
@@ -42,20 +45,40 @@ def flight_text(raw: bytes, source: Source) -> str:
 
 def parse_tbench(raw: bytes, source: Source) -> tuple[list[dict], date | None]:
     """Terminal-Bench 4.0 leaderboard page -> rows {label, score (%), cost (USD per trial)} and the board's newest update.
-    The cost of a row is the board's total cost for the row divided by its trials: a row without either is dropped."""
+    The page streams its boards as a header (id, title, updated_at) and rows that carry that id: only the board titled
+    `expect_title` is read, and only rows that name it. The cost of a row is the board's total cost for the row divided
+    by its trials: a row without either is dropped."""
     text, decoder = flight_text(raw, source), json.JSONDecoder()
+    expected = str(source.opt("expect_title", ""))
+    boards = {}
+    for match in re.finditer(r'"leaderboard":\{', text):
+        try:
+            header, _ = decoder.raw_decode(text[match.end() - 1:])
+        except ValueError:
+            continue
+        if isinstance(header, dict) and header.get("id"):
+            boards[header["id"]] = header
+    board = next((h for h in boards.values() if h.get("title") == expected), None)
+    if board is None:
+        seen = ", ".join(repr(h.get("title")) for h in boards.values()) or "none"
+        raise SourceError(f"{source.id}: no board titled {expected!r} on the page (boards found: {seen}); "
+                          "the page's default board or its format changed")
     found = None
     for match in re.finditer(r'"rows":\[', text):
         try:
             candidate, _ = decoder.raw_decode(text[match.end() - 1:])
         except ValueError:
             continue
-        if isinstance(candidate, list) and candidate and all(isinstance(r, dict) and "metrics" in r for r in candidate):
+        if (isinstance(candidate, list) and candidate
+                and all(isinstance(r, dict) and "metrics" in r and r.get("leaderboard_id") == board["id"] for r in candidate)):
             found = candidate
             break
     if found is None:
-        raise SourceError(f"{source.id}: no leaderboard rows found; the page format changed")
+        raise SourceError(f"{source.id}: no rows belong to the board {expected!r}; the page format changed")
     rows, stamps = [], []
+    header_stamp = parse_time(board.get("updated_at"))
+    if header_stamp:
+        stamps.append(header_stamp.date())
     for entry in found:
         try:
             if entry.get("status", "display") != "display":
@@ -115,9 +138,11 @@ def collect(source: Source, ctx: Context):
         raise SourceError(f"{source.id}: unknown ranking format {source.opt('format')!r}")
     rows, as_of = parser(ctx.fetch(source.url, max_bytes=source.opt("max_bytes", 3_000_000)), source)
     rows = usable(rows, source)
+    if as_of is None:                                  # without a date the board cannot be told from a stale one
+        raise SourceError(f"{source.id}: the board carries no usable update date, so it cannot be told from a stale one; the page format changed")
     today = ctx.now.date()
     max_age = int(source.opt("max_age_days", 45))
-    if as_of and (today - as_of).days > max_age:
+    if (today - as_of).days > max_age:
         ctx.notes[source.id] = f"board last updated {as_of.isoformat()} — STALE ({(today - as_of).days} days old), no story"
         return [], []
     top, value = pick(rows, float(source.opt("value_min_share", 0.85)), float(source.opt("value_max_cost_share", 0.5)))

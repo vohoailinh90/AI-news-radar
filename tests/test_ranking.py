@@ -32,15 +32,27 @@ PAGE = fixture("tbench_leaderboard_head.html")
 
 
 def row(agent, model, effort, accuracy, total, trials=330, updated="2026-10-06T17:56:36+00:00"):
-    return {"rank": 1, "status": "display", "updated_at": updated, "n_trials": trials,
-            "metadata": {"agent_display": {"label": agent}, "model_display": {"label": model}, "reasoning_effort": effort},
-            "metrics": {"accuracy": accuracy, "n_trials": trials, "total_cost_usd": total}}
+    entry = {"rank": 1, "status": "display", "n_trials": trials,
+             "metadata": {"agent_display": {"label": agent}, "model_display": {"label": model}, "reasoning_effort": effort},
+             "metrics": {"accuracy": accuracy, "n_trials": trials, "total_cost_usd": total}}
+    if updated is not None:
+        entry["updated_at"] = updated
+    return entry
 
 
-def page(rows) -> bytes:
+def chunk(rows, title="Terminal-Bench 4.0", board_id="board-4", updated=None) -> str:
+    """One board as the page streams it: a header with an id and a title, and rows that carry that id."""
+    header = {"id": board_id, "title": title, **({"updated_at": updated} if updated else {})}
+    return '{"leaderboard":' + json.dumps(header) + ',"rows":' + json.dumps([{**r, "leaderboard_id": board_id} for r in rows]) + "}"
+
+
+def page_of(*chunks) -> bytes:
+    return ("<html><body>" + "".join('<script>self.__next_f.push([1,' + json.dumps(c) + '])</script>' for c in chunks) + "</body></html>").encode("utf-8")
+
+
+def page(rows, **board) -> bytes:
     """A page the way the site sends it: the rows inside a streamed chunk."""
-    chunk = '{"leaderboard":{"title":"Terminal-Bench 4.0"},"rows":' + json.dumps(rows) + "}"
-    return ('<html><body><script>self.__next_f.push([1,' + json.dumps(chunk) + '])</script></body></html>').encode("utf-8")
+    return page_of(chunk(rows, **board))
 
 
 def board(top_cost=1000.0, updated="2026-10-06T17:56:36+00:00"):
@@ -82,10 +94,60 @@ def test_a_row_whose_cost_is_reported_as_zero_is_never_comparable():
 def test_a_page_that_changed_shape_is_a_source_error_not_an_empty_board():
     with pytest.raises(SourceError, match="page format changed"):
         ranking.parse_tbench(b"<html><body>no streamed data</body></html>", TB)
-    with pytest.raises(SourceError, match="no leaderboard rows"):
+    with pytest.raises(SourceError, match="no board titled"):
         ranking.parse_tbench(b'<script>self.__next_f.push([1,"{\\"rows\\":[]}"])</script>', TB)
     with pytest.raises(SourceError, match="usable row"):
         ranking.usable(ranking.parse_tbench(page(board()[:3]), TB)[0], TB)             # three rows is a page that changed, not a small board
+
+
+def test_a_board_with_no_usable_update_date_anywhere_is_a_source_error_not_a_fresh_board(tmp_path):
+    """A page that lost its dates must not pass for current: staleness cannot be judged, so there is no story."""
+    undated = [{k: v for k, v in r.items() if k != "updated_at"} for r in board()]
+    far_future = NOW + timedelta(days=400)                                               # long past any freshness window
+    with pytest.raises(SourceError, match="update date"):
+        ranking.collect(TB, context(tmp_path, {TB.url: page(undated)}, now=far_future))
+    garbled = [row("Codex", "Big", "max", 70.0, 1000.0, updated="not a date"), row("Codex", "Value", "max", 63.0, 100.0, updated="")] + undated[2:]
+    with pytest.raises(SourceError, match="update date"):
+        ranking.collect(TB, context(tmp_path, {TB.url: page(garbled)}, now=far_future))
+
+
+def test_the_boards_own_update_date_counts_when_the_rows_carry_none(tmp_path):
+    undated = [{k: v for k, v in r.items() if k != "updated_at"} for r in board()]
+    stale = context(tmp_path, {TB.url: page(undated, updated="2026-10-06T23:20:25+00:00")}, now=NOW + timedelta(days=60))
+    assert ranking.collect(TB, stale)[1] == [] and "STALE" in stale.notes[TB.id]             # the header's date is enough to judge it
+    fresh = context(tmp_path, {TB.url: page(undated, updated="2026-10-06T23:20:25+00:00")})
+    assert [e.kind for e in ranking.collect(TB, fresh)[1]] == ["ranking-board"]
+
+
+def test_a_different_default_board_is_never_published_under_the_configured_name(tmp_path):
+    """The configured URL has no version in it: when the site's default board becomes another version, the scores are not 4.0's."""
+    with pytest.raises(SourceError, match="no board titled 'Terminal-Bench 4.0'"):
+        ranking.collect(TB, context(tmp_path, {TB.url: page(board(), title="Terminal-Bench 5.0")}))
+
+
+def test_rows_come_from_the_configured_board_even_when_the_page_streams_another_first(tmp_path):
+    other = chunk([row("Other", "Newer", "max", 99.0, 10.0)] * 12, title="Terminal-Bench 5.0", board_id="board-5")
+    ours = chunk(board(), board_id="board-4")
+    rows, _ = ranking.parse_tbench(page_of(other, ours), TB)
+    assert {r["label"] for r in rows} >= {"Codex + Big (max)", "Codex + Value (max)"} and not any("Newer" in r["label"] for r in rows)
+    rows, _ = ranking.parse_tbench(page_of(ours, other), TB)                              # and in the other order
+    assert not any("Newer" in r["label"] for r in rows)
+
+
+def test_rows_that_do_not_belong_to_the_boards_header_are_refused():
+    stray = '{"leaderboard":{"id":"board-4","title":"Terminal-Bench 4.0"},"rows":' + json.dumps([{**r, "leaderboard_id": "board-9"} for r in board()]) + "}"
+    with pytest.raises(SourceError, match="no rows"):
+        ranking.parse_tbench(page_of(stray), TB)
+
+
+def test_a_ranking_source_needs_an_expected_title(tmp_path):
+    (tmp_path / "config").mkdir()
+    text = (Path(__file__).resolve().parent.parent / "config" / "sources.yaml").read_text(encoding="utf-8")
+    without = re.sub(r"\n[ \t]*expect_title:[^\n]*", "", text)
+    assert without != text and "expect_title" not in without.split("terminal-bench-4")[1].split("live_checked")[0]      # the line really went
+    (tmp_path / "config" / "sources.yaml").write_text(without, encoding="utf-8")
+    with pytest.raises(ConfigError, match="expect_title"):
+        load_sources(tmp_path)
 
 
 def test_a_ranking_source_needs_a_known_format(tmp_path):

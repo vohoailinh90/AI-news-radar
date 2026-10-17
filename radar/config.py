@@ -58,6 +58,8 @@ def load_sources(root: Path = ROOT) -> list[Source]:
             raise ConfigError(f"source {entry['id']}: trust must be one of {', '.join(TRUSTS)}")
         if entry["kind"] == "ranking_board" and entry.get("format") not in RANKING_FORMATS:
             raise ConfigError(f"source {entry['id']}: ranking_board needs format: one of {', '.join(RANKING_FORMATS)}")
+        if entry["kind"] == "ranking_board" and not entry.get("expect_title"):
+            raise ConfigError(f"source {entry['id']}: ranking_board needs expect_title: the title of the board to read (the URL names no version)")
         if entry["id"] in seen:
             raise ConfigError(f"duplicate source id {entry['id']}")
         seen.add(entry["id"])
