@@ -2,9 +2,9 @@
 # fact from it may be written as verified. `trust: community` = people report it (Hacker News):
 # it is posted as "reported" until a primary source corroborates it.
 #
-# live_checked: the date the URL was fetched successfully by a human or CI run, or false if it
-# has never been fetched from the environment this repo was built in (that sandbox's egress policy
-# blocked these hosts). A false here is a to-do, not a defect: run `python radar.py scan` once.
+# live_checked: the date the URL was last fetched successfully by a human or CI run, or false if it
+# never has been (a new source starts as false). A false here is a to-do, not a defect: run
+# `python radar.py scan` once, or read the `ok` column of the next daily run's REPORT.md.
 sources:
   - id: claude-code-changelog
     kind: changelog_md
@@ -37,7 +37,7 @@ sources:
     vendor: openai
     trust: primary
     max_age_days: 14
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: gemini-cli-releases
     kind: rss
@@ -47,7 +47,7 @@ sources:
     vendor: google
     trust: primary
     max_age_days: 14
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: openai-news
     kind: rss
@@ -56,7 +56,7 @@ sources:
     vendor: openai
     trust: primary
     max_age_days: 14
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: deepmind-blog
     kind: rss
@@ -65,7 +65,7 @@ sources:
     vendor: google
     trust: primary
     max_age_days: 14
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: huggingface-blog
     kind: rss
@@ -74,7 +74,7 @@ sources:
     vendor: other
     trust: primary
     max_age_days: 14
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: openrouter-models
     kind: openrouter
@@ -85,7 +85,7 @@ sources:
     vendor: other
     trust: primary
     min_drop_pct: 20
-    live_checked: false
+    live_checked: "2026-10-19"
 
   - id: aider-polyglot
     kind: yaml_leaderboard
@@ -108,7 +108,7 @@ sources:
     queries: ["claude", "codex", "gpt-5", "gemini", "deepseek", "qwen", "usage limit", "free tier llm"]
     min_points: 100
     max_age_days: 3
-    live_checked: false
+    live_checked: "2026-10-19"
 
   # Ranking boards: a public leaderboard whose own scores and costs make one comparison (radar/sources/ranking.py).
   # The first scan reports the board instead of recording a baseline; after that only when its top row or its value
