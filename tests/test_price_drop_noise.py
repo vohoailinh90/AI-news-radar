@@ -3,6 +3,7 @@ winning the tie on its name, and "$0.02 to $0.02". The OpenRouter rows are synth
 
 import json
 import random
+from datetime import timedelta
 
 from radar import export
 from radar.config import load_rules
@@ -85,6 +86,25 @@ def test_the_order_of_equal_cuts_does_not_depend_on_the_order_they_arrive_in():
         events = list(CUTS) + [cut("Acme: Same 35", 35)]
         random.Random(seed).shuffle(events)
         assert [e.item_id for e in score_events(events, RULES, NOW)] == expected
+
+
+def free_model(name):
+    return Event(kind="free-model-added", vendor="other", topic="free", title=f"{name} is available free of charge on OpenRouter",
+                 url="https://openrouter.ai/x", source="openrouter-models", source_name="OpenRouter model list", trust="primary", when=NOW,
+                 figures={"model": name}, item_id=f"openrouter-models:free-model-added:{name}@g1")
+
+
+def test_a_tied_event_that_is_not_a_price_cut_keeps_its_place_between_the_cuts():
+    ranked = score_events(list(CUTS) + [free_model("Nemo: Free")], RULES, NOW)       # by title: DeepSeek, Meta, Nemo, Qwen, Z
+    assert len({e.score for e in ranked}) == 1
+    assert [e.figures["model"] for e in ranked] == ["Meta: Llama 3.3", "Z: GLM 5.3 Flash", "Nemo: Free", "DeepSeek: V4", "Qwen: 3.5"]
+
+
+def test_a_bigger_cut_does_not_jump_over_an_event_that_scores_higher():
+    older = cut("Old: Huge", 99)
+    older.when = NOW - timedelta(hours=72)
+    ranked = score_events([older, cut("New: Small", 20)], RULES, NOW)
+    assert [e.figures["model"] for e in ranked] == ["New: Small", "Old: Huge"]
 
 
 def test_the_spotlights_go_to_the_biggest_cuts():
