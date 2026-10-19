@@ -25,6 +25,16 @@ def per_million(value: float) -> str:
     return f"{scaled:.2f}" if scaled >= 0.01 else f"{scaled:.4f}"      # never print $0.00 for a price that is not zero
 
 
+def price_pair(old: float, new: float) -> tuple[str, str]:
+    """per_million of both prices, with more digits while two different prices would print the same ("$0.02 to $0.02")."""
+    pair = per_million(old), per_million(new)
+    for digits in (4, 6, 8, 10):
+        if pair[0] != pair[1]:
+            break
+        pair = f"{old * 1_000_000:.{digits}f}", f"{new * 1_000_000:.{digits}f}"
+    return pair
+
+
 def timestamp(value) -> int:
     """A creation time in seconds; 0 for anything that is not a plausible one (the row stays, its date is just unknown)."""
     try:
@@ -49,6 +59,8 @@ def snapshot_of(raw: bytes, source: Source) -> dict[str, dict]:
         free = str(row["id"]).endswith(":free") or (prompt == 0 and completion == 0)
         models[str(row["id"])] = {"name": str(row.get("name") or row["id"]), "prompt": prompt,
                                   "free": free, "created": timestamp(row.get("created"))}
+        if row.get("alias_target") or str(row["id"]).startswith("~"):
+            models[str(row["id"])]["alias"] = True      # "~vendor/x-latest" redirects to whichever model is newest
     if not models:
         raise SourceError(f"{source.id}: the model list is empty")
     return models
@@ -96,11 +108,12 @@ def collect(source: Source, ctx: Context):
         elif before.get("free") and not now_entry["free"]:
             make("gone", (0, now_entry["name"]), "model-no-longer-free", "free", model_id, now_entry,
                  f"{now_entry['name']} is no longer free on OpenRouter", {}, suffix=f"@{since}")
-        elif before.get("prompt") and now_entry["prompt"] is not None and not now_entry["free"]:
+        elif before.get("prompt") and now_entry["prompt"] is not None and not now_entry["free"] and not now_entry.get("alias"):
+            # an alias takes the price of whatever it points to: that is the target model's own news, or a redirect, not a cut
             drop = (before["prompt"] - now_entry["prompt"]) / before["prompt"] * 100
             if drop >= min_drop:
-                figs = {"percent": f"{round(drop)}", "old_price": per_million(before["prompt"]),
-                        "new_price": per_million(now_entry["prompt"])}
+                old_price, new_price = price_pair(before["prompt"], now_entry["prompt"])
+                figs = {"percent": f"{round(drop)}", "old_price": old_price, "new_price": new_price}
                 make("drop", (-drop, now_entry["name"]), "price-drop", "discount", model_id, now_entry,
                      f"{now_entry['name']} input price drops {figs['percent']}% on OpenRouter: "
                      f"${figs['old_price']} to ${figs['new_price']} per 1M tokens", figs, suffix=f"@{since}")
