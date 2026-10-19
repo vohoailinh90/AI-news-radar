@@ -64,16 +64,18 @@ Muốn bảo vệ `main`: thêm check `tests` làm bắt buộc rồi mới tick
 | Claude Code changelog | `changelog_md` | chính thức | ✅ 2026-10-13 (dữ liệu thật trong `tests/fixtures`) |
 | Anthropic news (đọc qua bản feed của cộng đồng; mỗi tin được xác nhận bằng trang anthropic.com) | `rss` | chính thức **sau khi xác nhận** | ✅ 2026-10-13 |
 | Aider polyglot leaderboard | `yaml_leaderboard` | chính thức | ✅ nhưng **nguồn đã cũ**: mục mới nhất 2025-10-03 — run report ghi `STALE` |
-| OpenRouter (model mới, miễn phí, giảm giá) | `openrouter` | chính thức | ❌ chưa từng gọi thật |
-| Hacker News (Algolia) | `hn` | **cộng đồng** | ❌ chưa từng gọi thật |
+| OpenRouter (model mới, miễn phí, giảm giá) | `openrouter` | chính thức | ✅ 2026-10-19 (Action hằng ngày; các báo cáo 15–19/10 có tin model mới, miễn phí và giảm giá) |
+| Hacker News (Algolia) | `hn` | **cộng đồng** | ✅ 2026-10-19 (Action hằng ngày; tin của nguồn này mang nhãn chưa xác nhận cho tới khi một nguồn chính thức đối chứng) |
 | Terminal-Bench 4.0 (bảng xếp hạng chính thức: điểm và chi phí của từng dòng) | `ranking_board` | chính thức (bảng tự công bố số của nó; radar không chạy lại benchmark) | ✅ 2026-10-17 (radar tự tải trang bằng `fetch` của nó) |
-| Codex / Gemini CLI releases (Atom; phần mô tả bản phát hành được đọc từng dòng như changelog), OpenAI news, DeepMind blog, Hugging Face blog | `rss` | chính thức | ❌ chưa từng gọi thật |
+| Codex / Gemini CLI releases (Atom; phần mô tả bản phát hành được đọc từng dòng như changelog), OpenAI news, DeepMind blog, Hugging Face blog | `rss` | chính thức | ✅ 2026-10-19 (Action hằng ngày). **DeepMind blog lỗi chập chờn**: ngày 15/10 và 18/10 báo `only UTF-8 feeds are read`, ngày 16, 17 và 19/10 đọc được; chưa điều tra nguyên nhân |
 
-Repo này được dựng trong một môi trường có chính sách mạng chặn các host ❌ ở trên, nên parser của chúng được kiểm thử
-bằng **fixture tổng hợp** (`tests/fixtures/synthetic_*`, ghi rõ trong file) theo đúng định dạng API công bố — chưa phải
-phản hồi thật. **Việc đầu tiên nên làm:** chạy `python radar.py scan` một lần trên máy bạn hoặc bằng nút *Run workflow*
-của Action, xem cột `ok/FAIL` ở từng nguồn. Nguồn lỗi chỉ bị ghi vào báo cáo, không làm hỏng cả lượt quét.
-Trường `live_checked` trong `config/sources.yaml` ghi ngày mỗi URL được kiểm chứng; `false` = việc cần làm.
+Repo này được dựng trong một môi trường có chính sách mạng chặn một số host, nên parser của OpenRouter, Hacker News, Codex / Gemini CLI,
+OpenAI, DeepMind và Hugging Face được kiểm thử bằng **fixture tổng hợp** (`tests/fixtures/synthetic_*`, ghi rõ trong file) theo
+đúng định dạng API công bố. Trong các báo cáo 15–19/10 của Action hằng ngày, các nguồn đó đã được gọi thật và trả về mục (cột `items`
+của `out/ai-news-<ngày>/REPORT.md`); fixture tổng hợp vẫn chỉ là dữ liệu của test, không phải bằng chứng về nguồn thật.
+Mỗi ngày xem cột `ok/FAIL` trong `REPORT.md`: nguồn lỗi chỉ bị ghi vào báo cáo, không làm hỏng cả lượt quét.
+Trường `live_checked` trong `config/sources.yaml` ghi ngày URL được tải thành công gần nhất; `false` = chưa từng, là việc cần làm.
+`tests/test_source_registry.py` giữ cho dấu đỏ trong cột "Đã chạy thật?" chỉ còn khi còn nguồn `live_checked: false`.
 
 Chưa có: Reddit và X (nơi tin reset quota thường xuất hiện đầu tiên) — cần đăng nhập hoặc bị chặn. Tin reset quota
 hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "weekly usage limits have been reset".
@@ -114,7 +116,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 575 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 580 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -153,8 +155,9 @@ và có đủ vi/ja/en.
   duyệt từng chuỗi của bài để chắc điều đó.
 - Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau
   khi lưu trạng thái hỏng không đăng trùng, còn một lần giảm giá lặp lại thật vẫn là tin mới.
-- Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Đã thử trên HTML
-  viết tay theo dạng của GitHub, **chưa** thử trên bản thật; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).
+- Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Hai nguồn đã được gọi thật
+  (mỗi lượt đọc được 10 bản phát hành), nhưng bảng "Ranked events" của các báo cáo 15–19/10 không có tin nào đến từ chúng, nên việc tách dòng trên dữ liệu thật
+  **chưa** được kiểm chứng; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).
 - Chưa có Reddit/X. Chưa có cơ chế tự mở PR vào studio (cần token chéo repo do bạn tạo).
 - **Bảng xếp hạng: mới có một bảng.** Chỉ Terminal-Bench 4.0 được nối. Hai bảng khác bị loại có lý do ghi trong `config/sources.yaml`: Artificial Analysis cấm script/tác tử quét dữ liệu của trang, cấm sao chép và đăng lại, và API miễn phí của họ ghi "internal use only; no redistribution" (đăng số của họ lên Facebook cần giấy phép thương mại); ReviewBench có `robots.txt` ghi `Disallow: /` và không có cột chi phí. Terminal-Bench không có trang điều khoản hay `robots.txt` hạn chế nào, nhưng cũng chưa có điều khoản nào nói rõ cho phép đăng lại: bài luôn ghi tên bảng làm nguồn.
 - Bảng xếp hạng được đọc từ dữ liệu mà trang tự truyền cho giao diện của nó (`self.__next_f.push`), không phải một API công bố, nên một lần trang đổi cấu trúc sẽ làm nguồn lỗi (ghi trong báo cáo chạy, không làm hỏng lượt quét); radar đòi tối thiểu `min_rows` dòng dùng được để phát hiện việc đó. Bảng không cho biết model có phải open-weight hay miễn phí, nên bài chỉ nói về chi phí mỗi lượt chạy theo bảng.
