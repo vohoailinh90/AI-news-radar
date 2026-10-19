@@ -116,7 +116,7 @@ hiện chỉ bắt được khi một nguồn trên đăng tiêu đề kiểu "w
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest -q          # 580 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
+python -m pytest -q          # 590 test (gồm 300 ca ngẫu nhiên cố định hạt giống cho bộ chọn tin); test hợp đồng với studio tự bỏ qua nếu không có bản clone studio
 STUDIO_PATH=../tool-marketing-studio python -m pytest -q
 ```
 
@@ -155,6 +155,12 @@ và có đủ vi/ja/en.
   duyệt từng chuỗi của bài để chắc điều đó.
 - Id sự kiện không phụ thuộc thứ tự hay giờ quét: dòng release dùng hash nội dung; thay đổi giá OpenRouter dùng ảnh chụp trước đó, nên chạy lại sau
   khi lưu trạng thái hỏng không đăng trùng, còn một lần giảm giá lặp lại thật vẫn là tin mới.
+- OpenRouter có các bí danh `~hãng/…-latest` (có trường `alias_target`) luôn trỏ tới bản mới nhất của một dòng model. Giá của bí danh chỉ đi theo model đích, hoặc đổi
+  vì nó được trỏ sang model khác, nên bí danh **không** tạo tin giảm giá: tin đó thuộc về chính model đích. Các tin giảm giá mới cùng điểm được xếp theo mức giảm
+  (lớn trước) rồi mới theo tên; trước đó chỉ theo tên nên DeepSeek chiếm 9 trên 10 bài spotlight của số 15–19/10. Hai con số của một lần giảm luôn in khác nhau
+  (trước đây một lần giảm 24% in thành "$0.02 to $0.02").
+- **Chưa xử lý:** giá niêm yết trên OpenRouter dao động, một model có thể giảm ≥ 20%, tăng lại rồi giảm lại, và mỗi lần giảm so với ảnh chụp liền trước là một tin mới
+  (chưa có cooldown theo model; ví dụ NVIDIA Nemotron 3.5 Super VL giảm từ $0.15 xuống $0.10 ngày 17/10 và một lần nữa ngày 19/10).
 - Phần mô tả bản phát hành của Codex / Gemini CLI được tách theo dòng và bỏ các dòng "What's Changed", "New Contributors", "by @user". Hai nguồn đã được gọi thật
   (mỗi lượt đọc được 10 bản phát hành), nhưng bảng "Ranked events" của các báo cáo 15–19/10 không có tin nào đến từ chúng, nên việc tách dòng trên dữ liệu thật
   **chưa** được kiểm chứng; recall của hai nguồn này nhiều khả năng còn thấp (nhiều dự án viết kiểu `feat(scope): …`).

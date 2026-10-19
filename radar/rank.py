@@ -85,4 +85,13 @@ def score_events(events: list[Event], rules: dict, now: datetime, points: dict[s
         if distinct:
             event.score = round(event.score + cfg["corroboration_bonus"] * len(distinct), 3)
             event.corroborated_by = corroborators(event, events, window)
-    return sorted(events, key=lambda e: (-e.score, e.title))
+    return sorted(events, key=lambda e: (-e.score, -cut_percent(e), e.title))
+
+
+def cut_percent(event: Event) -> int:
+    """The size of a price cut. Fresh price cuts all score the same, so without this the tie falls to the title and
+    a vendor whose name sorts first (DeepSeek) takes every spotlight regardless of how big its cut is."""
+    try:
+        return int(event.figures["percent"]) if event.kind == "price-drop" else 0
+    except (KeyError, TypeError, ValueError):
+        return 0
