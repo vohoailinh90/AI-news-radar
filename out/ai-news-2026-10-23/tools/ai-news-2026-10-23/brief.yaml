@@ -1,0 +1,60 @@
+slug: ai-news-2026-10-23
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-10-23, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-10-23'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'Z: GLM 5.3 Flash input price drops 84% on OpenRouter: $0.03 to $0.0052 per 1M tokens. Source:
+    OpenRouter model list, 2026-10-23'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4.1 Flash input price drops 45% on OpenRouter: $0.30 to $0.17 per 1M tokens.
+    Source: OpenRouter model list, 2026-10-23'
+- id: story-3-free-model-removed
+  fact: 'MiniMax: MiniMax M3.1 Flash (free) was removed from OpenRouter''s free models. Source: OpenRouter
+    model list, 2026-10-23'
+- id: story-4-trending
+  fact: '[unconfirmed] Claude Duet. Source: Hacker News, 2026-10-21'
+- id: story-5-new-feature
+  fact: 'Gemini CLI releases Release v0.67.0-nightly.20261022.g09d81bf11: feat(cli): bridge the IDE companion
+    into container sandboxes over exec stdio. Source: Gemini CLI releases, 2026-10-22'
+claims:
+- id: story-1
+  text: 'Z: GLM 5.3 Flash input price drops 84% on OpenRouter: $0.03 to $0.0052 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/z-ai/glm-5.3-flash'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4.1 Flash input price drops 45% on OpenRouter: $0.30 to $0.17 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4.1-flash'
+  verified: true
+- id: story-3
+  text: 'MiniMax: MiniMax M3.1 Flash (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/minimax/minimax-m3.1-flash:free'
+  verified: true
+- id: story-4
+  text: '[unconfirmed] Claude Duet'
+  evidence: 'Hacker News: https://claude.com/product/claude-duet'
+  verified: false
+- id: story-5
+  text: 'Gemini CLI releases Release v0.67.0-nightly.20261022.g09d81bf11: feat(cli): bridge the IDE companion
+    into container sandboxes over exec stdio'
+  evidence: 'Gemini CLI releases: https://github.com/google-gemini/gemini-cli/releases/tag/v0.67.0-nightly.20261022.g09d81bf11'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []
