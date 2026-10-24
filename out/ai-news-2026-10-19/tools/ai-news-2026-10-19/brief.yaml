@@ -1,0 +1,60 @@
+slug: ai-news-2026-10-19
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-10-19, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-10-19'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'DeepSeek: DeepSeek Flash Latest input price drops 38% on OpenRouter: $0.08 to $0.05 per 1M tokens.
+    Source: OpenRouter model list, 2026-10-19'
+- id: story-2-price-drop
+  fact: 'NVIDIA: Nemotron 3.5 Super VL input price drops 33% on OpenRouter: $0.15 to $0.10 per 1M tokens.
+    Source: OpenRouter model list, 2026-10-19'
+- id: story-3-trending
+  fact: '[unconfirmed] DeepSeek search and fetch - $0.75 per 1000 successful requests. Source: Hacker
+    News, 2026-10-18'
+- id: story-4-trending
+  fact: '[unconfirmed] DeepSeek-v4.1-Flash-1017. Source: Hacker News, 2026-10-17'
+- id: story-5-new-feature
+  fact: 'Claude Code changelog 2.1.301: Added the % motion to vim mode: jump to the matching bracket,
+    alone or with d/c/y. Source: Claude Code changelog, 2026-10-16'
+claims:
+- id: story-1
+  text: 'DeepSeek: DeepSeek Flash Latest input price drops 38% on OpenRouter: $0.08 to $0.05 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/~deepseek/deepseek-flash-latest'
+  verified: true
+- id: story-2
+  text: 'NVIDIA: Nemotron 3.5 Super VL input price drops 33% on OpenRouter: $0.15 to $0.10 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/nvidia/nemotron-3.5-super-vl'
+  verified: true
+- id: story-3
+  text: '[unconfirmed] DeepSeek search and fetch - $0.75 per 1000 successful requests'
+  evidence: 'Hacker News: https://api-docs.deepseek.com/guides/search/'
+  verified: false
+- id: story-4
+  text: '[unconfirmed] DeepSeek-v4.1-Flash-1017'
+  evidence: 'Hacker News: https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017'
+  verified: false
+- id: story-5
+  text: 'Claude Code changelog 2.1.301: Added the % motion to vim mode: jump to the matching bracket,
+    alone or with d/c/y'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []
