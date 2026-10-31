@@ -1,0 +1,60 @@
+slug: ai-news-2026-10-31
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-10-31, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-10-31'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'Particle AI: Particle-1 input price drops 80% on OpenRouter: $0.25 to $0.05 per 1M tokens. Source:
+    OpenRouter model list, 2026-10-31'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4 Pro 0813 input price drops 50% on OpenRouter: $1.32 to $0.66 per 1M tokens.
+    Source: OpenRouter model list, 2026-10-31'
+- id: story-3-trending
+  fact: '[unconfirmed] Backdoors in official Claude Code extensions. Source: Hacker News, 2026-10-30'
+- id: story-4-trending
+  fact: '[unconfirmed] Backdoor in Claude Code for VS Code extension on the Cursor Marketplace. Source:
+    Hacker News, 2026-10-30'
+- id: story-5-new-feature
+  fact: 'Codex releases 0.165.0: Added a built-in Google Cloud Vertex AI provider, configured with model_provider
+    = "gcp" . ( #56265 ). Source: Codex releases, 2026-10-27'
+claims:
+- id: story-1
+  text: 'Particle AI: Particle-1 input price drops 80% on OpenRouter: $0.25 to $0.05 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/particle-ai/particle-1'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4 Pro 0813 input price drops 50% on OpenRouter: $1.32 to $0.66 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4-pro-0813'
+  verified: true
+- id: story-3
+  text: '[unconfirmed] Backdoors in official Claude Code extensions'
+  evidence: 'Hacker News: https://cyberplace.social/@GossiTheDog/117528831681803563'
+  verified: false
+- id: story-4
+  text: '[unconfirmed] Backdoor in Claude Code for VS Code extension on the Cursor Marketplace'
+  evidence: 'Hacker News: https://phorion.io/blog/offical-claude-code-vsx-compromise/'
+  verified: false
+- id: story-5
+  text: 'Codex releases 0.165.0: Added a built-in Google Cloud Vertex AI provider, configured with model_provider
+    = "gcp" . ( #56265 )'
+  evidence: 'Codex releases: https://github.com/openai/codex/releases/tag/rust-v0.165.0'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

@@ -1,0 +1,17 @@
+tool: ai-news-2026-10-27
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/openai/gpt-6.1-terra:batch
+  s2: https://openrouter.ai/qwen/qwen3.8-27b
+  s3: https://openrouter.ai/z-ai/glm-5.1
+utm:
+  medium: social
+  campaign: ai-news-2026-10-27
+schedule: []
