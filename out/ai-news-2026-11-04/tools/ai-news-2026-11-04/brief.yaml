@@ -1,0 +1,59 @@
+slug: ai-news-2026-11-04
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-04, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-04'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-free-model-added
+  fact: 'Crouton Alpha is available free of charge on OpenRouter. Source: OpenRouter model list, 2026-11-04'
+- id: story-2-price-drop
+  fact: 'OpenAI: gpt-oss-120b input price drops 81% on OpenRouter: $0.15 to $0.03 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-04'
+- id: story-3-price-drop
+  fact: 'Meta: Llama 3.3 70B Instruct input price drops 50% on OpenRouter: $0.20 to $0.10 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-04'
+- id: story-4-model-listed
+  fact: 'SpaceXAI: Grok 4.6 (batch) was just added to OpenRouter''s model list. Source: OpenRouter model
+    list, 2026-11-04'
+- id: story-5-model-listed
+  fact: 'SpaceXAI: Grok 4.7 (batch) was just added to OpenRouter''s model list. Source: OpenRouter model
+    list, 2026-11-04'
+claims:
+- id: story-1
+  text: Crouton Alpha is available free of charge on OpenRouter
+  evidence: 'OpenRouter model list: https://openrouter.ai/stealth/crouton-alpha'
+  verified: true
+- id: story-2
+  text: 'OpenAI: gpt-oss-120b input price drops 81% on OpenRouter: $0.15 to $0.03 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/openai/gpt-oss-120b'
+  verified: true
+- id: story-3
+  text: 'Meta: Llama 3.3 70B Instruct input price drops 50% on OpenRouter: $0.20 to $0.10 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/meta-llama/llama-3.3-70b-instruct'
+  verified: true
+- id: story-4
+  text: 'SpaceXAI: Grok 4.6 (batch) was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/x-ai/grok-4.6:batch'
+  verified: true
+- id: story-5
+  text: 'SpaceXAI: Grok 4.7 (batch) was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/x-ai/grok-4.7:batch'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

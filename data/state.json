@@ -1,20 +1,217 @@
 {
- "last_run": "2026-10-14T05:38:52.006271+00:00",
+ "last_run": "2026-11-07T01:53:49.422703+00:00",
  "seen": {
   "anthropic-news:https://www.anthropic.com/news/anthropic-cyber-mission": "2026-10-14T05:38:52.006271+00:00",
   "claude-code-changelog:2.1.299#3f163f2f8ea9": "2026-10-14T05:38:52.006271+00:00",
   "claude-code-changelog:2.1.299#5c2c4ff055c4": "2026-10-14T05:38:52.006271+00:00",
   "claude-code-changelog:2.1.299#f401cf0b5d4f": "2026-10-14T05:38:52.006271+00:00",
+  "claude-code-changelog:2.1.300#15c06e6fa79e": "2026-10-15T00:30:31.408238+00:00",
+  "claude-code-changelog:2.1.300#7e0f3ca5c1bf": "2026-10-15T00:30:31.408238+00:00",
+  "claude-code-changelog:2.1.300#8ad776645e9d": "2026-10-15T00:30:31.408238+00:00",
+  "claude-code-changelog:2.1.301#635aeace6628": "2026-10-16T00:22:08.112327+00:00",
+  "claude-code-changelog:2.1.301#89be213c1479": "2026-10-16T00:22:08.112327+00:00",
+  "claude-code-changelog:2.1.301#becd9e12e9e6": "2026-10-16T00:22:08.112327+00:00",
+  "claude-code-changelog:2.1.304#34be881646fc": "2026-10-20T01:05:10.494887+00:00",
+  "claude-code-changelog:2.1.305#cddbe007b568": "2026-10-21T00:36:07.833493+00:00",
+  "claude-code-changelog:2.1.307#d752313f16c5": "2026-10-22T00:40:05.175531+00:00",
+  "claude-code-changelog:2.1.314#50b8ea81c4ae": "2026-10-30T01:55:46.494316+00:00",
+  "claude-code-changelog:2.1.317#d7a9cd677683": "2026-11-03T03:28:15.157214+00:00",
+  "claude-code-changelog:2.1.317#e6d180614f42": "2026-11-03T03:28:15.157214+00:00",
+  "claude-code-changelog:2.1.318#0c217be13257": "2026-11-04T02:17:10.647158+00:00",
+  "claude-code-changelog:2.1.319#25de17074f60": "2026-11-07T01:53:49.422703+00:00",
+  "claude-code-changelog:2.1.319#85915400e6b6": "2026-11-07T01:53:49.422703+00:00",
+  "codex-releases:tag:github.com,2008:Repository/965415649/rust-v0.165.0#69091adc8581": "2026-10-28T01:18:17.981833+00:00",
+  "codex-releases:tag:github.com,2008:Repository/965415649/rust-v0.165.0#d1342f2f710a": "2026-10-28T01:18:17.981833+00:00",
+  "codex-releases:tag:github.com,2008:Repository/965415649/rust-v0.165.0#f2a53c210bc1": "2026-10-28T01:18:17.981833+00:00",
+  "codex-releases:tag:github.com,2008:Repository/965415649/rust-v0.166.0#dcb48e433af9": "2026-10-30T01:55:46.494316+00:00",
   "deepmind-blog:https://deepmind.google/blog/introducing-synthid-bio/": "2026-10-14T05:38:52.006271+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0#678aa181e8ed": "2026-11-05T02:22:54.547397+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0#76047b5d875b": "2026-11-05T02:22:54.547397+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0-nightly.20261022.g09d81bf11#678aa181e8ed": "2026-10-23T00:38:17.480409+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0-nightly.20261024.gcd1b45c2d#76047b5d875b": "2026-10-25T00:19:06.847380+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0-preview.0#678aa181e8ed": "2026-10-28T01:18:17.981833+00:00",
+  "gemini-cli-releases:tag:github.com,2008:Repository/968197216/v0.67.0-preview.0#76047b5d875b": "2026-10-28T01:18:17.981833+00:00",
   "hn-ai:50059523": "2026-10-14T05:38:52.006271+00:00",
   "hn-ai:50060694": "2026-10-14T05:38:52.006271+00:00",
   "hn-ai:50073879": "2026-10-14T05:38:52.006271+00:00",
-  "huggingface-blog:https://huggingface.co/blog/tiiuae/falcon-asr": "2026-10-14T05:38:52.006271+00:00"
+  "hn-ai:50105635": "2026-10-17T00:26:11.463452+00:00",
+  "hn-ai:50122800": "2026-10-17T00:26:11.463452+00:00",
+  "hn-ai:50122951": "2026-10-18T00:00:29.873471+00:00",
+  "hn-ai:50129045": "2026-10-18T00:00:29.873471+00:00",
+  "hn-ai:50129121": "2026-10-18T00:00:29.873471+00:00",
+  "hn-ai:50138531": "2026-10-19T00:12:04.777662+00:00",
+  "hn-ai:50141581": "2026-10-21T00:36:07.833493+00:00",
+  "hn-ai:50154244": "2026-10-21T00:36:07.833493+00:00",
+  "hn-ai:50163277": "2026-10-21T00:36:07.833493+00:00",
+  "hn-ai:50172041": "2026-10-22T00:40:05.175531+00:00",
+  "hn-ai:50186037": "2026-10-22T00:40:05.175531+00:00",
+  "hn-ai:50202681": "2026-10-24T00:38:00.463587+00:00",
+  "hn-ai:50207405": "2026-10-24T00:38:00.463587+00:00",
+  "hn-ai:50212065": "2026-10-24T00:38:00.463587+00:00",
+  "hn-ai:50260814": "2026-10-28T01:18:17.981833+00:00",
+  "hn-ai:50265393": "2026-10-29T01:47:17.025326+00:00",
+  "hn-ai:50265609": "2026-10-29T01:47:17.025326+00:00",
+  "hn-ai:50268380": "2026-10-29T01:47:17.025326+00:00",
+  "hn-ai:50276792": "2026-10-29T01:47:17.025326+00:00",
+  "hn-ai:50282838": "2026-10-30T01:55:46.494316+00:00",
+  "hn-ai:50284255": "2026-10-30T01:55:46.494316+00:00",
+  "hn-ai:50288019": "2026-10-30T01:55:46.494316+00:00",
+  "hn-ai:50290668": "2026-10-31T01:34:27.005709+00:00",
+  "hn-ai:50300683": "2026-10-31T01:34:27.005709+00:00",
+  "hn-ai:50301983": "2026-10-31T01:34:27.005709+00:00",
+  "hn-ai:50302334": "2026-10-31T01:34:27.005709+00:00",
+  "hn-ai:50304122": "2026-11-01T01:06:38.713505+00:00",
+  "hn-ai:50305573": "2026-11-01T01:06:38.713505+00:00",
+  "hn-ai:50320995": "2026-11-02T01:29:38.573752+00:00",
+  "hn-ai:50339494": "2026-11-04T02:17:10.647158+00:00",
+  "hn-ai:50341174": "2026-11-03T03:28:15.157214+00:00",
+  "hn-ai:50351111": "2026-11-04T02:17:10.647158+00:00",
+  "hn-ai:50352757": "2026-11-04T02:17:10.647158+00:00",
+  "hn-ai:50355251": "2026-11-04T02:17:10.647158+00:00",
+  "hn-ai:50361268": "2026-11-05T02:22:54.547397+00:00",
+  "hn-ai:50384233": "2026-11-06T02:23:18.390353+00:00",
+  "hn-ai:50385272": "2026-11-06T02:23:18.390353+00:00",
+  "huggingface-blog:https://huggingface.co/blog/announcing-project-protostar": "2026-10-30T01:55:46.494316+00:00",
+  "huggingface-blog:https://huggingface.co/blog/anydecisionmodel": "2026-10-30T01:55:46.494316+00:00",
+  "huggingface-blog:https://huggingface.co/blog/tiiuae/falcon-asr": "2026-10-14T05:38:52.006271+00:00",
+  "openai-news:https://openai.com/index/grid-protectors-program": "2026-11-03T03:28:15.157214+00:00",
+  "openai-news:https://openai.com/index/introducing-gpt-6-1-terra": "2026-10-27T01:27:46.906324+00:00",
+  "openai-news:https://openai.com/index/introducing-gpt-6-cyber": "2026-11-06T02:23:18.390353+00:00",
+  "openai-news:https://openai.com/index/introducing-images-2-6": "2026-11-05T02:22:54.547397+00:00",
+  "openai-news:https://openai.com/index/retell-ai": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:free-model-added:liquid/lfm-3-1.7b:free@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:free-model-added:minimax/minimax-m3.1-flash:free@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:free-model-added:nvidia/nemotron-3.5-super-vl:free@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:free-model-added:recursive/flint-v1.0:free@g8": "2026-10-22T00:40:05.175531+00:00",
+  "openrouter-models:free-model-added:stealth/crouton-alpha@g21": "2026-11-04T02:17:10.647158+00:00",
+  "openrouter-models:free-model-added:xingchen-agi/xing4.0-29b-a4b:free@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:free-model-removed:minimax/minimax-m3.1-flash:free@g9": "2026-10-23T00:38:17.480409+00:00",
+  "openrouter-models:free-model-removed:nvidia/nemotron-3-super-120b-a12b:free@g14": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:free-model-removed:nvidia/nemotron-3.5-content-safety:free@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:free-model-removed:poolside/laguna-s-2.1:free@g18": "2026-11-01T01:06:38.713505+00:00",
+  "openrouter-models:free-model-removed:poolside/laguna-xs-2.1:free@g18": "2026-11-01T01:06:38.713505+00:00",
+  "openrouter-models:free-model-removed:thinkingmachines/inkling-small:free@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:free-model-removed:thinkingmachines/inkling:free@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:model-listed:deepseek/deepseek-v4-flash-0731:batch@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:deepseek/deepseek-v4.1-flash-1017@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:model-listed:elorian/glimpse@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:model-listed:google/gemini-omni-1.1-flash@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:model-listed:google/gemini-omni-1.2-flash@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:model-listed:inception/mercury-3@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:model-listed:inclusionai/ling-3.0-tiny@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:model-listed:liquid/lfm-2.5-2.6b@g11": "2026-10-25T00:19:06.847380+00:00",
+  "openrouter-models:model-listed:liquid/lfm-3-1.7b@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:meta/muse-glimmer-30b:batch@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:meta/muse-spark-open@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:model-listed:minimax/minimax-m3.1-flash@g9": "2026-10-23T00:38:17.480409+00:00",
+  "openrouter-models:model-listed:minimax/minimax-m3:batch@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:moondream/moondream3-preview@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:model-listed:moondream/moondream3.1-9b-a2b@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:model-listed:moonshotai/kimi-k3.1-pro@g10": "2026-10-24T00:38:00.463587+00:00",
+  "openrouter-models:model-listed:nvidia/nemotron-3.5-super-vl@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:model-listed:openai/gpt-6.1-terra-pro:batch@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:model-listed:openai/gpt-6.1-terra-pro@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:model-listed:openai/gpt-6.1-terra:batch@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:model-listed:openai/gpt-6.1-terra@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:model-listed:openrouter/auto-code@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:model-listed:particle-ai/particle-1@g15": "2026-10-29T01:47:17.025326+00:00",
+  "openrouter-models:model-listed:prism-ml/ternary-bonsai-2-9b@g14": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:model-listed:qwen/qwen3.7-plus:batch@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:model-listed:qwen/qwen3.8-27b:batch@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:reflection/beam-1.0-501b-a23b@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:model-listed:ricursiveai/ripple-65b-preview@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:model-listed:tencent/hy4@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:model-listed:thinkingmachines/inkling-small:batch@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:model-listed:unbiased/pareto-26.10@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:model-listed:x-ai/grok-4.6:batch@g21": "2026-11-04T02:17:10.647158+00:00",
+  "openrouter-models:model-listed:x-ai/grok-4.7:batch@g21": "2026-11-04T02:17:10.647158+00:00",
+  "openrouter-models:model-listed:z-ai/glm-5.3-flashx-legal@g20": "2026-11-03T03:28:15.157214+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g10": "2026-10-24T00:38:00.463587+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g14": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g20": "2026-11-03T03:28:15.157214+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash-0731@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash@g12": "2026-10-26T00:18:30.614922+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-flash@g15": "2026-10-29T01:47:17.025326+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro-0813@g17": "2026-10-31T01:34:27.005709+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro-0813@g18": "2026-11-01T01:06:38.713505+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro@g10": "2026-10-24T00:38:00.463587+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro@g11": "2026-10-25T00:19:06.847380+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4-pro@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash-1017@g17": "2026-10-31T01:34:27.005709+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash-1017@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash:batch@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g10": "2026-10-24T00:38:00.463587+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g15": "2026-10-29T01:47:17.025326+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:price-drop:deepseek/deepseek-v4.1-flash@g9": "2026-10-23T00:38:17.480409+00:00",
+  "openrouter-models:price-drop:google/gemma-4-26b-a4b-it@g19": "2026-11-02T01:29:38.573752+00:00",
+  "openrouter-models:price-drop:google/gemma-4-26b-a4b-it@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:price-drop:google/gemma-4-31b-it@g12": "2026-10-26T00:18:30.614922+00:00",
+  "openrouter-models:price-drop:inclusionai/ling-3.1-flash@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:price-drop:meta-llama/llama-3.1-8b-instruct@g14": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:price-drop:meta-llama/llama-3.3-70b-instruct@g21": "2026-11-04T02:17:10.647158+00:00",
+  "openrouter-models:price-drop:meta-llama/llama-3.3-70b-instruct@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:meta-llama/llama-4-scout@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:minimax/minimax-m2.7@g23": "2026-11-06T02:23:18.390353+00:00",
+  "openrouter-models:price-drop:mistralai/mistral-large-4-0@g16": "2026-10-30T01:55:46.494316+00:00",
+  "openrouter-models:price-drop:mistralai/mistral-small-3.2-24b-instruct@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:mistralai/mistral-small-3.2-24b-instruct@g9": "2026-10-23T00:38:17.480409+00:00",
+  "openrouter-models:price-drop:moonshotai/kimi-k3@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:moonshotai/kimi-k3@g12": "2026-10-26T00:18:30.614922+00:00",
+  "openrouter-models:price-drop:moonshotai/kimi-k3@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:nvidia/nemotron-3-super-120b-a12b@g14": "2026-10-28T01:18:17.981833+00:00",
+  "openrouter-models:price-drop:nvidia/nemotron-3-super-120b-a12b@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:price-drop:nvidia/nemotron-3.5-super-vl@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:nvidia/nemotron-3.5-super-vl@g5": "2026-10-19T00:12:04.777662+00:00",
+  "openrouter-models:price-drop:openai/gpt-oss-120b@g19": "2026-11-02T01:29:38.573752+00:00",
+  "openrouter-models:price-drop:openai/gpt-oss-120b@g21": "2026-11-04T02:17:10.647158+00:00",
+  "openrouter-models:price-drop:openai/gpt-oss-120b@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:price-drop:openai/gpt-oss-120b@g24": "2026-11-07T01:53:49.422703+00:00",
+  "openrouter-models:price-drop:openai/gpt-oss-20b@g22": "2026-11-05T02:22:54.547397+00:00",
+  "openrouter-models:price-drop:particle-ai/particle-1@g17": "2026-10-31T01:34:27.005709+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.5-122b-a10b@g12": "2026-10-26T00:18:30.614922+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.5-27b@g5": "2026-10-19T00:12:04.777662+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.5-397b-a17b@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.6-27b@g16": "2026-10-30T01:55:46.494316+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.6-27b@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.6-35b-a3b@g7": "2026-10-21T00:36:07.833493+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.8-27b@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:price-drop:qwen/qwen3.8-27b@g7": "2026-10-21T00:36:07.833493+00:00",
+  "openrouter-models:price-drop:reflection/beam-1.0-501b-a23b@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:price-drop:tencent/hy3@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:price-drop:xiaomi/mimo-v2.5-pro@g8": "2026-10-22T00:40:05.175531+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.1@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.1@g13": "2026-10-27T01:27:46.906324+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.2@g15": "2026-10-29T01:47:17.025326+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.2@g8": "2026-10-22T00:40:05.175531+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g15": "2026-10-29T01:47:17.025326+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g17": "2026-10-31T01:34:27.005709+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g18": "2026-11-01T01:06:38.713505+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g7": "2026-10-21T00:36:07.833493+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3-flash@g9": "2026-10-23T00:38:17.480409+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5.3@g3": "2026-10-17T00:26:11.463452+00:00",
+  "openrouter-models:price-drop:z-ai/glm-5@g6": "2026-10-20T01:05:10.494887+00:00",
+  "openrouter-models:price-drop:~deepseek/deepseek-flash-latest@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:~deepseek/deepseek-flash-latest@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:~deepseek/deepseek-flash-latest@g5": "2026-10-19T00:12:04.777662+00:00",
+  "openrouter-models:price-drop:~deepseek/deepseek-pro-latest@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:price-drop:~deepseek/deepseek-v4-flash-latest@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:~moonshotai/kimi-latest@g1": "2026-10-15T00:30:31.408238+00:00",
+  "openrouter-models:price-drop:~moonshotai/kimi-latest@g2": "2026-10-16T00:22:08.112327+00:00",
+  "openrouter-models:price-drop:~unbiased/pareto-latest@g4": "2026-10-18T00:00:29.873471+00:00",
+  "openrouter-models:price-drop:~z-ai/glm-flash-latest@g2": "2026-10-16T00:22:08.112327+00:00",
+  "terminal-bench-4:ranking:e92f6aff4116@g0": "2026-10-18T00:00:29.873471+00:00"
  },
  "snapshots": {
   "aider-polyglot": {
    "best": 88.0,
-   "gen": 1,
+   "gen": 25,
    "ids": [
     "2024-12-21-18-41-18--polyglot-gpt-4o-mini",
     "2024-12-21-19-23-03--polyglot-o1-hard-diff",
@@ -87,10 +284,10 @@
     "2025-10-03-09-45-34--deepseek-v3.2-reasoner"
    ],
    "newest": "2025-10-03",
-   "taken": "20261014T053852"
+   "taken": "20261107T015349"
   },
   "openrouter-models": {
-   "gen": 1,
+   "gen": 25,
    "models": {
     "aion-labs/aion-2.0": {
      "created": 1771881306,
@@ -296,12 +493,6 @@
      "name": "Anthropic: Claude Opus 5 (batch)",
      "prompt": 2.5e-06
     },
-    "anthropic/claude-sonnet-4": {
-     "created": 1747930371,
-     "free": false,
-     "name": "Anthropic: Claude Sonnet 4",
-     "prompt": 3e-06
-    },
     "anthropic/claude-sonnet-4.5": {
      "created": 1759161676,
      "free": false,
@@ -349,12 +540,6 @@
      "free": false,
      "name": "Anthropic: Claude Sonnet 5 (batch)",
      "prompt": 1e-06
-    },
-    "arcee-ai/trinity-large-thinking": {
-     "created": 1775058318,
-     "free": false,
-     "name": "Arcee AI: Trinity Large Thinking",
-     "prompt": 2.5e-07
     },
     "bytedance-seed/seed-1.6": {
      "created": 1766504997,
@@ -458,12 +643,6 @@
      "name": "DeepSeek: DeepSeek V3.1",
      "prompt": 2.5e-07
     },
-    "deepseek/deepseek-r1": {
-     "created": 1737381095,
-     "free": false,
-     "name": "DeepSeek: R1",
-     "prompt": 7e-07
-    },
     "deepseek/deepseek-r1-0528": {
      "created": 1748455170,
      "free": false,
@@ -480,7 +659,7 @@
      "created": 1764594642,
      "free": false,
      "name": "DeepSeek: DeepSeek V3.2",
-     "prompt": 2.59e-07
+     "prompt": 2.6e-07
     },
     "deepseek/deepseek-v3.2-exp": {
      "created": 1759150481,
@@ -498,31 +677,43 @@
      "created": 1785478908,
      "free": false,
      "name": "DeepSeek: DeepSeek V4 Flash 0731",
-     "prompt": 1.6e-08
+     "prompt": 4.34e-08
+    },
+    "deepseek/deepseek-v4-flash-0731:batch": {
+     "created": 1785478908,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4 Flash 0731 (batch)",
+     "prompt": 4.8e-08
     },
     "deepseek/deepseek-v4-flash-vision-exp": {
      "created": 1787311563,
      "free": false,
      "name": "DeepSeek: DeepSeek V4 Flash Vision Exp",
-     "prompt": 2.156e-07
+     "prompt": 4.4e-07
     },
     "deepseek/deepseek-v4-pro": {
      "created": 1777000679,
      "free": false,
      "name": "DeepSeek: DeepSeek V4 Pro 0423",
-     "prompt": 9.5526e-07
+     "prompt": 1.6e-06
     },
     "deepseek/deepseek-v4-pro-0813": {
      "created": 1786549364,
      "free": false,
      "name": "DeepSeek: DeepSeek V4 Pro 0813",
-     "prompt": 6.6e-07
+     "prompt": 1.165e-07
     },
     "deepseek/deepseek-v4.1-flash": {
      "created": 1789021285,
      "free": false,
      "name": "DeepSeek: DeepSeek V4.1 Flash",
-     "prompt": 2.529e-08
+     "prompt": 5.1e-08
+    },
+    "deepseek/deepseek-v4.1-flash-1017": {
+     "created": 1792225624,
+     "free": false,
+     "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+     "prompt": 1.5e-07
     },
     "deepseek/deepseek-v4.1-flash:batch": {
      "created": 1789021285,
@@ -535,6 +726,12 @@
      "free": true,
      "name": "Dots Studio: Dots3-Note Preview (free)",
      "prompt": 0.0
+    },
+    "elorian/glimpse": {
+     "created": 1792206629,
+     "free": false,
+     "name": "Elorian: Glimpse",
+     "prompt": 6e-07
     },
     "fireworks/ember-1": {
      "created": 1790208461,
@@ -560,18 +757,6 @@
      "name": "Google: Gemini 2.5 Flash Lite",
      "prompt": 1e-07
     },
-    "google/gemini-2.5-flash-lite:batch": {
-     "created": 1753200276,
-     "free": false,
-     "name": "Google: Gemini 2.5 Flash Lite (batch)",
-     "prompt": 5e-08
-    },
-    "google/gemini-2.5-flash:batch": {
-     "created": 1750172488,
-     "free": false,
-     "name": "Google: Gemini 2.5 Flash (batch)",
-     "prompt": 1.5e-07
-    },
     "google/gemini-2.5-pro": {
      "created": 1750169544,
      "free": false,
@@ -583,12 +768,6 @@
      "free": false,
      "name": "Google: Gemini 2.5 Pro Preview 06-05",
      "prompt": 1.25e-06
-    },
-    "google/gemini-2.5-pro:batch": {
-     "created": 1750169544,
-     "free": false,
-     "name": "Google: Gemini 2.5 Pro (batch)",
-     "prompt": 6.25e-07
     },
     "google/gemini-3-flash-preview": {
      "created": 1765987078,
@@ -720,7 +899,7 @@
      "created": 1788362056,
      "free": false,
      "name": "Google: Gemini 3.8 Flash",
-     "prompt": 7.5e-07
+     "prompt": 8.25e-07
     },
     "google/gemini-3.8-flash:batch": {
      "created": 1788362056,
@@ -744,6 +923,18 @@
      "created": 1791300825,
      "free": false,
      "name": "Google: Nano Banana 2.1",
+     "prompt": 1.5e-06
+    },
+    "google/gemini-omni-1.1-flash": {
+     "created": 1793825668,
+     "free": false,
+     "name": "Google: Gemini Omni 1.1 Flash",
+     "prompt": 1.5e-06
+    },
+    "google/gemini-omni-1.2-flash": {
+     "created": 1793898961,
+     "free": false,
+     "name": "Google: Gemini Omni 1.2 Flash",
      "prompt": 1.5e-06
     },
     "google/gemma-2-27b-it": {
@@ -774,7 +965,7 @@
      "created": 1775227989,
      "free": false,
      "name": "Google: Gemma 4 26B A4B ",
-     "prompt": 7.65e-08
+     "prompt": 6.75e-08
     },
     "google/gemma-4-26b-a4b-it:free": {
      "created": 1775227989,
@@ -786,7 +977,7 @@
      "created": 1775148486,
      "free": false,
      "name": "Google: Gemma 4 31B",
-     "prompt": 9e-08
+     "prompt": 2e-07
     },
     "google/gemma-4-31b-it:free": {
      "created": 1775148486,
@@ -812,12 +1003,6 @@
      "name": "MythoMax 13B",
      "prompt": 8e-08
     },
-    "ibm-granite/granite-4.0-h-micro": {
-     "created": 1760927695,
-     "free": false,
-     "name": "IBM: Granite 4.0 Micro",
-     "prompt": 1.7e-08
-    },
     "ibm-granite/granite-4.2-8b": {
      "created": 1788206780,
      "free": false,
@@ -836,6 +1021,12 @@
      "name": "Inception: Mercury 2.5",
      "prompt": 4e-08
     },
+    "inception/mercury-3": {
+     "created": 1792158337,
+     "free": false,
+     "name": "Inception: Mercury 3",
+     "prompt": 1e-07
+    },
     "inclusionai/ling-3.0-flash": {
      "created": 1784818580,
      "free": false,
@@ -848,11 +1039,17 @@
      "name": "inclusionAI: Ling 3.0 Flash VL",
      "prompt": 6e-08
     },
+    "inclusionai/ling-3.0-tiny": {
+     "created": 1786034890,
+     "free": false,
+     "name": "inclusionAI: Ling 3.0 Tiny",
+     "prompt": 1.5e-08
+    },
     "inclusionai/ling-3.1-flash": {
      "created": 1790950024,
      "free": false,
      "name": "inclusionAI: Ling 3.1 Flash",
-     "prompt": 7.5e-08
+     "prompt": 4.5e-08
     },
     "inference-net/schematron-v2-small": {
      "created": 1789176933,
@@ -866,6 +1063,12 @@
      "name": "Inference.net: Schematron V2 Turbo",
      "prompt": 3e-08
     },
+    "liquid/lfm-2.5-2.6b": {
+     "created": 1786470519,
+     "free": false,
+     "name": "LiquidAI: LFM2.5-2.6B",
+     "prompt": 3.5e-07
+    },
     "liquid/lfm-2.5-2.6b:free": {
      "created": 1786470519,
      "free": true,
@@ -877,6 +1080,18 @@
      "free": false,
      "name": "LiquidAI: LFM2.5-24B-A2B",
      "prompt": 5e-08
+    },
+    "liquid/lfm-3-1.7b": {
+     "created": 1794009477,
+     "free": false,
+     "name": "LiquidAI: LFM3-1.7B",
+     "prompt": 8e-08
+    },
+    "liquid/lfm-3-1.7b:free": {
+     "created": 1794009477,
+     "free": true,
+     "name": "LiquidAI: LFM3-1.7B (free)",
+     "prompt": 0.0
     },
     "mancer/weaver": {
      "created": 1690934400,
@@ -894,7 +1109,7 @@
      "created": 1721692800,
      "free": false,
      "name": "Meta: Llama 3.1 70B Instruct",
-     "prompt": 4e-07
+     "prompt": 7.2e-07
     },
     "meta-llama/llama-3.1-8b-instruct": {
      "created": 1721692800,
@@ -912,7 +1127,7 @@
      "created": 1727222400,
      "free": false,
      "name": "Meta: Llama 3.2 3B Instruct",
-     "prompt": 5e-08
+     "prompt": 5.09e-08
     },
     "meta-llama/llama-3.3-70b-instruct": {
      "created": 1733506137,
@@ -924,13 +1139,13 @@
      "created": 1743881822,
      "free": false,
      "name": "Meta: Llama 4 Maverick",
-     "prompt": 1.875e-07
+     "prompt": 3.5e-07
     },
     "meta-llama/llama-4-scout": {
      "created": 1743881519,
      "free": false,
      "name": "Meta: Llama 4 Scout",
-     "prompt": 1.8e-07
+     "prompt": 1e-07
     },
     "meta-llama/llama-guard-4-12b": {
      "created": 1745975193,
@@ -943,6 +1158,12 @@
      "free": false,
      "name": "Meta: Muse Glimmer 30B",
      "prompt": 3e-07
+    },
+    "meta/muse-glimmer-30b:batch": {
+     "created": 1786302394,
+     "free": false,
+     "name": "Meta: Muse Glimmer 30B (batch)",
+     "prompt": 2.4e-07
     },
     "meta/muse-spark-1.1": {
      "created": 1784215741,
@@ -974,6 +1195,12 @@
      "name": "Meta: Muse Spark 1.3 Contributor",
      "prompt": 1e-07
     },
+    "meta/muse-spark-open": {
+     "created": 1792087069,
+     "free": false,
+     "name": "Meta: Muse Spark Open",
+     "prompt": 1.25e-06
+    },
     "meta/muse-wonder": {
      "created": 1791807945,
      "free": false,
@@ -986,53 +1213,23 @@
      "name": "Microsoft: Phi 4",
      "prompt": 7e-08
     },
-    "microsoft/wizardlm-2-8x22b": {
-     "created": 1713225600,
-     "free": false,
-     "name": "WizardLM-2 8x22B",
-     "prompt": 6.2e-07
-    },
-    "minimax/minimax-01": {
-     "created": 1736915462,
-     "free": false,
-     "name": "MiniMax: MiniMax-01",
-     "prompt": 2e-07
-    },
     "minimax/minimax-m1": {
      "created": 1750200414,
      "free": false,
      "name": "MiniMax: MiniMax M1",
      "prompt": 5.5e-07
     },
-    "minimax/minimax-m2": {
-     "created": 1761252093,
-     "free": false,
-     "name": "MiniMax: MiniMax M2",
-     "prompt": 2.55e-07
-    },
-    "minimax/minimax-m2-her": {
-     "created": 1769177239,
-     "free": false,
-     "name": "MiniMax: MiniMax M2-her",
-     "prompt": 3e-07
-    },
-    "minimax/minimax-m2.1": {
-     "created": 1766454997,
-     "free": false,
-     "name": "MiniMax: MiniMax M2.1",
-     "prompt": 3e-07
-    },
     "minimax/minimax-m2.5": {
      "created": 1770908502,
      "free": false,
      "name": "MiniMax: MiniMax M2.5",
-     "prompt": 2.7e-07
+     "prompt": 3e-07
     },
     "minimax/minimax-m2.7": {
      "created": 1773836697,
      "free": false,
      "name": "MiniMax: MiniMax M2.7",
-     "prompt": 3e-07
+     "prompt": 2.1e-07
     },
     "minimax/minimax-m3": {
      "created": 1780245374,
@@ -1040,17 +1237,23 @@
      "name": "MiniMax: MiniMax M3",
      "prompt": 3e-07
     },
+    "minimax/minimax-m3.1-flash": {
+     "created": 1792379569,
+     "free": false,
+     "name": "MiniMax: MiniMax M3.1 Flash",
+     "prompt": 1.5e-07
+    },
+    "minimax/minimax-m3:batch": {
+     "created": 1780245374,
+     "free": false,
+     "name": "MiniMax: MiniMax M3 (batch)",
+     "prompt": 2.24e-07
+    },
     "mistralai/codestral-2508": {
      "created": 1754079630,
      "free": false,
      "name": "Mistral: Codestral 2508",
      "prompt": 3e-07
-    },
-    "mistralai/codestral-2508:batch": {
-     "created": 1754079630,
-     "free": false,
-     "name": "Mistral: Codestral 2508 (batch)",
-     "prompt": 1.5e-07
     },
     "mistralai/devstral-2512": {
      "created": 1765285419,
@@ -1076,12 +1279,6 @@
      "name": "Mistral: Ministral 3 8B 2512",
      "prompt": 1.5e-07
     },
-    "mistralai/ministral-8b-2512:batch": {
-     "created": 1764681654,
-     "free": false,
-     "name": "Mistral: Ministral 3 8B 2512 (batch)",
-     "prompt": 7.5e-08
-    },
     "mistralai/mistral-large": {
      "created": 1708905600,
      "free": false,
@@ -1100,17 +1297,11 @@
      "name": "Mistral: Mistral Large 3 2512",
      "prompt": 5e-07
     },
-    "mistralai/mistral-large-2512:batch": {
-     "created": 1764624472,
-     "free": false,
-     "name": "Mistral: Mistral Large 3 2512 (batch)",
-     "prompt": 2.5e-07
-    },
     "mistralai/mistral-large-4-0": {
      "created": 1791294122,
      "free": false,
      "name": "Mistral: Mistral Large 4",
-     "prompt": 6.8e-07
+     "prompt": 7e-07
     },
     "mistralai/mistral-medium-3": {
      "created": 1746627341,
@@ -1136,12 +1327,6 @@
      "name": "Mistral: Mistral Medium 3.1",
      "prompt": 4e-07
     },
-    "mistralai/mistral-medium-3.1:batch": {
-     "created": 1755095639,
-     "free": false,
-     "name": "Mistral: Mistral Medium 3.1 (batch)",
-     "prompt": 2e-07
-    },
     "mistralai/mistral-nemo": {
      "created": 1721347200,
      "free": false,
@@ -1166,12 +1351,6 @@
      "name": "Mistral: Mistral Small 4",
      "prompt": 1.5e-07
     },
-    "mistralai/mistral-small-2603:batch": {
-     "created": 1773695685,
-     "free": false,
-     "name": "Mistral: Mistral Small 4 (batch)",
-     "prompt": 7.5e-08
-    },
     "mistralai/mistral-small-3.1-24b-instruct": {
      "created": 1742238937,
      "free": false,
@@ -1182,7 +1361,7 @@
      "created": 1750443016,
      "free": false,
      "name": "Mistral: Mistral Small 3.2 24B",
-     "prompt": 9.375e-08
+     "prompt": 7.5e-08
     },
     "mistralai/mixtral-8x22b-instruct": {
      "created": 1713312000,
@@ -1195,6 +1374,18 @@
      "free": false,
      "name": "Mistral: Voxtral Small 24B 2507",
      "prompt": 1e-07
+    },
+    "moondream/moondream3-preview": {
+     "created": 1792102385,
+     "free": false,
+     "name": "Moondream: Moondream 3 Preview",
+     "prompt": 3e-07
+    },
+    "moondream/moondream3.1-9b-a2b": {
+     "created": 1792102373,
+     "free": false,
+     "name": "Moondream: Moondream 3.1",
+     "prompt": 3e-07
     },
     "moonshotai/kimi-k2": {
      "created": 1752263252,
@@ -1230,13 +1421,19 @@
      "created": 1781266361,
      "free": false,
      "name": "MoonshotAI: Kimi K2.7 Code",
-     "prompt": 6.712e-07
+     "prompt": 6e-07
     },
     "moonshotai/kimi-k3": {
      "created": 1784215858,
      "free": false,
      "name": "MoonshotAI: Kimi K3",
-     "prompt": 7e-07
+     "prompt": 1.92e-07
+    },
+    "moonshotai/kimi-k3.1-pro": {
+     "created": 1792778188,
+     "free": false,
+     "name": "MoonshotAI: Kimi K3.1 Pro",
+     "prompt": 2e-06
     },
     "moonshotai/kimi-k3:batch": {
      "created": 1784215858,
@@ -1268,18 +1465,6 @@
      "name": "Nex AGI: Nex-N2.5-Pro",
      "prompt": 7.5e-08
     },
-    "nousresearch/hermes-3-llama-3.1-405b": {
-     "created": 1723766400,
-     "free": false,
-     "name": "Nous: Hermes 3 405B Instruct",
-     "prompt": 1e-06
-    },
-    "nousresearch/hermes-3-llama-3.1-70b": {
-     "created": 1723939200,
-     "free": false,
-     "name": "Nous: Hermes 3 70B Instruct",
-     "prompt": 7e-07
-    },
     "nousresearch/hermes-4-405b": {
      "created": 1756235463,
      "free": false,
@@ -1302,13 +1487,7 @@
      "created": 1773245239,
      "free": false,
      "name": "NVIDIA: Nemotron 3 Super",
-     "prompt": 8e-08
-    },
-    "nvidia/nemotron-3-super-120b-a12b:free": {
-     "created": 1773245239,
-     "free": true,
-     "name": "NVIDIA: Nemotron 3 Super (free)",
-     "prompt": 0.0
+     "prompt": 7.5e-08
     },
     "nvidia/nemotron-3-ultra-550b-a55b": {
      "created": 1780551208,
@@ -1328,12 +1507,6 @@
      "name": "NVIDIA: Nemotron 3.5 Content Safety",
      "prompt": 2e-07
     },
-    "nvidia/nemotron-3.5-content-safety:free": {
-     "created": 1780581864,
-     "free": true,
-     "name": "NVIDIA: Nemotron 3.5 Content Safety (free)",
-     "prompt": 0.0
-    },
     "nvidia/nemotron-3.5-lightning": {
      "created": 1786452751,
      "free": false,
@@ -1346,17 +1519,23 @@
      "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
      "prompt": 0.0
     },
+    "nvidia/nemotron-3.5-super-vl": {
+     "created": 1792076662,
+     "free": false,
+     "name": "NVIDIA: Nemotron 3.5 Super VL",
+     "prompt": 1.5e-07
+    },
+    "nvidia/nemotron-3.5-super-vl:free": {
+     "created": 1792076662,
+     "free": true,
+     "name": "NVIDIA: Nemotron 3.5 Super VL (free)",
+     "prompt": 0.0
+    },
     "nvidia/switchyard": {
      "created": 1790025947,
      "free": false,
      "name": "NVIDIA: Switchyard",
      "prompt": null
-    },
-    "openai/gpt-3.5-turbo": {
-     "created": 1685232000,
-     "free": false,
-     "name": "OpenAI: GPT-3.5 Turbo",
-     "prompt": 5e-07
     },
     "openai/gpt-3.5-turbo-0613": {
      "created": 1706140800,
@@ -1370,29 +1549,11 @@
      "name": "OpenAI: GPT-3.5 Turbo 16k",
      "prompt": 3e-06
     },
-    "openai/gpt-3.5-turbo-instruct": {
-     "created": 1695859200,
-     "free": false,
-     "name": "OpenAI: GPT-3.5 Turbo Instruct",
-     "prompt": 1.5e-06
-    },
-    "openai/gpt-3.5-turbo:batch": {
-     "created": 1685232000,
-     "free": false,
-     "name": "OpenAI: GPT-3.5 Turbo (batch)",
-     "prompt": 2.5e-07
-    },
     "openai/gpt-4": {
      "created": 1685232000,
      "free": false,
      "name": "OpenAI: GPT-4",
      "prompt": 3e-05
-    },
-    "openai/gpt-4-turbo": {
-     "created": 1712620800,
-     "free": false,
-     "name": "OpenAI: GPT-4 Turbo",
-     "prompt": 1e-05
     },
     "openai/gpt-4-turbo:batch": {
      "created": 1712620800,
@@ -1716,25 +1877,25 @@
      "created": 1783590850,
      "free": false,
      "name": "OpenAI: GPT-5.6 Sol",
-     "prompt": 2e-06
+     "prompt": 4e-06
     },
     "openai/gpt-5.6-sol-pro": {
      "created": 1783590854,
      "free": false,
      "name": "OpenAI: GPT-5.6 Sol Pro",
-     "prompt": 2e-06
+     "prompt": 4e-06
     },
     "openai/gpt-5.6-sol-pro:batch": {
      "created": 1783590854,
      "free": false,
      "name": "OpenAI: GPT-5.6 Sol Pro (batch)",
-     "prompt": 1e-06
+     "prompt": 2e-06
     },
     "openai/gpt-5.6-sol:batch": {
      "created": 1783590850,
      "free": false,
      "name": "OpenAI: GPT-5.6 Sol (batch)",
-     "prompt": 1e-06
+     "prompt": 2e-06
     },
     "openai/gpt-5.6-terra": {
      "created": 1783590857,
@@ -1862,6 +2023,30 @@
      "name": "OpenAI: GPT-6.1 Sol (batch)",
      "prompt": 1e-06
     },
+    "openai/gpt-6.1-terra": {
+     "created": 1793038409,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Terra",
+     "prompt": 1e-06
+    },
+    "openai/gpt-6.1-terra-pro": {
+     "created": 1793038556,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Terra Pro",
+     "prompt": 1e-06
+    },
+    "openai/gpt-6.1-terra-pro:batch": {
+     "created": 1793038556,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Terra Pro (batch)",
+     "prompt": 5e-07
+    },
+    "openai/gpt-6.1-terra:batch": {
+     "created": 1793038409,
+     "free": false,
+     "name": "OpenAI: GPT-6.1 Terra (batch)",
+     "prompt": 5e-07
+    },
     "openai/gpt-audio": {
      "created": 1768862569,
      "free": false,
@@ -1884,7 +2069,7 @@
      "created": 1754414231,
      "free": false,
      "name": "OpenAI: gpt-oss-120b",
-     "prompt": 3.7e-08
+     "prompt": 1e-08
     },
     "openai/gpt-oss-120b:batch": {
      "created": 1754414231,
@@ -1896,7 +2081,7 @@
      "created": 1754414229,
      "free": false,
      "name": "OpenAI: gpt-oss-20b",
-     "prompt": 1.8e-08
+     "prompt": 3e-08
     },
     "openai/gpt-oss-20b:batch": {
      "created": 1754414229,
@@ -1910,35 +2095,11 @@
      "name": "OpenAI: gpt-oss-safeguard-20b",
      "prompt": 7.5e-08
     },
-    "openai/o1": {
-     "created": 1734459999,
-     "free": false,
-     "name": "OpenAI: o1",
-     "prompt": 1.5e-05
-    },
-    "openai/o1-pro": {
-     "created": 1742423211,
-     "free": false,
-     "name": "OpenAI: o1-pro",
-     "prompt": 0.00015
-    },
     "openai/o3": {
      "created": 1744823457,
      "free": false,
      "name": "OpenAI: o3",
      "prompt": 2e-06
-    },
-    "openai/o3-mini": {
-     "created": 1738351721,
-     "free": false,
-     "name": "OpenAI: o3 Mini",
-     "prompt": 1.1e-06
-    },
-    "openai/o3-mini-high": {
-     "created": 1739372611,
-     "free": false,
-     "name": "OpenAI: o3 Mini High",
-     "prompt": 1.1e-06
     },
     "openai/o3-mini:batch": {
      "created": 1738351721,
@@ -1958,18 +2119,6 @@
      "name": "OpenAI: o3 (batch)",
      "prompt": 1e-06
     },
-    "openai/o4-mini": {
-     "created": 1744820942,
-     "free": false,
-     "name": "OpenAI: o4 Mini",
-     "prompt": 1.1e-06
-    },
-    "openai/o4-mini-high": {
-     "created": 1744824212,
-     "free": false,
-     "name": "OpenAI: o4 Mini High",
-     "prompt": 1.1e-06
-    },
     "openai/o4-mini:batch": {
      "created": 1744820942,
      "free": false,
@@ -1977,7 +2126,7 @@
      "prompt": 5.5e-07
     },
     "openrouter/auto": {
-     "created": 1699401600,
+     "created": 1793885889,
      "free": false,
      "name": "Auto Router",
      "prompt": null
@@ -1986,6 +2135,12 @@
      "created": 1784311165,
      "free": false,
      "name": "Auto Router (Beta)",
+     "prompt": null
+    },
+    "openrouter/auto-code": {
+     "created": 1793884321,
+     "free": false,
+     "name": "Auto Code",
      "prompt": null
     },
     "openrouter/bodybuilder": {
@@ -2011,6 +2166,12 @@
      "free": false,
      "name": "Pareto Code Router",
      "prompt": null
+    },
+    "particle-ai/particle-1": {
+     "created": 1793207893,
+     "free": false,
+     "name": "Particle AI: Particle-1",
+     "prompt": 5e-08
     },
     "perceptron/perceptron-mk1": {
      "created": 1778597029,
@@ -2054,35 +2215,17 @@
      "name": "Perplexity: Sonar Reasoning Pro",
      "prompt": 2e-06
     },
-    "poolside/laguna-s-2.1": {
-     "created": 1784652683,
-     "free": false,
-     "name": "Poolside: Laguna S 2.1",
-     "prompt": 9e-08
-    },
-    "poolside/laguna-s-2.1:free": {
-     "created": 1784652683,
-     "free": true,
-     "name": "Poolside: Laguna S 2.1 (free)",
-     "prompt": 0.0
-    },
-    "poolside/laguna-xs-2.1": {
-     "created": 1783002429,
-     "free": false,
-     "name": "Poolside: Laguna XS 2.1",
-     "prompt": 6e-08
-    },
-    "poolside/laguna-xs-2.1:free": {
-     "created": 1783002429,
-     "free": true,
-     "name": "Poolside: Laguna XS 2.1 (free)",
-     "prompt": 0.0
-    },
     "prism-ml/ternary-bonsai-2-27b": {
      "created": 1789754046,
      "free": false,
      "name": "PrismML: Ternary Bonsai 2 27B",
      "prompt": 7.5e-08
+    },
+    "prism-ml/ternary-bonsai-2-9b": {
+     "created": 1792130995,
+     "free": false,
+     "name": "PrismML: Ternary Bonsai 2 9B",
+     "prompt": 8e-08
     },
     "qwen/qwen-2.5-72b-instruct": {
      "created": 1726704000,
@@ -2124,7 +2267,7 @@
      "created": 1753119555,
      "free": false,
      "name": "Qwen: Qwen3 235B A22B Instruct 2507",
-     "prompt": 9e-08
+     "prompt": 1.4e-07
     },
     "qwen/qwen3-235b-a22b-thinking-2507": {
      "created": 1753449557,
@@ -2160,7 +2303,7 @@
      "created": 1753972379,
      "free": false,
      "name": "Qwen: Qwen3 Coder 30B A3B Instruct",
-     "prompt": 7e-08
+     "prompt": 1.5e-07
     },
     "qwen/qwen3-coder-flash": {
      "created": 1758115536,
@@ -2178,13 +2321,7 @@
      "created": 1757612213,
      "free": false,
      "name": "Qwen: Qwen3 Next 80B A3B Instruct",
-     "prompt": 1e-07
-    },
-    "qwen/qwen3-next-80b-a3b-thinking": {
-     "created": 1757612284,
-     "free": false,
-     "name": "Qwen: Qwen3 Next 80B A3B Thinking",
-     "prompt": 1.5e-07
+     "prompt": 9e-08
     },
     "qwen/qwen3-vl-235b-a22b-instruct": {
      "created": 1758668687,
@@ -2226,7 +2363,7 @@
      "created": 1772053822,
      "free": false,
      "name": "Qwen: Qwen3.5-35B-A3B",
-     "prompt": 1.5e-07
+     "prompt": 1.4e-07
     },
     "qwen/qwen3.5-397b-a17b": {
      "created": 1771223018,
@@ -2238,7 +2375,7 @@
      "created": 1773152396,
      "free": false,
      "name": "Qwen: Qwen3.5-9B",
-     "prompt": 1e-07
+     "prompt": 1.7e-07
     },
     "qwen/qwen3.5-flash-02-23": {
      "created": 1772053776,
@@ -2262,7 +2399,7 @@
      "created": 1777255064,
      "free": false,
      "name": "Qwen: Qwen3.6 27B",
-     "prompt": 3.2e-07
+     "prompt": 4.5e-07
     },
     "qwen/qwen3.6-35b-a3b": {
      "created": 1777260255,
@@ -2300,6 +2437,12 @@
      "name": "Qwen: Qwen3.7 Plus",
      "prompt": 3.2e-07
     },
+    "qwen/qwen3.7-plus:batch": {
+     "created": 1780491783,
+     "free": false,
+     "name": "Qwen: Qwen3.7 Plus (batch)",
+     "prompt": 2.3e-07
+    },
     "qwen/qwen3.8-2.4t-a95b": {
      "created": 1786551702,
      "free": false,
@@ -2310,7 +2453,13 @@
      "created": 1786722910,
      "free": false,
      "name": "Qwen: Qwen3.8 27B",
-     "prompt": 4e-08
+     "prompt": 1.5e-07
+    },
+    "qwen/qwen3.8-27b:batch": {
+     "created": 1786722910,
+     "free": false,
+     "name": "Qwen: Qwen3.8 27B (batch)",
+     "prompt": 1.6e-07
     },
     "qwen/qwen3.8-flash": {
      "created": 1787773060,
@@ -2336,6 +2485,18 @@
      "name": "Qwen: Qwen3.8 Omni Flash",
      "prompt": 1.5e-07
     },
+    "recursive/flint-v1.0:free": {
+     "created": 1792622765,
+     "free": true,
+     "name": "Recursive: Flint (free)",
+     "prompt": 0.0
+    },
+    "reflection/beam-1.0-501b-a23b": {
+     "created": 1792160499,
+     "free": false,
+     "name": "Reflection: Beam 1.0 501B A23B",
+     "prompt": 3e-07
+    },
     "rekaai/reka-edge": {
      "created": 1774026965,
      "free": false,
@@ -2359,6 +2520,12 @@
      "free": false,
      "name": "Relace: Relace Search",
      "prompt": 1e-06
+    },
+    "ricursiveai/ripple-65b-preview": {
+     "created": 1793818990,
+     "free": false,
+     "name": "Ricursive: Ripple 65B Preview",
+     "prompt": 2e-07
     },
     "sakana/fugu-max": {
      "created": 1789104771,
@@ -2396,12 +2563,6 @@
      "name": "Sao10K: Llama 3.1 Euryale 70B v2.2",
      "prompt": 8.5e-07
     },
-    "sao10k/l3.3-euryale-70b": {
-     "created": 1734535928,
-     "free": false,
-     "name": "Sao10K: Llama 3.3 Euryale 70B",
-     "prompt": 6.5e-07
-    },
     "scaledown/extract": {
      "created": 1791893351,
      "free": false,
@@ -2413,6 +2574,12 @@
      "free": false,
      "name": "ScaleDown: Summarize",
      "prompt": 4e-08
+    },
+    "stealth/crouton-alpha": {
+     "created": 1793669930,
+     "free": true,
+     "name": "Crouton Alpha",
+     "prompt": 0.0
     },
     "stepfun/step-3.5-flash": {
      "created": 1769728337,
@@ -2468,6 +2635,12 @@
      "name": "Tencent: Hy3 preview",
      "prompt": 1.8e-07
     },
+    "tencent/hy4": {
+     "created": 1793766031,
+     "free": false,
+     "name": "Tencent: Hy4",
+     "prompt": 4.17e-07
+    },
     "tencent/hy4-preview": {
      "created": 1787897375,
      "free": false,
@@ -2504,17 +2677,11 @@
      "name": "Thinking Machines: Inkling Small",
      "prompt": 4.5e-07
     },
-    "thinkingmachines/inkling-small:free": {
+    "thinkingmachines/inkling-small:batch": {
      "created": 1785443117,
-     "free": true,
-     "name": "Thinking Machines: Inkling Small (free)",
-     "prompt": 0.0
-    },
-    "thinkingmachines/inkling:free": {
-     "created": 1784325956,
-     "free": true,
-     "name": "Thinking Machines: Inkling (free)",
-     "prompt": 0.0
+     "free": false,
+     "name": "Thinking Machines: Inkling Small (batch)",
+     "prompt": 3.6e-07
     },
     "typesafe/jev-router": {
      "created": 1790363560,
@@ -2522,10 +2689,10 @@
      "name": "TypeSafe: Jev Router",
      "prompt": null
     },
-    "unbiased/pareto-26.10-preview": {
-     "created": 1790863623,
+    "unbiased/pareto-26.10": {
+     "created": 1792073620,
      "free": false,
-     "name": "Pareto 26.10 Preview",
+     "name": "Pareto 26.10",
      "prompt": 8e-07
     },
     "unbiased/pareto-26.9": {
@@ -2546,17 +2713,11 @@
      "name": "Upstage: Solar Mini 4",
      "prompt": 5e-08
     },
-    "upstage/solar-pro-3": {
-     "created": 1769481200,
-     "free": false,
-     "name": "Upstage: Solar Pro 3",
-     "prompt": 1.5e-07
-    },
     "upstage/solar-pro4": {
      "created": 1786371636,
      "free": false,
      "name": "Upstage: Solar Pro 4",
-     "prompt": 9e-08
+     "prompt": 1.5e-07
     },
     "writer/palmyra-x5": {
      "created": 1769003823,
@@ -2600,11 +2761,23 @@
      "name": "SpaceXAI: Grok 4.6",
      "prompt": 2e-06
     },
+    "x-ai/grok-4.6:batch": {
+     "created": 1786548957,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.6 (batch)",
+     "prompt": 1.6e-06
+    },
     "x-ai/grok-4.7": {
      "created": 1790007541,
      "free": false,
      "name": "SpaceXAI: Grok 4.7",
      "prompt": 2e-06
+    },
+    "x-ai/grok-4.7:batch": {
+     "created": 1790007541,
+     "free": false,
+     "name": "SpaceXAI: Grok 4.7 (batch)",
+     "prompt": 1.6e-06
     },
     "x-ai/grok-build-0.1": {
      "created": 1779298123,
@@ -2616,13 +2789,13 @@
      "created": 1776874269,
      "free": false,
      "name": "Xiaomi: MiMo-V2.5",
-     "prompt": 1.4e-07
+     "prompt": 4e-07
     },
     "xiaomi/mimo-v2.5-pro": {
      "created": 1776874273,
      "free": false,
      "name": "Xiaomi: MiMo-V2.5-Pro",
-     "prompt": 4.35e-07
+     "prompt": 4.8e-07
     },
     "xiaomi/mimo-v2.6-flash": {
      "created": 1790021264,
@@ -2641,6 +2814,12 @@
      "free": false,
      "name": "Xiaomi: MiMo-V2.6-Pro-UltraSpeed",
      "prompt": 4.35e-06
+    },
+    "xingchen-agi/xing4.0-29b-a4b:free": {
+     "created": 1792177496,
+     "free": true,
+     "name": "XingChen: Xing4.0 29B A4B (free)",
+     "prompt": 0.0
     },
     "z-ai/glm-4.5": {
      "created": 1753471347,
@@ -2688,7 +2867,7 @@
      "created": 1770829182,
      "free": false,
      "name": "Z.ai: GLM 5",
-     "prompt": 6e-07
+     "prompt": 1e-06
     },
     "z-ai/glm-5-turbo": {
      "created": 1773583573,
@@ -2700,19 +2879,19 @@
      "created": 1775578025,
      "free": false,
      "name": "Z.ai: GLM 5.1",
-     "prompt": 1.33e-06
+     "prompt": 1.4e-06
     },
     "z-ai/glm-5.2": {
      "created": 1781631930,
      "free": false,
      "name": "Z.ai: GLM 5.2",
-     "prompt": 5e-08
+     "prompt": 6e-09
     },
     "z-ai/glm-5.3": {
      "created": 1787086655,
      "free": false,
      "name": "Z.ai: GLM 5.3",
-     "prompt": 7.9e-08
+     "prompt": 6.99e-08
     },
     "z-ai/glm-5.3-flash": {
      "created": 1787752741,
@@ -2724,12 +2903,18 @@
      "created": 1787752741,
      "free": false,
      "name": "Z.ai: GLM 5.3 Flash (batch)",
-     "prompt": 6e-08
+     "prompt": 5e-08
     },
     "z-ai/glm-5.3-flashx": {
      "created": 1789744020,
      "free": false,
      "name": "Z.ai: GLM 5.3 FlashX",
+     "prompt": 3.7e-07
+    },
+    "z-ai/glm-5.3-flashx-legal": {
+     "created": 1793626154,
+     "free": false,
+     "name": "Z.ai: GLM 5.3 FlashX Legal",
      "prompt": 3.7e-07
     },
     "z-ai/glm-5.3-prime": {
@@ -2751,124 +2936,151 @@
      "prompt": 1.2e-06
     },
     "~anthropic/claude-fable-latest": {
+     "alias": true,
      "created": 1781029944,
      "free": false,
      "name": "Anthropic: Claude Fable Latest",
      "prompt": 1e-05
     },
     "~anthropic/claude-haiku-latest": {
+     "alias": true,
      "created": 1777318492,
      "free": false,
      "name": "Anthropic: Claude Haiku Latest",
      "prompt": 1e-07
     },
     "~anthropic/claude-opus-latest": {
+     "alias": true,
      "created": 1776795361,
      "free": false,
      "name": "Anthropic: Claude Opus Latest",
      "prompt": 4e-06
     },
     "~anthropic/claude-sonnet-latest": {
+     "alias": true,
      "created": 1777318368,
      "free": false,
      "name": "Anthropic: Claude Sonnet Latest",
      "prompt": 2e-06
     },
     "~deepseek/deepseek-flash-latest": {
+     "alias": true,
      "created": 1789399150,
      "free": false,
      "name": "DeepSeek: DeepSeek Flash Latest",
-     "prompt": 2.529e-08
+     "prompt": 6e-09
     },
     "~deepseek/deepseek-pro-latest": {
+     "alias": true,
      "created": 1789399174,
      "free": false,
      "name": "DeepSeek: DeepSeek Pro Latest",
-     "prompt": 2.25e-07
+     "prompt": 9.99e-08
     },
     "~deepseek/deepseek-v4-flash-latest": {
+     "alias": true,
      "created": 1785606009,
      "free": false,
      "name": "DeepSeek: DeepSeek V4 Flash Latest",
-     "prompt": 1.44e-08
+     "prompt": 4.34e-08
     },
     "~google/gemini-flash-latest": {
+     "alias": true,
      "created": 1777318398,
      "free": false,
      "name": "Google: Gemini Flash Latest",
      "prompt": 7.5e-07
     },
     "~google/gemini-pro-latest": {
+     "alias": true,
      "created": 1777318451,
      "free": false,
      "name": "Google: Gemini Pro Latest",
      "prompt": 2e-06
     },
     "~moonshotai/kimi-latest": {
+     "alias": true,
      "created": 1777318428,
      "free": false,
      "name": "MoonshotAI: Kimi Latest",
-     "prompt": 7e-07
+     "prompt": 1.824e-07
     },
     "~openai/gpt-astra-latest": {
+     "alias": true,
      "created": 1789130932,
      "free": false,
      "name": "OpenAI: GPT Astra Latest",
      "prompt": 1e-05
     },
     "~openai/gpt-luna-latest": {
+     "alias": true,
      "created": 1789130922,
      "free": false,
      "name": "OpenAI: GPT Luna Latest",
      "prompt": 1e-07
     },
     "~openai/gpt-mini-latest": {
+     "alias": true,
      "created": 1777318471,
      "free": false,
      "name": "OpenAI: GPT Mini Latest",
      "prompt": 7.5e-07
     },
     "~openai/gpt-sol-latest": {
+     "alias": true,
      "created": 1789130928,
      "free": false,
      "name": "OpenAI: GPT Sol Latest",
      "prompt": 2e-06
     },
     "~openai/gpt-terra-latest": {
+     "alias": true,
      "created": 1789130925,
      "free": false,
      "name": "OpenAI: GPT Terra Latest",
-     "prompt": 2e-06
+     "prompt": 1e-06
     },
     "~unbiased/pareto-latest": {
+     "alias": true,
      "created": 1791933050,
      "free": false,
      "name": "Pareto Latest",
-     "prompt": 2.5e-06
+     "prompt": 8e-07
     },
     "~x-ai/grok-latest": {
+     "alias": true,
      "created": 1783519360,
      "free": false,
      "name": "xAI: Grok Latest",
      "prompt": 2e-06
     },
     "~z-ai/glm-flash-latest": {
+     "alias": true,
      "created": 1787817633,
      "free": false,
      "name": "Z.ai: GLM Flash Latest",
-     "prompt": 3.6e-08
+     "prompt": 2.84e-08
     },
     "~z-ai/glm-latest": {
+     "alias": true,
      "created": 1787151053,
      "free": false,
      "name": "Z.ai: GLM Latest",
-     "prompt": 6.3e-08
+     "prompt": 6.99e-08
     }
    },
-   "taken": "20261014T053852"
+   "taken": "20261107T015349"
+  },
+  "terminal-bench-4": {
+   "announced": "2026-10-18",
+   "fingerprint": "e92f6aff4116",
+   "gen": 1,
+   "taken": "20261018T000029",
+   "top": "Claude Code + Opus 5.5 (max)",
+   "value": "Codex + GPT-6.1 Sol (max)"
   }
  },
  "versions": {
-  "claude-code-changelog": "2.1.299"
+  "claude-code-changelog": "2.1.319"
  }
 }

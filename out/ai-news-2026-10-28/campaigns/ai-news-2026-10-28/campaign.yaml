@@ -1,0 +1,19 @@
+tool: ai-news-2026-10-28
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/deepseek/deepseek-v4-flash-0731
+  s2: https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b
+  s3: https://openai.com/index/retell-ai
+  s4: https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b:free
+  s5: https://stanforddaily.com/2026/10/27/professors-books-pirated-to-train-claude/
+utm:
+  medium: social
+  campaign: ai-news-2026-10-28
+schedule: []
