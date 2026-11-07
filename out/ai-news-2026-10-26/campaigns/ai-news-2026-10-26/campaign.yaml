@@ -1,0 +1,18 @@
+tool: ai-news-2026-10-26
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/google/gemma-4-31b-it
+  s2: https://openrouter.ai/deepseek/deepseek-v4-flash
+  s3: https://www.sverigesradio.se/artikel/chat-gpt-och-claude-forbjuder-regeringskansliet
+  s4: https://openrouter.ai/minimax/minimax-m3.1-flash
+utm:
+  medium: social
+  campaign: ai-news-2026-10-26
+schedule: []

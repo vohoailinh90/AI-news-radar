@@ -1,0 +1,28 @@
+lang: en
+one_liner: 'Daily AI news: new models, benchmarks, free and discounted offers, and Claude and Codex limit
+  resets.'
+audience: Developers and automation-minded office workers who use AI every day and want to know fast what
+  is worth using, waiting for or saving on.
+pains:
+- Too much AI news to know what matters
+- Missing a free-model or price-cut window
+- Hitting a usage limit with no idea when it resets
+- Telling official news from rumours
+promise: Every story names its source and how sure we are; unconfirmed reports are labelled, never written
+  as fact.
+objections:
+- q: Do rumours get mixed in?
+  a: Community reports are labelled unconfirmed until an official source backs them.
+vocabulary:
+- usage limit
+- reset
+- free tier
+- price cut
+- benchmark
+- new model
+angles:
+- Today's hot stories
+- Free models worth trying
+- Who just cut prices
+- Benchmark leaders
+tone: Crisp and friendly; sources named; no hype.
