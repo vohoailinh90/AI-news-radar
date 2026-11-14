@@ -1,0 +1,27 @@
+lang: vi
+one_liner: 'Tin AI mỗi ngày: model mới, benchmark, ưu đãi miễn phí, giảm giá và tin reset giới hạn của
+  Claude, Codex.'
+audience: Người Việt làm việc với AI hằng ngày (dev, dân văn phòng tự động hoá) muốn biết nhanh cái gì
+  đáng dùng, đáng chờ, đáng tiết kiệm.
+pains:
+- Tin AI ra quá nhiều, không biết tin nào thật sự quan trọng
+- Bỏ lỡ đợt model miễn phí hoặc giảm giá
+- Hết giới hạn dùng giữa chừng mà không biết khi nào reset
+- Khó phân biệt tin chính thức với tin đồn
+promise: Mỗi tin ghi rõ nguồn và độ tin cậy; tin chưa xác nhận được gắn nhãn, không viết như đã chắc chắn.
+objections:
+- q: Tin đồn có lẫn vào không?
+  a: Tin từ cộng đồng được gắn nhãn chưa xác nhận cho đến khi có nguồn chính thức.
+vocabulary:
+- giới hạn dùng
+- reset
+- miễn phí
+- giảm giá
+- benchmark
+- model mới
+angles:
+- Tin hot trong ngày
+- Model miễn phí đáng thử
+- Ai vừa giảm giá
+- 'Benchmark: ai đứng đầu'
+tone: Xưng "mình", ngắn gọn, rõ nguồn; không giật tít, không hứa quá.

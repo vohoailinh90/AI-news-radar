@@ -1,0 +1,59 @@
+slug: ai-news-2026-11-06
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-06, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-06'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'DeepSeek: DeepSeek V4 Pro 0423 input price drops 40% on OpenRouter: $1.60 to $0.96 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-06'
+- id: story-2-price-drop
+  fact: 'MiniMax: MiniMax M2.7 input price drops 30% on OpenRouter: $0.30 to $0.21 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-06'
+- id: story-3-model-listed
+  fact: 'Google: Gemini Omni 1.1 Flash was just added to OpenRouter''s model list. Source: OpenRouter
+    model list, 2026-11-06'
+- id: story-4-model-listed
+  fact: 'Google: Gemini Omni 1.2 Flash was just added to OpenRouter''s model list. Source: OpenRouter
+    model list, 2026-11-06'
+- id: story-5-new-model
+  fact: 'GPT-6 Cyber: Advancing the frontier of aligned cybersecurity agents. Source: OpenAI news, 2026-11-05'
+claims:
+- id: story-1
+  text: 'DeepSeek: DeepSeek V4 Pro 0423 input price drops 40% on OpenRouter: $1.60 to $0.96 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4-pro'
+  verified: true
+- id: story-2
+  text: 'MiniMax: MiniMax M2.7 input price drops 30% on OpenRouter: $0.30 to $0.21 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/minimax/minimax-m2.7'
+  verified: true
+- id: story-3
+  text: 'Google: Gemini Omni 1.1 Flash was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/google/gemini-omni-1.1-flash'
+  verified: true
+- id: story-4
+  text: 'Google: Gemini Omni 1.2 Flash was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/google/gemini-omni-1.2-flash'
+  verified: true
+- id: story-5
+  text: 'GPT-6 Cyber: Advancing the frontier of aligned cybersecurity agents'
+  evidence: 'OpenAI news: https://openai.com/index/introducing-gpt-6-cyber'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

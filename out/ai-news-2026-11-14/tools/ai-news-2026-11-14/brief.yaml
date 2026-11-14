@@ -1,0 +1,63 @@
+slug: ai-news-2026-11-14
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-14, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-14'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 87% on OpenRouter: $0.30 to $0.04 per 1M
+    tokens. Source: OpenRouter model list, 2026-11-14'
+- id: story-2-price-drop
+  fact: 'Ricursive: Ripple 65B Preview input price drops 50% on OpenRouter: $0.20 to $0.10 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-14'
+- id: story-3-free-model-added
+  fact: 'inclusionAI: Ling 3.2 Flash (free) is available free of charge on OpenRouter. Source: OpenRouter
+    model list, 2026-11-14'
+- id: story-4-usage-limit-change
+  fact: 'Claude Code changelog 2.1.325: Improved subagents cut off at the output token limit: they are
+    now asked for the whole answer again, more briefly, instead of returning only its end. Source: Claude
+    Code changelog, 2026-11-14'
+- id: story-5-free-model-removed
+  fact: 'Apodex: Apodex 1.1 Mini (free) was removed from OpenRouter''s free models. Source: OpenRouter
+    model list, 2026-11-14'
+claims:
+- id: story-1
+  text: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 87% on OpenRouter: $0.30 to $0.04 per 1M
+    tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017'
+  verified: true
+- id: story-2
+  text: 'Ricursive: Ripple 65B Preview input price drops 50% on OpenRouter: $0.20 to $0.10 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/ricursiveai/ripple-65b-preview'
+  verified: true
+- id: story-3
+  text: 'inclusionAI: Ling 3.2 Flash (free) is available free of charge on OpenRouter'
+  evidence: 'OpenRouter model list: https://openrouter.ai/inclusionai/ling-3.2-flash:free'
+  verified: true
+- id: story-4
+  text: 'Claude Code changelog 2.1.325: Improved subagents cut off at the output token limit: they are
+    now asked for the whole answer again, more briefly, instead of returning only its end'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+- id: story-5
+  text: 'Apodex: Apodex 1.1 Mini (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/apodex/apodex-1.1-mini:free'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []
