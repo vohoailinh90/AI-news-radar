@@ -1,0 +1,61 @@
+slug: ai-news-2026-11-05
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-05, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-05'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'OpenAI: gpt-oss-120b input price drops 61% on OpenRouter: $0.03 to $0.01 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-05'
+- id: story-2-price-drop
+  fact: 'Google: Gemma 4 26B A4B input price drops 59% on OpenRouter: $0.08 to $0.03 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-05'
+- id: story-3-free-model-removed
+  fact: 'Thinking Machines: Inkling (free) was removed from OpenRouter''s free models. Source: OpenRouter
+    model list, 2026-11-05'
+- id: story-4-free-model-removed
+  fact: 'Thinking Machines: Inkling Small (free) was removed from OpenRouter''s free models. Source: OpenRouter
+    model list, 2026-11-05'
+- id: story-5-new-feature
+  fact: 'Gemini CLI releases Release v0.67.0: feat(cli): add models command and --list-models flag for
+    model discovery. Source: Gemini CLI releases, 2026-11-04'
+claims:
+- id: story-1
+  text: 'OpenAI: gpt-oss-120b input price drops 61% on OpenRouter: $0.03 to $0.01 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/openai/gpt-oss-120b'
+  verified: true
+- id: story-2
+  text: 'Google: Gemma 4 26B A4B input price drops 59% on OpenRouter: $0.08 to $0.03 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/google/gemma-4-26b-a4b-it'
+  verified: true
+- id: story-3
+  text: 'Thinking Machines: Inkling (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/thinkingmachines/inkling:free'
+  verified: true
+- id: story-4
+  text: 'Thinking Machines: Inkling Small (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/thinkingmachines/inkling-small:free'
+  verified: true
+- id: story-5
+  text: 'Gemini CLI releases Release v0.67.0: feat(cli): add models command and --list-models flag for
+    model discovery'
+  evidence: 'Gemini CLI releases: https://github.com/google-gemini/gemini-cli/releases/tag/v0.67.0'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []
