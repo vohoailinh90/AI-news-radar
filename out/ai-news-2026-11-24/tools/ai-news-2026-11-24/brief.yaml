@@ -1,0 +1,65 @@
+slug: ai-news-2026-11-24
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-24, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-24'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'DeepSeek: DeepSeek V4 Pro 0813 input price drops 92% on OpenRouter: $1.32 to $0.11 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-24'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 90% on OpenRouter: $0.30 to $0.03 per 1M
+    tokens. Source: OpenRouter model list, 2026-11-24'
+- id: story-3-free-model-added
+  fact: 'Dots Studio: Dots3-Note Preview (free) is available free of charge on OpenRouter. Source: OpenRouter
+    model list, 2026-11-24'
+- id: story-4-new-feature
+  fact: 'Claude Code changelog 2.1.331: Added Code Mode support in terminal sessions on Amazon Bedrock,
+    Google Cloud''s Agent Platform, Microsoft Foundry and Claude Platform on AWS. Source: Claude Code
+    changelog, 2026-11-24'
+- id: story-5-new-feature
+  fact: 'Claude Code changelog 2.1.331: Added a notice when tap-mode voice dictation stops by itself,
+    after 15 seconds without recognized speech or at its 2-minute limit. Source: Claude Code changelog,
+    2026-11-24'
+claims:
+- id: story-1
+  text: 'DeepSeek: DeepSeek V4 Pro 0813 input price drops 92% on OpenRouter: $1.32 to $0.11 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4-pro-0813'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 90% on OpenRouter: $0.30 to $0.03 per 1M
+    tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017'
+  verified: true
+- id: story-3
+  text: 'Dots Studio: Dots3-Note Preview (free) is available free of charge on OpenRouter'
+  evidence: 'OpenRouter model list: https://openrouter.ai/dots-studio/dots-3-note-preview:free'
+  verified: true
+- id: story-4
+  text: 'Claude Code changelog 2.1.331: Added Code Mode support in terminal sessions on Amazon Bedrock,
+    Google Cloud''s Agent Platform, Microsoft Foundry and Claude Platform on AWS'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+- id: story-5
+  text: 'Claude Code changelog 2.1.331: Added a notice when tap-mode voice dictation stops by itself,
+    after 15 seconds without recognized speech or at its 2-minute limit'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

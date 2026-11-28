@@ -1,82 +1,329 @@
 {
- "generated": "2026-10-14T05:38:52.006271+00:00",
+ "generated": "2026-11-28T03:52:53.302266+00:00",
  "events": [
+  {
+   "kind": "price-drop",
+   "vendor": "other",
+   "topic": "discount",
+   "title": "Thinking Machines: Inkling 2 Small input price drops 50% on OpenRouter: $0.30 to $0.15 per 1M tokens",
+   "url": "https://openrouter.ai/thinkingmachines/inkling-2-small",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "",
+   "figures": {
+    "model": "Thinking Machines: Inkling 2 Small",
+    "percent": "50",
+    "old_price": "0.30",
+    "new_price": "0.15"
+   },
+   "item_id": "openrouter-models:price-drop:thinkingmachines/inkling-2-small@g45",
+   "score": 16.0,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-28T03:52:53.302266+00:00",
+   "checked": null
+  },
+  {
+   "kind": "price-drop",
+   "vendor": "other",
+   "topic": "discount",
+   "title": "NVIDIA: Nemotron 3.5 Lightning input price drops 29% on OpenRouter: $0.07 to $0.05 per 1M tokens",
+   "url": "https://openrouter.ai/nvidia/nemotron-3.5-lightning",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "",
+   "figures": {
+    "model": "NVIDIA: Nemotron 3.5 Lightning",
+    "percent": "29",
+    "old_price": "0.07",
+    "new_price": "0.05"
+   },
+   "item_id": "openrouter-models:price-drop:nvidia/nemotron-3.5-lightning@g45",
+   "score": 16.0,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-28T03:52:53.302266+00:00",
+   "checked": null
+  },
+  {
+   "kind": "price-drop",
+   "vendor": "other",
+   "topic": "discount",
+   "title": "Thinking Machines: Inkling 2 Mini input price drops 20% on OpenRouter: $0.07 to $0.06 per 1M tokens",
+   "url": "https://openrouter.ai/thinkingmachines/inkling-2-mini",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "",
+   "figures": {
+    "model": "Thinking Machines: Inkling 2 Mini",
+    "percent": "20",
+    "old_price": "0.07",
+    "new_price": "0.06"
+   },
+   "item_id": "openrouter-models:price-drop:thinkingmachines/inkling-2-mini@g45",
+   "score": 16.0,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-28T03:52:53.302266+00:00",
+   "checked": null
+  },
+  {
+   "kind": "trending",
+   "vendor": "qwen",
+   "topic": "news",
+   "title": "A Beginner's Guide to Local AI with Inkling, Qwen, and Unsloth",
+   "url": "https://www.gpupartner.com/blog/beginners-guide-local-ai-inkling-qwen-unsloth",
+   "source": "hn-ai",
+   "source_name": "Hacker News",
+   "trust": "community",
+   "detail": "",
+   "figures": {},
+   "item_id": "hn-ai:50603845",
+   "score": 9.348,
+   "corroborated_by": [],
+   "points": 749,
+   "also_reported_by": [],
+   "when": "2026-11-22T21:01:16+00:00",
+   "checked": null
+  },
   {
    "kind": "new-feature",
    "vendor": "anthropic",
    "topic": "feature",
-   "title": "Claude Code changelog 2.1.299: Added a \"safe mode\" line to the agents view peek panel for background sessions started with --safe-mode",
+   "title": "Claude Code changelog 2.1.332: Added skills from MCP servers (beta). They show as server:skill in the / menu; other skills keep their names",
    "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
    "source": "claude-code-changelog",
    "source_name": "Claude Code changelog",
    "trust": "primary",
    "detail": "",
    "figures": {
-    "version": "2.1.299"
+    "version": "2.1.332"
    },
-   "item_id": "claude-code-changelog:2.1.299#f401cf0b5d4f",
-   "score": 12.0,
+   "item_id": "claude-code-changelog:2.1.332#23c9656e5840",
+   "score": 9.019,
    "corroborated_by": [],
    "points": 0,
    "also_reported_by": [],
-   "when": "2026-10-14T05:38:52.006271+00:00",
+   "when": "2026-11-25T04:52:38.828757+00:00",
    "checked": null
   },
   {
    "kind": "trending",
-   "vendor": "other",
+   "vendor": "qwen",
    "topic": "news",
-   "title": "AI coding agents generate more code, but not more software",
-   "url": "https://arstechnica.com/ai/2026/10/ai-coding-agents-generate-more-code-but-not-more-software/",
+   "title": "Jev is probably Qwen3.5-35B-A3B",
+   "url": "https://modaic.dev/blog/latency-doesnt-lie",
    "source": "hn-ai",
    "source_name": "Hacker News",
    "trust": "community",
    "detail": "",
    "figures": {},
-   "item_id": "hn-ai:50059523",
-   "score": 9.594,
+   "item_id": "hn-ai:50648823",
+   "score": 8.904,
    "corroborated_by": [],
-   "points": 361,
+   "points": 341,
    "also_reported_by": [],
-   "when": "2026-10-12T17:14:01+00:00",
+   "when": "2026-11-25T22:57:04+00:00",
    "checked": null
   },
   {
    "kind": "announcement",
-   "vendor": "other",
+   "vendor": "meta",
    "topic": "news",
-   "title": "Introducing Falcon ASR",
-   "url": "https://huggingface.co/blog/tiiuae/falcon-asr",
+   "title": "Introducing the llama.cpp benchmark dashboard for AMD Ryzen and Radeon",
+   "url": "https://huggingface.co/blog/ggml-org/llamacpp-amd-bench",
    "source": "huggingface-blog",
    "source_name": "Hugging Face blog",
    "trust": "primary",
    "detail": "",
    "figures": {},
-   "item_id": "huggingface-blog:https://huggingface.co/blog/tiiuae/falcon-asr",
-   "score": 7.183,
+   "item_id": "huggingface-blog:https://huggingface.co/blog/ggml-org/llamacpp-amd-bench",
+   "score": 8.842,
    "corroborated_by": [],
    "points": 0,
    "also_reported_by": [],
-   "when": "2026-10-07T13:21:03+00:00",
+   "when": "2026-11-26T11:37:17+00:00",
    "checked": null
   },
   {
-   "kind": "announcement",
-   "vendor": "google",
-   "topic": "news",
-   "title": "Introducing SynthID Bio",
-   "url": "https://deepmind.google/blog/introducing-synthid-bio/",
-   "source": "deepmind-blog",
-   "source_name": "Google DeepMind blog",
+   "kind": "new-feature",
+   "vendor": "anthropic",
+   "topic": "feature",
+   "title": "Claude Code changelog 2.1.331: Added gen_ai.usage.*, gen_ai.response.model and gen_ai.operation to claude_code.llm_request trace spans; gen_ai.usage.input_tokens includes prompt cache tokens",
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "source": "claude-code-changelog",
+   "source_name": "Claude Code changelog",
    "trust": "primary",
    "detail": "",
-   "figures": {},
-   "item_id": "deepmind-blog:https://deepmind.google/blog/introducing-synthid-bio/",
-   "score": 7.007,
+   "figures": {
+    "version": "2.1.331"
+   },
+   "item_id": "claude-code-changelog:2.1.331#64a81abc2582",
+   "score": 8.656,
    "corroborated_by": [],
    "points": 0,
    "also_reported_by": [],
-   "when": "2026-09-30T15:03:07+00:00",
+   "when": "2026-11-24T05:58:24.334790+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "MoonshotAI: Kimi K2 0711 is now listed on OpenRouter",
+   "url": "https://openrouter.ai/moonshotai/kimi-k2",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2025-07-11",
+   "figures": {
+    "model": "MoonshotAI: Kimi K2 0711",
+    "input_price": "0.57"
+   },
+   "item_id": "openrouter-models:model-listed:moonshotai/kimi-k2@g44",
+   "score": 8.536,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-27T04:12:18.175056+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "MoonshotAI: Kimi K2 0905 is now listed on OpenRouter",
+   "url": "https://openrouter.ai/moonshotai/kimi-k2-0905",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2025-09-04",
+   "figures": {
+    "model": "MoonshotAI: Kimi K2 0905",
+    "input_price": "0.60"
+   },
+   "item_id": "openrouter-models:model-listed:moonshotai/kimi-k2-0905@g44",
+   "score": 8.536,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-27T04:12:18.175056+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "inclusionAI: LingSante 3.1 Air VL is now listed on OpenRouter",
+   "url": "https://openrouter.ai/inclusionai/lingsante-3.1-air-vl",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2026-11-26",
+   "figures": {
+    "model": "inclusionAI: LingSante 3.1 Air VL",
+    "input_price": "0.06"
+   },
+   "item_id": "openrouter-models:model-listed:inclusionai/lingsante-3.1-air-vl@g44",
+   "score": 8.536,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-27T04:12:18.175056+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "TNG: DeepSeek R1T2 Chimera is now listed on OpenRouter",
+   "url": "https://openrouter.ai/tngtech/deepseek-r1t2-chimera",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2025-07-08",
+   "figures": {
+    "model": "TNG: DeepSeek R1T2 Chimera",
+    "input_price": "1.00"
+   },
+   "item_id": "openrouter-models:model-listed:tngtech/deepseek-r1t2-chimera@g43",
+   "score": 7.595,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-26T04:07:52.489649+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "Upstage: Solar Mini 4.5 (Preview) is now listed on OpenRouter",
+   "url": "https://openrouter.ai/upstage/solar-mini-4-5",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2026-11-24",
+   "figures": {
+    "model": "Upstage: Solar Mini 4.5 (Preview)",
+    "input_price": "0.01"
+   },
+   "item_id": "openrouter-models:model-listed:upstage/solar-mini-4-5@g42",
+   "score": 7.019,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-25T04:52:38.828757+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "Upstage: Solar Pro 4 Contributor is now listed on OpenRouter",
+   "url": "https://openrouter.ai/upstage/solar-pro-4-contributor",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2026-11-24",
+   "figures": {
+    "model": "Upstage: Solar Pro 4 Contributor",
+    "input_price": "0.09"
+   },
+   "item_id": "openrouter-models:model-listed:upstage/solar-pro-4-contributor@g42",
+   "score": 7.019,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-25T04:52:38.828757+00:00",
+   "checked": null
+  },
+  {
+   "kind": "model-listed",
+   "vendor": "other",
+   "topic": "model",
+   "title": "Xiaomi: MiMo-V2.6-Flash-MOPD is now listed on OpenRouter",
+   "url": "https://openrouter.ai/xiaomi/mimo-v2.6-flash-mopd",
+   "source": "openrouter-models",
+   "source_name": "OpenRouter model list",
+   "trust": "primary",
+   "detail": "created 2026-11-23",
+   "figures": {
+    "model": "Xiaomi: MiMo-V2.6-Flash-MOPD",
+    "input_price": "0.15"
+   },
+   "item_id": "openrouter-models:model-listed:xiaomi/mimo-v2.6-flash-mopd@g42",
+   "score": 7.019,
+   "corroborated_by": [],
+   "points": 0,
+   "also_reported_by": [],
+   "when": "2026-11-25T04:52:38.828757+00:00",
    "checked": null
   }
  ],
@@ -84,13 +331,13 @@
   {
    "id": "claude-code-changelog",
    "ok": true,
-   "items": 1,
+   "items": 0,
    "note": ""
   },
   {
    "id": "anthropic-news",
    "ok": true,
-   "items": 6,
+   "items": 2,
    "note": ""
   },
   {
@@ -108,38 +355,44 @@
   {
    "id": "openai-news",
    "ok": true,
-   "items": 23,
+   "items": 41,
    "note": ""
   },
   {
    "id": "deepmind-blog",
-   "ok": true,
-   "items": 7,
-   "note": ""
+   "ok": false,
+   "items": 0,
+   "note": "deepmind-blog: only UTF-8 feeds are read (a wide encoding would hide a DOCTYPE from the check below)"
   },
   {
    "id": "huggingface-blog",
    "ok": true,
-   "items": 7,
+   "items": 15,
    "note": ""
   },
   {
    "id": "openrouter-models",
    "ok": true,
-   "items": 0,
+   "items": 7,
    "note": ""
   },
   {
    "id": "aider-polyglot",
    "ok": true,
    "items": 0,
-   "note": "newest entry 2025-10-03 — STALE (376 days old)"
+   "note": "newest entry 2025-10-03 — STALE (421 days old)"
   },
   {
    "id": "hn-ai",
    "ok": true,
-   "items": 11,
+   "items": 8,
    "note": ""
+  },
+  {
+   "id": "terminal-bench-4",
+   "ok": false,
+   "items": 0,
+   "note": "terminal-bench-4: no board titled 'Terminal-Bench 4.0' on the page (boards found: 'Terminal-Bench 4.1'); the page's default board or its format changed"
   }
  ]
 }

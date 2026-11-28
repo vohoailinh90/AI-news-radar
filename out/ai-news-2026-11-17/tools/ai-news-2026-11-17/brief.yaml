@@ -1,0 +1,60 @@
+slug: ai-news-2026-11-17
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-17, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-17'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 88% on OpenRouter: $0.30 to $0.04 per 1M
+    tokens. Source: OpenRouter model list, 2026-11-17'
+- id: story-2-price-drop
+  fact: 'OpenAI: gpt-oss-20b input price drops 60% on OpenRouter: $0.07 to $0.03 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-17'
+- id: story-3-free-promo
+  fact: 'Broadening access to AI for scientists. Source: OpenAI news, 2026-11-16'
+- id: story-4-model-listed
+  fact: 'Qwen: Qwen4 Max was just added to OpenRouter''s model list. Source: OpenRouter model list, 2026-11-17'
+- id: story-5-new-feature
+  fact: 'Claude Code changelog 2.1.326: Added a note in /plugin and claude plugin list when a malformed
+    plugin.json field such as author or homepage is ignored. Source: Claude Code changelog, 2026-11-17'
+claims:
+- id: story-1
+  text: 'DeepSeek: DeepSeek V4.1 Flash 1017 input price drops 88% on OpenRouter: $0.30 to $0.04 per 1M
+    tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017'
+  verified: true
+- id: story-2
+  text: 'OpenAI: gpt-oss-20b input price drops 60% on OpenRouter: $0.07 to $0.03 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/openai/gpt-oss-20b'
+  verified: true
+- id: story-3
+  text: Broadening access to AI for scientists
+  evidence: 'OpenAI news: https://openai.com/index/expanding-chatgpt-for-academic-researchers'
+  verified: true
+- id: story-4
+  text: 'Qwen: Qwen4 Max was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/qwen/qwen4-max'
+  verified: true
+- id: story-5
+  text: 'Claude Code changelog 2.1.326: Added a note in /plugin and claude plugin list when a malformed
+    plugin.json field such as author or homepage is ignored'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

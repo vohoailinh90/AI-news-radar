@@ -1,0 +1,19 @@
+tool: ai-news-2026-11-04
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/stealth/crouton-alpha
+  s2: https://openrouter.ai/openai/gpt-oss-120b
+  s3: https://openrouter.ai/meta-llama/llama-3.3-70b-instruct
+  s4: https://openrouter.ai/x-ai/grok-4.6:batch
+  s5: https://openrouter.ai/x-ai/grok-4.7:batch
+utm:
+  medium: social
+  campaign: ai-news-2026-11-04
+schedule: []

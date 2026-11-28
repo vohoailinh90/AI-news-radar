@@ -1,0 +1,64 @@
+slug: ai-news-2026-11-25
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-25, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-25'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'inclusionAI: Ling 3.0 Flash input price drops 65% on OpenRouter: $0.06 to $0.02 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-25'
+- id: story-2-price-drop
+  fact: 'NVIDIA: Nemotron 3.5 Lightning input price drops 29% on OpenRouter: $0.07 to $0.05 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-24'
+- id: story-3-free-model-removed
+  fact: 'Dots Studio: Dots3-Note Preview (free) was removed from OpenRouter''s free models. Source: OpenRouter
+    model list, 2026-11-25'
+- id: story-4-new-feature
+  fact: 'Claude Code changelog 2.1.332: Added a PreSkillShellCommand hook event that can refuse a skill
+    or command''s inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens
+    a dialog at start. Source: Claude Code changelog, 2026-11-25'
+- id: story-5-new-feature
+  fact: 'Claude Code changelog 2.1.332: Added a footer line that stays while a flagged message has your
+    session on a different model, until you pick one with /model. Source: Claude Code changelog, 2026-11-25'
+claims:
+- id: story-1
+  text: 'inclusionAI: Ling 3.0 Flash input price drops 65% on OpenRouter: $0.06 to $0.02 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/inclusionai/ling-3.0-flash'
+  verified: true
+- id: story-2
+  text: 'NVIDIA: Nemotron 3.5 Lightning input price drops 29% on OpenRouter: $0.07 to $0.05 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/nvidia/nemotron-3.5-lightning'
+  verified: true
+- id: story-3
+  text: 'Dots Studio: Dots3-Note Preview (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/dots-studio/dots-3-note-preview:free'
+  verified: true
+- id: story-4
+  text: 'Claude Code changelog 2.1.332: Added a PreSkillShellCommand hook event that can refuse a skill
+    or command''s inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens
+    a dialog at start'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+- id: story-5
+  text: 'Claude Code changelog 2.1.332: Added a footer line that stays while a flagged message has your
+    session on a different model, until you pick one with /model'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

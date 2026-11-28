@@ -1,0 +1,19 @@
+tool: ai-news-2026-11-14
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017
+  s2: https://openrouter.ai/ricursiveai/ripple-65b-preview
+  s3: https://openrouter.ai/inclusionai/ling-3.2-flash:free
+  s4: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+  s5: https://openrouter.ai/apodex/apodex-1.1-mini:free
+utm:
+  medium: social
+  campaign: ai-news-2026-11-14
+schedule: []

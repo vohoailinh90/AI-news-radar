@@ -1,0 +1,63 @@
+slug: ai-news-2026-10-30
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-10-30, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-10-30'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'Mistral: Mistral Large 4 input price drops 49% on OpenRouter: $1.36 to $0.70 per 1M tokens. Source:
+    OpenRouter model list, 2026-10-30'
+- id: story-2-price-drop
+  fact: 'Qwen: Qwen3.6 27B input price drops 29% on OpenRouter: $0.45 to $0.32 per 1M tokens. Source:
+    OpenRouter model list, 2026-10-30'
+- id: story-3-new-feature
+  fact: 'Claude Code changelog 2.1.314: Added permissions.blockWritesOutsideWorkingDirectories: Write,
+    Edit and NotebookEdit refuse paths outside the working directories in every permission mode. Source:
+    Claude Code changelog, 2026-10-30'
+- id: story-4-trending
+  fact: '[unconfirmed] Claude Code regularly sends each background agent’s transcript to its model. Source:
+    Hacker News, 2026-10-29'
+- id: story-5-new-feature
+  fact: 'Codex releases 0.166.0: Added GPT-6.1 Terra to the bundled, Vertex AI, and Amazon Bedrock model
+    catalogs. ( #57293 ). Source: Codex releases, 2026-10-29'
+claims:
+- id: story-1
+  text: 'Mistral: Mistral Large 4 input price drops 49% on OpenRouter: $1.36 to $0.70 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/mistralai/mistral-large-4-0'
+  verified: true
+- id: story-2
+  text: 'Qwen: Qwen3.6 27B input price drops 29% on OpenRouter: $0.45 to $0.32 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/qwen/qwen3.6-27b'
+  verified: true
+- id: story-3
+  text: 'Claude Code changelog 2.1.314: Added permissions.blockWritesOutsideWorkingDirectories: Write,
+    Edit and NotebookEdit refuse paths outside the working directories in every permission mode'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+- id: story-4
+  text: '[unconfirmed] Claude Code regularly sends each background agent’s transcript to its model'
+  evidence: 'Hacker News: https://gist.github.com/flamerix-ai/c3905705cc4205e5de3011fa2e74efce'
+  verified: false
+- id: story-5
+  text: 'Codex releases 0.166.0: Added GPT-6.1 Terra to the bundled, Vertex AI, and Amazon Bedrock model
+    catalogs. ( #57293 )'
+  evidence: 'Codex releases: https://github.com/openai/codex/releases/tag/rust-v0.166.0'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

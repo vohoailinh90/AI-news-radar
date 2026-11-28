@@ -1,0 +1,19 @@
+tool: ai-news-2026-10-30
+langs:
+- vi
+- ja
+- en
+platforms:
+- facebook
+goal: Share today's AI news from checked sources, each story with its source and how sure we are, and
+  learn from the comments which topics readers want more of.
+links:
+  s1: https://openrouter.ai/mistralai/mistral-large-4-0
+  s2: https://openrouter.ai/qwen/qwen3.6-27b
+  s3: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+  s4: https://gist.github.com/flamerix-ai/c3905705cc4205e5de3011fa2e74efce
+  s5: https://github.com/openai/codex/releases/tag/rust-v0.166.0
+utm:
+  medium: social
+  campaign: ai-news-2026-10-30
+schedule: []
