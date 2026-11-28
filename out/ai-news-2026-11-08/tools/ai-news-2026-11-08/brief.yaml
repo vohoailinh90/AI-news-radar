@@ -1,0 +1,65 @@
+slug: ai-news-2026-11-08
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-08, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-08'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'Z: GLM 5.3 Flash input price drops 78% on OpenRouter: $0.15 to $0.03 per 1M tokens. Source: OpenRouter
+    model list, 2026-11-08'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4 Pro 0423 input price drops 44% on OpenRouter: $1.60 to $0.90 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-08'
+- id: story-3-free-model-removed
+  fact: 'NVIDIA: Nemotron 3.5 Content Safety (free) was removed from OpenRouter''s free models. Source:
+    OpenRouter model list, 2026-11-07'
+- id: story-4-new-feature
+  fact: 'Claude Code changelog 2.1.319: Added a Claude apps gateway boot warning for a case where another
+    policy''s availableModels also allows a custom model id that one policy lists by name. Source: Claude
+    Code changelog, 2026-11-07'
+- id: story-5-new-feature
+  fact: 'Claude Code changelog 2.1.319: Added support for MCP tasks in the terminal: when an MCP server
+    runs a tool call as a task, Claude Code moves it to the background right away and tells Claude the
+    result when it finishes. Source: Claude Code changelog, 2026-11-07'
+claims:
+- id: story-1
+  text: 'Z: GLM 5.3 Flash input price drops 78% on OpenRouter: $0.15 to $0.03 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/z-ai/glm-5.3-flash'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4 Pro 0423 input price drops 44% on OpenRouter: $1.60 to $0.90 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4-pro'
+  verified: true
+- id: story-3
+  text: 'NVIDIA: Nemotron 3.5 Content Safety (free) was removed from OpenRouter''s free models'
+  evidence: 'OpenRouter model list: https://openrouter.ai/nvidia/nemotron-3.5-content-safety:free'
+  verified: true
+- id: story-4
+  text: 'Claude Code changelog 2.1.319: Added a Claude apps gateway boot warning for a case where another
+    policy''s availableModels also allows a custom model id that one policy lists by name'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+- id: story-5
+  text: 'Claude Code changelog 2.1.319: Added support for MCP tasks in the terminal: when an MCP server
+    runs a tool call as a task, Claude Code moves it to the background right away and tells Claude the
+    result when it finishes'
+  evidence: 'Claude Code changelog: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

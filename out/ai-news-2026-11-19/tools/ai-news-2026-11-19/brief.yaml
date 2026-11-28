@@ -1,0 +1,59 @@
+slug: ai-news-2026-11-19
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-19, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-19'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-price-drop
+  fact: 'Qwen: Qwen3.5-27B input price drops 35% on OpenRouter: $0.30 to $0.20 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-19'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4 Flash 0731 input price drops 22% on OpenRouter: $0.06 to $0.05 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-19'
+- id: story-3-model-listed
+  fact: 'Google: Gemini 4 Neon (batch) was just added to OpenRouter''s model list. Source: OpenRouter
+    model list, 2026-11-19'
+- id: story-4-model-listed
+  fact: 'Google: Gemini 4 Neon was just added to OpenRouter''s model list. Source: OpenRouter model list,
+    2026-11-19'
+- id: story-5-trending
+  fact: '[unconfirmed] Gemini 4 Neon. Source: Hacker News, 2026-11-18'
+claims:
+- id: story-1
+  text: 'Qwen: Qwen3.5-27B input price drops 35% on OpenRouter: $0.30 to $0.20 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/qwen/qwen3.5-27b'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4 Flash 0731 input price drops 22% on OpenRouter: $0.06 to $0.05 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4-flash-0731'
+  verified: true
+- id: story-3
+  text: 'Google: Gemini 4 Neon (batch) was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/google/gemini-4-neon:batch'
+  verified: true
+- id: story-4
+  text: 'Google: Gemini 4 Neon was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/google/gemini-4-neon'
+  verified: true
+- id: story-5
+  text: '[unconfirmed] Gemini 4 Neon'
+  evidence: 'Hacker News: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/'
+  verified: false
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []

@@ -1,0 +1,59 @@
+slug: ai-news-2026-11-12
+name: AI News
+repo: vohoailinh90/ai-news-radar
+status: beta
+brand:
+  emoji: 📰
+  accent: '#0ea5e9'
+what_it_is: A daily digest of AI-model news for 2026-11-12, produced by ai-news-radar from the sources
+  named in each claim. Nothing here is tested by the radar; it reports what sources published.
+issue:
+  date: '2026-11-12'
+  stories: 5
+requirements:
+- 'None: this is a news issue, nothing to install'
+features:
+- id: story-1-free-model-added
+  fact: 'Baidu: ERNIE-5.5-Flash-Preview (free) is available free of charge on OpenRouter. Source: OpenRouter
+    model list, 2026-11-12'
+- id: story-2-price-drop
+  fact: 'DeepSeek: DeepSeek V4.1 Flash input price drops 57% on OpenRouter: $0.05 to $0.02 per 1M tokens.
+    Source: OpenRouter model list, 2026-11-12'
+- id: story-3-price-drop
+  fact: 'OpenAI: gpt-oss-20b input price drops 40% on OpenRouter: $0.03 to $0.02 per 1M tokens. Source:
+    OpenRouter model list, 2026-11-12'
+- id: story-4-new-model
+  fact: 'Gemini 4 Carbon is now available. Source: Google DeepMind blog, 2026-11-10'
+- id: story-5-model-listed
+  fact: 'Qwen: Qwen3.8 Max (0902) (batch) was just added to OpenRouter''s model list. Source: OpenRouter
+    model list, 2026-11-10'
+claims:
+- id: story-1
+  text: 'Baidu: ERNIE-5.5-Flash-Preview (free) is available free of charge on OpenRouter'
+  evidence: 'OpenRouter model list: https://openrouter.ai/baidu/ernie-5.5-flash-preview:free'
+  verified: true
+- id: story-2
+  text: 'DeepSeek: DeepSeek V4.1 Flash input price drops 57% on OpenRouter: $0.05 to $0.02 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/deepseek/deepseek-v4.1-flash'
+  verified: true
+- id: story-3
+  text: 'OpenAI: gpt-oss-20b input price drops 40% on OpenRouter: $0.03 to $0.02 per 1M tokens'
+  evidence: 'OpenRouter model list: https://openrouter.ai/openai/gpt-oss-20b'
+  verified: true
+- id: story-4
+  text: Gemini 4 Carbon is now available
+  evidence: 'Google DeepMind blog: https://deepmind.google/blog/gemini-4-carbon-is-now-available/'
+  verified: true
+- id: story-5
+  text: 'Qwen: Qwen3.8 Max (0902) (batch) was just added to OpenRouter''s model list'
+  evidence: 'OpenRouter model list: https://openrouter.ai/qwen/qwen3.8-max-0902:batch'
+  verified: true
+limitations:
+- The radar reports what its sources say and does not test any model or price itself
+- 'A story with verified: false is a community report that no official source has confirmed yet; write
+  it as reported, never as announced'
+- Notable-feature picks from changelogs are chosen by keyword rules and need a human read
+story_to_confirm: []
+commercial_readiness:
+- 'Not applicable: a news issue, nothing is sold'
+pricing_hypotheses: []
